@@ -1,6 +1,7 @@
 ﻿
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class PlayerController : MonoBehaviour {
 
@@ -8,7 +9,10 @@ public class PlayerController : MonoBehaviour {
     //to reactivate jump 
 
     private Dialogue_System Dialogue_System;
+    private int start_dialogue = 0;
+
     private Utility utility;
+
 
     private void player_movement(float moveSpeed, float jumpHeight)
     {
@@ -45,13 +49,31 @@ public class PlayerController : MonoBehaviour {
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "NPC" && Input.GetKeyDown(KeyCode.E))
+        if (collision.gameObject.tag == "NPC" && Input.GetKeyDown(KeyCode.E) && start_dialogue == 0)
+        {
+            start_dialogue += 1;
+        }
+
+        if (start_dialogue == 1)
         {
             GameObject.Find("dialogue_box").GetComponent<Image>().color = new Color(255f, 255f, 255f, 255f);
             Dialogue_System.run_dialogue(utility.split_text(collision.gameObject.GetComponent<NPC_Attributes>().Dialogue.text),
-                            collision.gameObject.GetComponent<NPC_Attributes>().Sprites,
-                            GameObject.Find("Text").GetComponent<Text>());
+                                        collision.gameObject.GetComponent<NPC_Attributes>().Sprites,
+                                        GameObject.Find("Text").GetComponent<Text>());
+
+            if(utility.current_line == utility.split_text(collision.gameObject.GetComponent<NPC_Attributes>().Dialogue.text).Count)
+            {
+                utility.reset_dialogue();
+                start_dialogue += 1;
+                StartCoroutine(enable_dialogue(1f));
+            }
         }
+    }
+
+    private IEnumerator enable_dialogue(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        start_dialogue = 0;
     }
 
     private void Awake()

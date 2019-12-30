@@ -6,9 +6,9 @@ using System.Collections;
 
 public class Utility : MonoBehaviour {
 
-    private bool can_scroll = true;
-    private int letter = 0;
-    private int current_line = 0;
+    public bool can_scroll = true;
+    public int letter = 0;
+    public int current_line = 0;
 
     public int to_change = 0;
 
@@ -37,6 +37,7 @@ public class Utility : MonoBehaviour {
     private IEnumerator scroll_text(float writing_delay, Text text_box, List<string> lines)
     {
         yield return new WaitForSeconds(writing_delay);
+        print("test");
         //after a certain amount of delay, write a letter
         try
         {
@@ -68,7 +69,6 @@ public class Utility : MonoBehaviour {
             if (Input.GetKeyDown(KeyCode.E))
             {
                 text_box.text = lines[current_line];
-
                 letter = lines[current_line].Length;
                 //intentionally producing error to stop further scrolling of current line
             }
@@ -82,6 +82,14 @@ public class Utility : MonoBehaviour {
             letter = 0;
             can_scroll = true;
         }
+    }
+
+    public void reset_dialogue()
+    {
+        GameObject.Find("dialogue_box").GetComponent<Image>().color = new Color(255f, 255f, 255f, 0f);
+        can_scroll = true;
+        letter = 0;
+        current_line = 0;
     }
     
     public void options_choosing(int stop, string hor_ver) //default value for start is 0
