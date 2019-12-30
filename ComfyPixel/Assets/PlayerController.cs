@@ -1,10 +1,14 @@
 ﻿
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
 
     private bool onGround = true;
     //to reactivate jump 
+
+    private Dialogue_System Dialogue_System;
+    private Utility utility;
 
     private void player_movement(float moveSpeed, float jumpHeight)
     {
@@ -37,6 +41,23 @@ public class PlayerController : MonoBehaviour {
         {
             onGround = false; //to prohibit player from jumping when he fell off an object
         }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "NPC" && Input.GetKeyDown(KeyCode.E))
+        {
+            GameObject.Find("dialogue_box").GetComponent<Image>().color = new Color(255f, 255f, 255f, 255f);
+            Dialogue_System.run_dialogue(utility.split_text(collision.gameObject.GetComponent<NPC_Attributes>().Dialogue.text),
+                            collision.gameObject.GetComponent<NPC_Attributes>().Sprites,
+                            GameObject.Find("Text").GetComponent<Text>());
+        }
+    }
+
+    private void Awake()
+    {
+        utility = FindObjectOfType<Utility>();
+        Dialogue_System = FindObjectOfType<Dialogue_System>();
     }
 
     private void Update()

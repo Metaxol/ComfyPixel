@@ -83,8 +83,8 @@ public class Utility : MonoBehaviour {
             can_scroll = true;
         }
     }
-
-    public void options_choosing(int stop, string hor_ver) ///default value for start is 0
+    
+    public void options_choosing(int stop, string hor_ver) //default value for start is 0
     {
         //change value with the right/left arrows
         if(hor_ver == "ver")
