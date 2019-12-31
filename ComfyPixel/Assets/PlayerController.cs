@@ -7,9 +7,9 @@ public class PlayerController : MonoBehaviour {
 
     private bool onGround = true;
     //to reactivate jump 
-
+  
     private Dialogue_System Dialogue_System;
-    private int start_dialogue = 0;
+    private int start_dialogue = 0; //variabe created to control start/stop of npc-dialogue
 
     private Utility utility;
 
@@ -51,29 +51,34 @@ public class PlayerController : MonoBehaviour {
     {
         if (collision.gameObject.tag == "NPC" && Input.GetKeyDown(KeyCode.E) && start_dialogue == 0)
         {
-            start_dialogue += 1;
+            start_dialogue += 1; //signal to start dialogue
         }
 
-        if (start_dialogue == 1)
+        if (start_dialogue == 1) //said signal received here
         {
+            //turns alpha component of box on
             GameObject.Find("dialogue_box").GetComponent<Image>().color = new Color(255f, 255f, 255f, 255f);
+
+            //supplies the needed parameters to dialogue_system class
             Dialogue_System.run_dialogue(utility.split_text(collision.gameObject.GetComponent<NPC_Attributes>().Dialogue.text),
                                         collision.gameObject.GetComponent<NPC_Attributes>().Sprites,
                                         GameObject.Find("Text").GetComponent<Text>());
 
+            //when dialogue hits length of lines
             if(utility.current_line == utility.split_text(collision.gameObject.GetComponent<NPC_Attributes>().Dialogue.text).Count)
             {
-                utility.reset_dialogue();
-                start_dialogue += 1;
-                StartCoroutine(enable_dialogue(1f));
+                utility.reset_dialogue(); //changes reverted
+                start_dialogue += 1; //signal changed so pressing of e doesnt interfere with dialogue anymore
+                StartCoroutine(enable_dialogue(1f)); //revert signal to original after delay
             }
         }
     }
 
+    //delay for signal-reverting
     private IEnumerator enable_dialogue(float delay)
     {
-        yield return new WaitForSeconds(delay);
-        start_dialogue = 0;
+        yield return new WaitForSeconds(delay); 
+        start_dialogue = 0; //original state of signal
     }
 
     private void Awake()
