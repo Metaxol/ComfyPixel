@@ -5,7 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - ground
-  - NPC
+  - NPC_talkable
+  - NPC_untalkable
+  - NPC_nottalk
   layers:
   - Default
   - TransparentFX

@@ -83,17 +83,6 @@ public class Utility : MonoBehaviour {
             can_scroll = true;
         }
     }
-
-    //to revert changes made by the dialogue_system
-    public void reset_dialogue()
-    {
-        GameObject.Find("dialogue_box").GetComponent<Image>().color = new Color(255f, 255f, 255f, 0f);
-        //name of gameobject is box where text is, not textbox itself
-
-        can_scroll = true;
-        letter = 0;
-        current_line = 0;
-    }
     
     public void options_choosing(int stop, string hor_ver) //default value for start is 0
     {
