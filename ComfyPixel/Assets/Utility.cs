@@ -54,7 +54,7 @@ public class Utility : MonoBehaviour {
         }
     }
 
-    public void run_text(List<string> lines, Text text_box, float scroll_speed, string box_name) ///default input is e
+    public void run_text(List<string> lines, Text text_box, float scroll_speed, string box_name) //default input is e
     {
         if (can_scroll)
         {
@@ -91,21 +91,10 @@ public class Utility : MonoBehaviour {
             GameObject.Find(box_name).GetComponent<Image>().color = new Color(255f, 255f, 255f, 0f);
             //name of gameobject is box where text is, not textbox itself
 
-            can_scroll = true;
+            can_scroll = false;
             letter = 0;
             current_line = 0;
         }
-    }
-
-    //to revert changes made by the dialogue_system
-    public void reset_dialogue()
-    {
-        GameObject.Find("dialogue_box").GetComponent<Image>().color = new Color(255f, 255f, 255f, 0f);
-        //name of gameobject is box where text is, not textbox itself
-
-        can_scroll = true;
-        letter = 0;
-        current_line = 0;
     }
     
     public void options_choosing(int stop, string hor_ver) //default value for start is 0
