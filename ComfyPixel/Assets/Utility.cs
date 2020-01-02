@@ -54,13 +54,10 @@ public class Utility : MonoBehaviour {
         }
     }
 
-    public void run_text(List<string> lines, Text text_box, float scroll_speed, string box_name) ///default input is e
+    public void run_text(List<string> lines, Text text_box, float scroll_speed) ///default input is e
     {
         if (can_scroll)
         {
-            //turns alpha component of box on
-            GameObject.Find(box_name).GetComponent<Image>().color = new Color(255f, 255f, 255f, 255f);
-           
             StartCoroutine(scroll_text(scroll_speed, text_box, lines));
             can_scroll = false;
             //introduce bool to prevent repeated execution of coroutine
@@ -84,16 +81,6 @@ public class Utility : MonoBehaviour {
             current_line += 1;
             letter = 0;
             can_scroll = true;
-        }
-        //utility.current_line == utility.split_text(collision.gameObject.GetComponent<NPC_Attributes>().Dialogue.text).Count
-        if(current_line == lines.Count)
-        {
-            GameObject.Find(box_name).GetComponent<Image>().color = new Color(255f, 255f, 255f, 0f);
-            //name of gameobject is box where text is, not textbox itself
-
-            can_scroll = true;
-            letter = 0;
-            current_line = 0;
         }
     }
 
