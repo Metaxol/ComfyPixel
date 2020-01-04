@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour {
     private Dialogue_System Dialogue_System;
     private Utility utility;
 
+    public string NPC_name;
 
     private void player_movement(float moveSpeed, float jumpHeight)
     {
@@ -46,40 +47,28 @@ public class PlayerController : MonoBehaviour {
 
     private void OnTriggerStay2D(Collider2D collision)
     {
+        NPC_name = collision.gameObject.name;
 
         if (collision.gameObject.tag == "NPC_untalkable" && Input.GetKeyDown(KeyCode.E))
         {
-            //turns alpha component of box on
             //name of gameobject is box where text is, not textbox itself
             collision.gameObject.tag = "NPC_talkable";
         }
 
         if (collision.gameObject.tag == "NPC_talkable") //said signal received here
         {
-            Sprite[] NPC_sprites = collision.GetComponent<NPC_Attributes>().Sprites; //
+            Sprite[] NPC_sprites = collision.GetComponent<NPC_Attributes>().Sprites;
 
             //turn alpha component on
             GameObject.Find("dialogue_box").GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
-            GameObject.Find("sprite_box").GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f); //
+            if(NPC_sprites.Length != 0)
+            {
+                GameObject.Find("sprite_box").GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
+            } 
 
             //supplies the needed parameters to dialogue_system class
             Dialogue_System.run_dialogue(utility.split_text(collision.gameObject.GetComponent<NPC_Attributes>().Dialogue.text),
                                         GameObject.Find("Text").GetComponent<Text>());
-
-            switch (collision.gameObject.name)//
-            {
-                case "NPC":
-                    switch (utility.current_line)
-                    {
-                        case 0:
-                            GameObject.Find("sprite_box").GetComponent<Image>().sprite = NPC_sprites[0];
-                            break;
-                        case 1:
-                            GameObject.Find("sprite_box").GetComponent<Image>().sprite = NPC_sprites[1];
-                            break;
-                    }
-                    break;
-            } //
 
             //when dialogue hits length of lines
             if(utility.current_line == utility.split_text(collision.gameObject.GetComponent<NPC_Attributes>().Dialogue.text).Count)

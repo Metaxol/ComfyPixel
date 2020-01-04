@@ -21,14 +21,7 @@ public class Utility : MonoBehaviour {
 
         foreach (string line in text.Split('\n'))
         {
-            if (line != "")
-            {
-                lines.Add(line);
-            }
-            else //make sure not to have any empty strings
-            {
-                continue;
-            }
+            lines.Add(line);
         }
 
         return lines; //returns list<> of strings
@@ -37,7 +30,7 @@ public class Utility : MonoBehaviour {
     private IEnumerator scroll_text(float writing_delay, Text text_box, List<string> lines)
     {
         yield return new WaitForSeconds(writing_delay);
-        print("test");
+
         //after a certain amount of delay, write a letter
         try
         {
@@ -49,7 +42,7 @@ public class Utility : MonoBehaviour {
         }
         catch
         {
-            //signal to to give ability to go to next line
+            //signal to to give ability to go to next lin
             letter = -1;
         }
     }
