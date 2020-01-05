@@ -6,11 +6,41 @@ using System.Collections;
 
 public class Utility : MonoBehaviour {
 
+    //scrolling-text variables
     public bool can_scroll = true;
     public int letter = 0;
     public int current_line = 0;
 
-    public int to_change = 0;
+    public int to_change = 0; //choosing variable 
+
+    public List<GameObject> spawn_Buttons(Image button, int amount_of_buttons, Vector3[] button_positions, Quaternion[] button_rotations)
+    {
+        List<GameObject> lines = new List<GameObject>(); //creates list of buttons, so it can be used
+
+        for (int c = 0; c <= amount_of_buttons; c++)
+        {
+            //buttons added to list with specified position aswell as rotation
+            lines.Add(Instantiate(button, button_positions[c], button_rotations[c]).gameObject);
+        }
+
+        return lines; //returns list of buttons for further use by other classes
+    }
+
+    private void choose_buttons(Image[] button, Sprite button_chosen, Sprite button_not_chosen, int stop, string ver_hor)
+    {
+        options_choosing(stop, ver_hor); //can choose between buttons
+        foreach(Image i in button)
+        {
+            if(to_change == System.Array.IndexOf(button, i)) //working with index specification
+            {
+                button[System.Array.IndexOf(button, i)].sprite = button_chosen; //chosen sprite, if number evaluates
+            }
+            else
+            {
+                button[System.Array.IndexOf(button, i)].sprite = button_not_chosen; //default sprite, if otherwise 
+            }
+        }
+    }
 
     public List<string> split_text(string text)
     {

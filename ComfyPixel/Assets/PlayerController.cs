@@ -94,7 +94,7 @@ public class PlayerController : MonoBehaviour {
     IEnumerator set_tag_NPC(float delay, GameObject NPC)
     {
         yield return new WaitForSeconds(delay);
-        NPC.tag = "NPC_untalkable";
+        NPC.tag = "NPC_untalkable"; //make dialogue able to scroll again
     }
     #endregion
 
