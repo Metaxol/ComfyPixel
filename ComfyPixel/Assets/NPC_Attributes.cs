@@ -7,12 +7,12 @@ public class NPC_Attributes : MonoBehaviour {
     //NPC attributes, more will be added 
     public TextAsset Dialogue;
     public Sprite[] Sprites;
-    public Image choose_sprite;
-    public Image chosen_sprite;
 
     //variabled for NPC's to handle dialogue
     private Image dialogue_box;
     private Image sprite_box;
+    public Image choose_button;
+    public Sprite chosen_sprite;
 
     private PlayerController playerController;
     private Utility utility;
@@ -38,8 +38,9 @@ public class NPC_Attributes : MonoBehaviour {
                         case 3:
                             do
                             {
-                                utility.spawn_Buttons(choose_sprite, 2,
-                                                    new Vector3[] { new Vector3(), new Vector3() },
+                                utility.spawn_Buttons(choose_button, 2,
+                                                    new Vector3[] { new Vector3(dialogue_box.rectTransform.anchoredPosition.x, dialogue_box.rectTransform.anchoredPosition.y),
+                                                                    new Vector3(dialogue_box.rectTransform.anchoredPosition.x, dialogue_box.rectTransform.anchoredPosition.y) },
                                                     new Quaternion[] { new Quaternion(), new Quaternion() });
                             } while (false);
                             break;

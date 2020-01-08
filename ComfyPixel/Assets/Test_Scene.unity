@@ -513,6 +513,9 @@ MonoBehaviour:
   Sprites:
   - {fileID: 21300000, guid: be2959007cec7544dba4a28dbbccca5d, type: 3}
   - {fileID: 21300000, guid: ff5e16575b2b86a4c8339531e5693ae1, type: 3}
+  choose_button: {fileID: 114615033198918234, guid: dec73cc1d9508724aa471d56b7618e76,
+    type: 2}
+  chosen_sprite: {fileID: 0}
 --- !u!1 &896561817
 GameObject:
   m_ObjectHideFlags: 0
@@ -606,6 +609,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40916cb26a84bcf4c9eff19dd624efc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NPC_name: 
 --- !u!23 &953673283
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -909,6 +913,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Dialogue: {fileID: 4900000, guid: 054bc7e9d3b435343a1aebc08d3ca893, type: 3}
   Sprites: []
+  choose_button: {fileID: 0}
+  chosen_sprite: {fileID: 0}
 --- !u!1 &1594805209
 GameObject:
   m_ObjectHideFlags: 0

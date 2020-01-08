@@ -20,18 +20,21 @@ public class Utility : MonoBehaviour {
         for (int c = 0; c <= amount_of_buttons; c++)
         {
             //buttons added to list with specified position aswell as rotation
-            lines.Add(Instantiate(button, button_positions[c], button_rotations[c]).gameObject);
+            var button_instance = Instantiate(button.gameObject, button_positions[c], button_rotations[c]) as GameObject;
+            button_instance.transform.SetParent(GameObject.Find("Canvas").transform, false);
+            lines.Add(button_instance);
         }
 
         return lines; //returns list of buttons for further use by other classes
     }
 
-    private void choose_buttons(Image[] button, Sprite button_chosen, Sprite button_not_chosen, int stop, string ver_hor)
+    private void choose_buttons(Image[] button, string[] button_texts, Sprite button_chosen, Sprite button_not_chosen, int stop, string ver_hor)
     {
         options_choosing(stop, ver_hor); //can choose between buttons
         foreach(Image i in button)
         {
-            if(to_change == System.Array.IndexOf(button, i)) //working with index specification
+            button[System.Array.IndexOf(button, i)].rectTransform.GetChild(0).GetComponent<Text>().text = button_texts[System.Array.IndexOf(button, i)];
+            if (to_change == System.Array.IndexOf(button, i)) //working with index specification
             {
                 button[System.Array.IndexOf(button, i)].sprite = button_chosen; //chosen sprite, if number evaluates
             }
