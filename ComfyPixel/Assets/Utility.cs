@@ -13,7 +13,7 @@ public class Utility : MonoBehaviour {
 
     public int to_change = 0; //choosing variable 
 
-    public List<GameObject> spawn_Buttons(Image button, int amount_of_buttons, Vector3[] button_positions, Quaternion[] button_rotations)
+    public List<GameObject> spawn_Buttons(Image button, int amount_of_buttons, Vector3[] button_positions, Quaternion[] button_rotations, string[] button_texts)
     {
         List<GameObject> lines = new List<GameObject>(); //creates list of buttons, so it can be used
 
@@ -23,24 +23,27 @@ public class Utility : MonoBehaviour {
             var button_instance = Instantiate(button.gameObject, button_positions[c], button_rotations[c]) as GameObject;
             button_instance.transform.SetParent(GameObject.Find("Canvas").transform, false);
             lines.Add(button_instance);
+
+            //every button has a text_box, specified here
+            button_instance.transform.GetChild(0).GetComponent<Text>().text = button_texts[c];
         }
 
-        return lines; //returns list of buttons for further use by other classes
+        return lines; //returns list of buttons (gameobjects) for further use by other classes
     }
 
-    private void choose_buttons(Image[] button, string[] button_texts, Sprite button_chosen, Sprite button_not_chosen, int stop, string ver_hor)
+    public void choose_buttons(GameObject[] button, Sprite button_chosen, Sprite button_not_chosen, int stop, string ver_hor)
     {
         options_choosing(stop, ver_hor); //can choose between buttons
-        foreach(Image i in button)
+        foreach(GameObject i in button)
         {
-            button[System.Array.IndexOf(button, i)].rectTransform.GetChild(0).GetComponent<Text>().text = button_texts[System.Array.IndexOf(button, i)];
             if (to_change == System.Array.IndexOf(button, i)) //working with index specification
             {
-                button[System.Array.IndexOf(button, i)].sprite = button_chosen; //chosen sprite, if number evaluates
+                
+                button[System.Array.IndexOf(button, i)].GetComponent<Image>().sprite = button_chosen; //chosen sprite, if number evaluates
             }
             else
             {
-                button[System.Array.IndexOf(button, i)].sprite = button_not_chosen; //default sprite, if otherwise 
+                button[System.Array.IndexOf(button, i)].GetComponent<Image>().sprite = button_not_chosen; //default sprite, if otherwise 
             }
         }
     }

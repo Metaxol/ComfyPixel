@@ -78,6 +78,7 @@ public class PlayerController : MonoBehaviour {
                 utility.letter = 0;
                 utility.current_line = 0;
                 GameObject.Find("sprite_box").GetComponent<Image>().sprite = null;
+                collision.GetComponent<NPC_Attributes>().oneTime = true;
 
                 //turn alpha component off
                 GameObject.Find("dialogue_box").GetComponent<Image>().color = new Color(1f, 1f, 1f, 0f);

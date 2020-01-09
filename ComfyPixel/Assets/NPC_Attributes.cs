@@ -1,6 +1,7 @@
 ﻿
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class NPC_Attributes : MonoBehaviour {
 
@@ -13,10 +14,13 @@ public class NPC_Attributes : MonoBehaviour {
     private Image sprite_box;
     public Image choose_button;
     public Sprite chosen_sprite;
+    public Sprite not_chosen_sprite;
 
     private PlayerController playerController;
     private Utility utility;
     private Dialogue_System Dialogue_System;
+
+    public bool oneTime = true;
 
     private void Update()
     {
@@ -36,13 +40,18 @@ public class NPC_Attributes : MonoBehaviour {
                             sprite_box.sprite = Sprites[1];
                             break;
                         case 3:
-                            do
+                            List<GameObject> buttons = new List<GameObject>();
+                            if (oneTime)
                             {
-                                utility.spawn_Buttons(choose_button, 2,
-                                                    new Vector3[] { new Vector3(dialogue_box.rectTransform.anchoredPosition.x, dialogue_box.rectTransform.anchoredPosition.y),
-                                                                    new Vector3(dialogue_box.rectTransform.anchoredPosition.x, dialogue_box.rectTransform.anchoredPosition.y) },
-                                                    new Quaternion[] { new Quaternion(), new Quaternion() });
-                            } while (false);
+                                buttons = utility.spawn_Buttons(choose_button, 1,
+                                                                new Vector3[] { new Vector3(dialogue_box.rectTransform.anchoredPosition.x + 100f, dialogue_box.rectTransform.anchoredPosition.y),
+                                                                new Vector3(dialogue_box.rectTransform.anchoredPosition.x - 100f, dialogue_box.rectTransform.anchoredPosition.y) },
+                                                                new Quaternion[] { new Quaternion(), new Quaternion() },
+                                                                new string[] { "option1", "option2"});
+                                oneTime = false;
+                            }
+                            print("test");
+                            utility.choose_buttons(buttons.ToArray(), chosen_sprite, not_chosen_sprite, 1, "ver");
                             break;
                     }
                     break;
