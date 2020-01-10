@@ -28,7 +28,7 @@ public class Utility : MonoBehaviour {
             button_instance.transform.GetChild(0).GetComponent<Text>().text = button_texts[c];
         }
 
-        return lines; //returns list of buttons (gameobjects) for further use by other classes
+        return lines; //returns list of buttons (gameobjects) for further use by other methods
     }
 
     public void choose_buttons(GameObject[] button, Sprite button_chosen, Sprite button_not_chosen, int stop, string ver_hor)
@@ -38,7 +38,7 @@ public class Utility : MonoBehaviour {
         {
             if (to_change == System.Array.IndexOf(button, i)) //working with index specification
             {
-                
+                print(button[System.Array.IndexOf(button, i)].GetComponentInChildren<Text>().text);
                 button[System.Array.IndexOf(button, i)].GetComponent<Image>().sprite = button_chosen; //chosen sprite, if number evaluates
             }
             else

@@ -21,6 +21,7 @@ public class NPC_Attributes : MonoBehaviour {
     private Dialogue_System Dialogue_System;
 
     public bool oneTime = true;
+    private List<GameObject> buttons = new List<GameObject>();
 
     private void Update()
     {
@@ -40,17 +41,40 @@ public class NPC_Attributes : MonoBehaviour {
                             sprite_box.sprite = Sprites[1];
                             break;
                         case 3:
-                            List<GameObject> buttons = new List<GameObject>();
                             if (oneTime)
                             {
                                 buttons = utility.spawn_Buttons(choose_button, 1,
-                                                                new Vector3[] { new Vector3(dialogue_box.rectTransform.anchoredPosition.x + 100f, dialogue_box.rectTransform.anchoredPosition.y),
-                                                                new Vector3(dialogue_box.rectTransform.anchoredPosition.x - 100f, dialogue_box.rectTransform.anchoredPosition.y) },
+                                                                new Vector3[] { new Vector3(dialogue_box.rectTransform.anchoredPosition.x - 100f, dialogue_box.rectTransform.anchoredPosition.y),
+                                                                new Vector3(dialogue_box.rectTransform.anchoredPosition.x + 100f, dialogue_box.rectTransform.anchoredPosition.y) },
                                                                 new Quaternion[] { new Quaternion(), new Quaternion() },
                                                                 new string[] { "option1", "option2"});
                                 oneTime = false;
                             }
-                            print("test");
+                            else if (!oneTime)
+                            {
+                                if (Input.GetKeyDown(KeyCode.Return) && buttons[0].GetComponent<Image>().sprite == chosen_sprite)
+                                {
+                                    //utility.letter = 0;
+                                    utility.current_line = 4;
+                                    foreach (GameObject i in buttons.ToArray())
+                                    {
+                                        GameObject reference = buttons[System.Array.IndexOf(buttons.ToArray(), i)];
+                                        buttons.Remove(reference);
+                                        Destroy(reference);
+                                    }
+                                }
+                                else if (Input.GetKeyDown(KeyCode.Return) && buttons[1].GetComponent<Image>().sprite == chosen_sprite)
+                                {
+                                    //utility.letter = 0;
+                                    utility.current_line = 5;
+                                    foreach (GameObject i in buttons.ToArray())
+                                    {
+                                        GameObject reference = buttons[System.Array.IndexOf(buttons.ToArray(), i)];
+                                        buttons.Remove(reference);
+                                        Destroy(reference);
+                                    }
+                                }
+                            }
                             utility.choose_buttons(buttons.ToArray(), chosen_sprite, not_chosen_sprite, 1, "ver");
                             break;
                     }
