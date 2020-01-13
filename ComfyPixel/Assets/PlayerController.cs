@@ -64,7 +64,13 @@ public class PlayerController : MonoBehaviour {
             if(NPC_sprites.Length != 0)
             {
                 GameObject.Find("sprite_box").GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
-            } 
+            }
+
+            /* not getting actual file, getting copy of file-content as string-list
+             * modfiy string-list rather than file-content
+             * important for multiple choice
+             * (eg set stop/start for a dialogue that is currently running)
+            */
 
             //supplies the needed parameters to dialogue_system class
             Dialogue_System.run_dialogue(utility.split_text(collision.gameObject.GetComponent<NPC_Attributes>().Dialogue.text),
