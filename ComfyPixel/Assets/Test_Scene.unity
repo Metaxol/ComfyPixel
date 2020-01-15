@@ -517,6 +517,7 @@ MonoBehaviour:
     type: 2}
   chosen_sprite: {fileID: 21300000, guid: be2959007cec7544dba4a28dbbccca5d, type: 3}
   not_chosen_sprite: {fileID: 21300000, guid: ff5e16575b2b86a4c8339531e5693ae1, type: 3}
+  stop_scroll_line: 999
   oneTime: 1
 --- !u!1 &896561817
 GameObject:
@@ -918,6 +919,7 @@ MonoBehaviour:
   choose_button: {fileID: 0}
   chosen_sprite: {fileID: 0}
   not_chosen_sprite: {fileID: 0}
+  stop_scroll_line: 4
   oneTime: 1
 --- !u!1 &1594805209
 GameObject:

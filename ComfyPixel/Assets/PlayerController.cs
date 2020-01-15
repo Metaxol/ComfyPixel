@@ -77,7 +77,7 @@ public class PlayerController : MonoBehaviour {
                                         GameObject.Find("Text").GetComponent<Text>());
 
             //when dialogue hits length of lines
-            if(utility.current_line == utility.split_text(collision.gameObject.GetComponent<NPC_Attributes>().Dialogue.text).Count)
+            if(utility.current_line == collision.GetComponent<NPC_Attributes>().stop_scroll_line)
             {
                 //to revert changes made by the dialogue_system
                 utility.can_scroll = true;

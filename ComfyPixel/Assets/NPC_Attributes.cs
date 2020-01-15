@@ -15,10 +15,11 @@ public class NPC_Attributes : MonoBehaviour {
     public Image choose_button;
     public Sprite chosen_sprite;
     public Sprite not_chosen_sprite;
+    public int stop_scroll_line;
 
     private PlayerController playerController;
     private Utility utility;
-    private Dialogue_System Dialogue_System;
+    private Dialogue_System dialogue_System;
 
     public bool oneTime = true;
     private List<GameObject> buttons = new List<GameObject>();
@@ -54,8 +55,13 @@ public class NPC_Attributes : MonoBehaviour {
                             {
                                 if (Input.GetKeyDown(KeyCode.Return) && buttons[0].GetComponent<Image>().sprite == chosen_sprite)
                                 {
-                                    //utility.letter = 0;
                                     utility.current_line = 4;
+                                    List<string> s = new List<string>();
+                                    s = utility.split_text(Dialogue.text);
+                                    s.RemoveRange(2,2);
+                                    //dialogue_System.run_dialogue(utility.split_text(Dialogue.text).RemoveRange(0, utility.current_line),
+                                    //                            GameObject.Find("Text").GetComponent<Text>());
+                                    stop_scroll_line = 5;
                                     foreach (GameObject i in buttons.ToArray())
                                     {
                                         GameObject reference = buttons[System.Array.IndexOf(buttons.ToArray(), i)];
@@ -65,8 +71,8 @@ public class NPC_Attributes : MonoBehaviour {
                                 }
                                 else if (Input.GetKeyDown(KeyCode.Return) && buttons[1].GetComponent<Image>().sprite == chosen_sprite)
                                 {
-                                    //utility.letter = 0;
                                     utility.current_line = 5;
+                                    stop_scroll_line = 6;
                                     foreach (GameObject i in buttons.ToArray())
                                     {
                                         GameObject reference = buttons[System.Array.IndexOf(buttons.ToArray(), i)];
