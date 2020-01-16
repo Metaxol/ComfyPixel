@@ -53,32 +53,30 @@ public class NPC_Attributes : MonoBehaviour {
                             }
                             else if (!oneTime)
                             {
-                                if (Input.GetKeyDown(KeyCode.Return) && buttons[0].GetComponent<Image>().sprite == chosen_sprite)
+                                if (Input.GetKeyDown(KeyCode.E) && buttons[0].GetComponent<Image>().sprite == chosen_sprite)
                                 {
+                                    foreach (GameObject i in buttons.ToArray())
+                                    {
+                                        print("test");
+                                        GameObject reference = buttons[System.Array.IndexOf(buttons.ToArray(), i)];
+                                        buttons.Remove(reference);
+                                        Destroy(reference);
+                                    }
+                                    stop_scroll_line = 5;
                                     utility.current_line = 4;
-                                    List<string> s = new List<string>();
-                                    s = utility.split_text(Dialogue.text);
-                                    s.RemoveRange(2,2);
                                     //dialogue_System.run_dialogue(utility.split_text(Dialogue.text).RemoveRange(0, utility.current_line),
                                     //                            GameObject.Find("Text").GetComponent<Text>());
-                                    stop_scroll_line = 5;
-                                    foreach (GameObject i in buttons.ToArray())
-                                    {
-                                        GameObject reference = buttons[System.Array.IndexOf(buttons.ToArray(), i)];
-                                        buttons.Remove(reference);
-                                        Destroy(reference);
-                                    }
                                 }
-                                else if (Input.GetKeyDown(KeyCode.Return) && buttons[1].GetComponent<Image>().sprite == chosen_sprite)
+                                else if (Input.GetKeyDown(KeyCode.E) && buttons[1].GetComponent<Image>().sprite == chosen_sprite)
                                 {
-                                    utility.current_line = 5;
-                                    stop_scroll_line = 6;
                                     foreach (GameObject i in buttons.ToArray())
                                     {
                                         GameObject reference = buttons[System.Array.IndexOf(buttons.ToArray(), i)];
                                         buttons.Remove(reference);
                                         Destroy(reference);
                                     }
+                                    stop_scroll_line = 6;
+                                    utility.current_line = 5;
                                 }
                             }
                             utility.choose_buttons(buttons.ToArray(), chosen_sprite, not_chosen_sprite, 1, "ver");

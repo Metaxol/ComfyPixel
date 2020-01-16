@@ -79,6 +79,7 @@ public class PlayerController : MonoBehaviour {
             //when dialogue hits length of lines
             if(utility.current_line == collision.GetComponent<NPC_Attributes>().stop_scroll_line)
             {
+                print("testwtf");
                 //to revert changes made by the dialogue_system
                 utility.can_scroll = true;
                 utility.letter = 0;
