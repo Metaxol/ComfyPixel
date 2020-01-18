@@ -38,7 +38,6 @@ public class Utility : MonoBehaviour {
         {
             if (to_change == System.Array.IndexOf(button, i)) //working with index specification
             {
-                print(button[System.Array.IndexOf(button, i)].GetComponentInChildren<Text>().text);
                 button[System.Array.IndexOf(button, i)].GetComponent<Image>().sprite = button_chosen; //chosen sprite, if number evaluates
             }
             else
