@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour {
 
     private bool onGround = true; //to reactivate jump 
 
-    private Dialogue_System Dialogue_System;
+    private Dialogue_System dialogue_System;
     private Utility utility;
 
     public string NPC_name;
@@ -73,7 +73,7 @@ public class PlayerController : MonoBehaviour {
             */
 
             //supplies the needed parameters to dialogue_system class
-            Dialogue_System.run_dialogue(utility.split_text(collision.gameObject.GetComponent<NPC_Attributes>().Dialogue.text),
+            dialogue_System.run_dialogue(utility.split_text(collision.gameObject.GetComponent<NPC_Attributes>().Dialogue.text),
                                         GameObject.Find("Text").GetComponent<Text>());
 
             //when dialogue hits length of lines
@@ -108,7 +108,7 @@ public class PlayerController : MonoBehaviour {
     private void Awake()
     {
         utility = FindObjectOfType<Utility>();
-        Dialogue_System = FindObjectOfType<Dialogue_System>();
+        dialogue_System = FindObjectOfType<Dialogue_System>();
     }
 
     private void Update()
