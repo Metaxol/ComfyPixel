@@ -14,9 +14,10 @@ public class PlayerController : MonoBehaviour {
 
     private void player_movement(float moveSpeed, float jumpHeight)
     {
-        float x = Input.GetAxis("Horizontal") * Time.deltaTime;
+        float x = Input.GetAxis("Horizontal");
+        float y = Input.GetAxis("Jump");
 
-        transform.Translate(x * moveSpeed, 0, 0f); //moving method based on transform of player
+        transform.Translate(x * moveSpeed * Time.deltaTime, 0, 0f); //moving method based on transform of player
 
         Animator anim = GetComponent<Animator>();
 
@@ -39,7 +40,8 @@ public class PlayerController : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Space) && onGround)
         {
-            GetComponent<Rigidbody2D>().AddForce(new Vector2(0, jumpHeight), ForceMode2D.Impulse);
+            GetComponent<Rigidbody2D>().velocity = new Vector2(0, jumpHeight*y*Time.deltaTime);
+            //GetComponent<Rigidbody2D>().AddForce(new Vector2(0, jumpHeight), ForceMode2D.Impulse);
             //jumping method based on rigidbody-object of player
 
             anim.SetBool("isJumping", true);
@@ -133,8 +135,8 @@ public class PlayerController : MonoBehaviour {
         dialogue_System = FindObjectOfType<Dialogue_System>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        player_movement(10f, 10f);
+        player_movement(10f, 400f);
     }
 }
