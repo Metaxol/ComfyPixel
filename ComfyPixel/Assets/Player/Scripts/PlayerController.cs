@@ -18,11 +18,31 @@ public class PlayerController : MonoBehaviour {
 
         transform.Translate(x * moveSpeed, 0, 0f); //moving method based on transform of player
 
+        Animator anim = GetComponent<Animator>();
+
+        if ((Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.LeftArrow)) && (!anim.GetBool("isJumping") && !anim.GetBool("isFalling")))
+        {
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                GetComponent<SpriteRenderer>().flipX = false;
+            }
+            else if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                GetComponent<SpriteRenderer>().flipX = true;
+            }
+            anim.SetBool("isWalking", true);
+        }
+        else if(Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyUp(KeyCode.LeftArrow))
+        {
+            anim.SetBool("isWalking", false);
+        }
+
         if (Input.GetKeyDown(KeyCode.Space) && onGround)
         {
             GetComponent<Rigidbody2D>().AddForce(new Vector2(0, jumpHeight), ForceMode2D.Impulse);
             //jumping method based on rigidbody-object of player
 
+            anim.SetBool("isJumping", true);
             onGround = false;
             //take away ability of jumping
         }
@@ -33,6 +53,7 @@ public class PlayerController : MonoBehaviour {
         //reactivating jumping based on collisions with "ground"-tagged objects
         if (collision.gameObject.tag == "ground") 
         {
+            GetComponent<Animator>().SetBool("isJumping", false);
             onGround = true;
         }
     }
@@ -107,6 +128,7 @@ public class PlayerController : MonoBehaviour {
 
     private void Awake()
     {
+   
         utility = FindObjectOfType<Utility>();
         dialogue_System = FindObjectOfType<Dialogue_System>();
     }
