@@ -8,10 +8,10 @@ public class Utility : MonoBehaviour {
 
     //scrolling-text variables
     public bool can_scroll = true;
-    public int letter = 0;
+    public int letter = -1;
     public int current_line = 0;
 
-    public int to_change = 0; //choosing variable 
+    public int to_change = -1; //choosing variable 
 
     public List<GameObject> spawn_Buttons(Image button, int amount_of_buttons, Vector3[] button_positions, Quaternion[] button_rotations, string[] button_texts)
     {
@@ -117,14 +117,30 @@ public class Utility : MonoBehaviour {
         //change value with the right/left arrows
         if(hor_ver == "ver")
         {
+
             if (Input.GetKeyDown(KeyCode.RightArrow))
             {
-                to_change += 1;
+                if(to_change == -1)
+                {
+                    to_change = stop;
+                }
+                else
+                {
+                    to_change += 1;
+                }
             }
             else if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
-                to_change -= 1;
+                if (to_change == -1)
+                {
+                    to_change = 0;
+                }
+                else
+                {
+                    to_change -= 1;
+                }
             }
+            
         }
 
         //change value with up/down arrows
@@ -132,12 +148,27 @@ public class Utility : MonoBehaviour {
         {
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
-                to_change += 1;
+                if (to_change == -1)
+                {
+                    to_change = stop;
+                }
+                else
+                {
+                    to_change += 1;
+                }
             }
             else if (Input.GetKeyDown(KeyCode.DownArrow))
             {
-                to_change -= 1;
+                if (to_change == -1)
+                {
+                    to_change = stop;
+                }
+                else
+                {
+                    to_change -= 1;
+                }
             }
+            
         }
 
         //if moving method isnt hor or ver, throw an error
@@ -150,7 +181,7 @@ public class Utility : MonoBehaviour {
         if(to_change > stop)
         {
             to_change = stop;
-        }else if(to_change < 0)
+        }else if(to_change < 0 && to_change != -1)
         {
             to_change = 0;
         }

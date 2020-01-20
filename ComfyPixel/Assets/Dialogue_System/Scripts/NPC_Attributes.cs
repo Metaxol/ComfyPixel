@@ -54,6 +54,7 @@ public class NPC_Attributes : MonoBehaviour {
                 stop_scroll_line = new_dialogue_attr_1[0];
                 utility.current_line = new_dialogue_attr_1[1];
                 utility.letter = 0;
+                utility.to_change = -1;
                 tag = "NPC_talkable";
                 oneTime = true;
             }
@@ -68,6 +69,7 @@ public class NPC_Attributes : MonoBehaviour {
                 stop_scroll_line = new_dialogue_attr_2[0];
                 utility.current_line = new_dialogue_attr_2[1];
                 utility.letter = 0;
+                utility.to_change = -1;
                 tag = "NPC_talkable";
                 oneTime = true;
             }

@@ -21,21 +21,22 @@ public class PlayerController : MonoBehaviour {
 
         Animator anim = GetComponent<Animator>();
 
-        if ((Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.LeftArrow)) && (!anim.GetBool("isJumping") && !anim.GetBool("isFalling")))
+        if ((Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow)) && (!anim.GetBool("isJumping") && !anim.GetBool("isFalling")))
         {
-            if (Input.GetKeyDown(KeyCode.RightArrow))
-            {
-                GetComponent<SpriteRenderer>().flipX = false;
-            }
-            else if (Input.GetKeyDown(KeyCode.LeftArrow))
-            {
-                GetComponent<SpriteRenderer>().flipX = true;
-            }
             anim.SetBool("isWalking", true);
         }
         else if(Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyUp(KeyCode.LeftArrow))
         {
             anim.SetBool("isWalking", false);
+        }
+
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            GetComponent<SpriteRenderer>().flipX = false;
+        }
+        else if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            GetComponent<SpriteRenderer>().flipX = true;
         }
 
         if (Input.GetKeyDown(KeyCode.Space) && onGround)
@@ -45,6 +46,7 @@ public class PlayerController : MonoBehaviour {
             //jumping method based on rigidbody-object of player
 
             anim.SetBool("isJumping", true);
+            anim.SetBool("isWalking", false);
             onGround = false;
             //take away ability of jumping
         }
@@ -89,12 +91,6 @@ public class PlayerController : MonoBehaviour {
                 GameObject.Find("sprite_box").GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
             }
 
-            /* not getting actual file, getting copy of file-content as string-list
-             * modfiy string-list rather than file-content
-             * important for multiple choice
-             * (eg set stop/start for a dialogue that is currently running)
-            */
-
             //supplies the needed parameters to dialogue_system class
             dialogue_System.run_dialogue(utility.split_text(collision.gameObject.GetComponent<NPC_Attributes>().Dialogue.text),
                                         GameObject.Find("Text").GetComponent<Text>());
@@ -106,6 +102,7 @@ public class PlayerController : MonoBehaviour {
                 utility.can_scroll = true;
                 utility.letter = 0;
                 utility.current_line = 0;
+                utility.to_change = -1;
                 GameObject.Find("sprite_box").GetComponent<Image>().sprite = null;
                 collision.GetComponent<NPC_Attributes>().oneTime = true;
 
