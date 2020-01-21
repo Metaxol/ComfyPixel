@@ -80,6 +80,7 @@ public class PlayerController : MonoBehaviour {
 
     private void OnTriggerStay2D(Collider2D collision)
     {
+        #region player_collision_dialogue_handling
         NPC_name = collision.gameObject.name;
 
         if (collision.gameObject.tag == "NPC_untalkable" && Input.GetKeyDown(KeyCode.E))
@@ -123,9 +124,10 @@ public class PlayerController : MonoBehaviour {
                 StartCoroutine(set_tag_NPC(0.7f, collision.gameObject));
             }
         }
+        #endregion
     }
 
-    #region coroutine for dialogue part of script (ignore)
+    #region dialogue_coroutine (ignore)
     IEnumerator set_tag_NPC(float delay, GameObject NPC)
     {
         yield return new WaitForSeconds(delay);

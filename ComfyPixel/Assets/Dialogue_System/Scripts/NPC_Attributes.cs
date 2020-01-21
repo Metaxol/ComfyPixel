@@ -42,7 +42,7 @@ public class NPC_Attributes : MonoBehaviour {
         else if (!oneTime)
         {
             //depending on options chosen:
-            if (Input.GetKeyDown(KeyCode.Return) && buttons[0].GetComponent<Image>().sprite == chosen_sprite)
+            if (Input.GetKeyDown(KeyCode.E) && buttons[0].GetComponent<Image>().sprite == chosen_sprite)
             {
                 //delete buttons and continue dialogue on line according to button chosen (also reset certain dialogue_system-attributes)
                 foreach (GameObject i in buttons.ToArray())
@@ -58,7 +58,7 @@ public class NPC_Attributes : MonoBehaviour {
                 tag = "NPC_talkable";
                 oneTime = true;
             }
-            else if (Input.GetKeyDown(KeyCode.Return) && buttons[1].GetComponent<Image>().sprite == chosen_sprite)
+            else if (Input.GetKeyDown(KeyCode.E) && buttons[1].GetComponent<Image>().sprite == chosen_sprite)
             {
                 foreach (GameObject i in buttons.ToArray())
                 {
