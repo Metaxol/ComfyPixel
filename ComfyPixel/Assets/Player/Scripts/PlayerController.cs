@@ -50,6 +50,13 @@ public class PlayerController : MonoBehaviour {
             onGround = false;
             //take away ability of jumping
         }
+
+        if(GetComponent<Rigidbody2D>().velocity.y < -1)
+        {
+            anim.SetBool("isFalling", true);
+            anim.SetBool("isWalking", false);
+            anim.SetBool("isJumping", false);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -57,6 +64,7 @@ public class PlayerController : MonoBehaviour {
         //reactivating jumping based on collisions with "ground"-tagged objects
         if (collision.gameObject.tag == "ground") 
         {
+            GetComponent<Animator>().SetBool("isFalling", false);
             GetComponent<Animator>().SetBool("isJumping", false);
             onGround = true;
         }

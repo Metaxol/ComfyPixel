@@ -1100,9 +1100,9 @@ GameObject:
   - component: {fileID: 1925472697}
   - component: {fileID: 1925472696}
   - component: {fileID: 1925472695}
-  - component: {fileID: 1925472699}
   - component: {fileID: 1925472698}
   - component: {fileID: 1925472700}
+  - component: {fileID: 1925472699}
   m_Layer: 0
   m_Name: player
   m_TagString: Untagged
@@ -1196,8 +1196,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NPC_name: 
---- !u!61 &1925472699
-BoxCollider2D:
+--- !u!58 &1925472699
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
@@ -1208,19 +1208,9 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.8456764, y: 0.85372376}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 17, y: 17}
-    newSize: {x: 17, y: 17}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
+  m_Offset: {x: -0.5138025, y: -0.09334087}
   serializedVersion: 2
-  m_Size: {x: 7.1547527, y: 7.8267474}
-  m_EdgeRadius: 0
+  m_Radius: 2.8906393
 --- !u!50 &1925472700
 Rigidbody2D:
   serializedVersion: 4
