@@ -21,7 +21,6 @@ public class NPC_Attributes : MonoBehaviour {
 
     private PlayerController playerController;
     private Utility utility;
-    private Dialogue_System dialogue_System;
 
 
     private void NPC_dialogue_choosing(string[] button_texts, int[] new_dialogue_attr_1, int[] new_dialogue_attr_2)
@@ -97,11 +96,11 @@ public class NPC_Attributes : MonoBehaviour {
                             sprite_box.sprite = Sprites[1];
                             break;
                         case 3:
-                            NPC_dialogue_choosing(new string[] { "option1", "option2" },
+                            NPC_dialogue_choosing(new string[] { "Erste Option", "Zweite Option" },
                                                   new int[] { 9, 4}, new int[] { 18, 16});
                             break;
                         case 8:
-                            NPC_dialogue_choosing(new string[] { "option1", "option2" },
+                            NPC_dialogue_choosing(new string[] { "Erste Option", "Zweite Option" },
                                                   new int[] { 12, 9}, new int[] { 16, 12});
                             break;
                     }

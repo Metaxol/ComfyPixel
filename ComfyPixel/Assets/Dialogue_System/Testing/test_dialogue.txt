@@ -1,18 +1,18 @@
-test1
-test2
-hello hello
+Das ist ein Test.
+Zweite Zeile.
+Hallo!
 
-option1 chosen
-asdasd
-asdasdsa
-asdasd
+Du hast die erste Option gewaehlt.
+Hallo!
+Test.
+Du kannst jetzt nochmal zwischen zwei Optionen waehlen!
 
-option1 chosen
-asdfa
-asfdads
-option2 chosen
-asd
-
-asdas
-option2 chosen
-sdf
+Du hast wieder die erste Option gewaehlt.
+Ich hoffe, dass dir diese Option gefaellt.
+Der Dialog wird jetzt beendet.
+Diesmal hast du die zweite Option gewaehlt!
+Jetzt wird der Dialog beendet.
+Oder?
+Jetzt wird er wirklich beendet.
+Du hast die zweite Option gewaehlt.
+Test.

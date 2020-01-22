@@ -7,55 +7,59 @@ public class PlayerController : MonoBehaviour {
 
     private bool onGround = true; //to reactivate jump 
 
-    private Dialogue_System dialogue_System;
     private Utility utility;
 
     public string NPC_name;
 
+    private bool canMove = true;
+
     private void player_movement(float moveSpeed, float jumpHeight)
     {
-        float x = Input.GetAxis("Horizontal");
-        float y = Input.GetAxis("Jump");
-
-        transform.Translate(x * moveSpeed * Time.deltaTime, 0, 0f); //moving method based on transform of player
-
-        Animator anim = GetComponent<Animator>();
-
-        if ((Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow)) && (!anim.GetBool("isJumping") && !anim.GetBool("isFalling")))
+        if (canMove)
         {
-            anim.SetBool("isWalking", true);
-        }
-        else if(Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyUp(KeyCode.LeftArrow))
-        {
-            anim.SetBool("isWalking", false);
-        }
+            float x = Input.GetAxis("Horizontal");
+            float y = Input.GetAxis("Jump");
 
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            GetComponent<SpriteRenderer>().flipX = false;
-        }
-        else if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            GetComponent<SpriteRenderer>().flipX = true;
-        }
+            transform.Translate(x * moveSpeed * Time.deltaTime, 0, 0f); //moving method based on transform of player
 
-        if (Input.GetKeyDown(KeyCode.Space) && onGround)
-        {
-            GetComponent<Rigidbody2D>().velocity = new Vector2(0, jumpHeight*y*Time.deltaTime);
-            //GetComponent<Rigidbody2D>().AddForce(new Vector2(0, jumpHeight), ForceMode2D.Impulse);
-            //jumping method based on rigidbody-object of player
+            Animator anim = GetComponent<Animator>();
 
-            anim.SetBool("isJumping", true);
-            anim.SetBool("isWalking", false);
-            onGround = false;
-            //take away ability of jumping
-        }
+            if ((Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow)) && (!anim.GetBool("isJumping") && !anim.GetBool("isFalling")))
+            {
+                anim.SetBool("isWalking", true);
+            }
+            else if (Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyUp(KeyCode.LeftArrow))
+            {
+                anim.SetBool("isWalking", false);
+            }
 
-        if(GetComponent<Rigidbody2D>().velocity.y < -1)
-        {
-            anim.SetBool("isFalling", true);
-            anim.SetBool("isWalking", false);
-            anim.SetBool("isJumping", false);
+            if (Input.GetKey(KeyCode.RightArrow))
+            {
+                GetComponent<SpriteRenderer>().flipX = false;
+            }
+            else if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                GetComponent<SpriteRenderer>().flipX = true;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Space) && onGround)
+            {
+                GetComponent<Rigidbody2D>().velocity = new Vector2(0, jumpHeight * y * Time.deltaTime);
+                //GetComponent<Rigidbody2D>().AddForce(new Vector2(0, jumpHeight), ForceMode2D.Impulse);
+                //jumping method based on rigidbody-object of player
+
+                anim.SetBool("isJumping", true);
+                anim.SetBool("isWalking", false);
+                onGround = false;
+                //take away ability of jumping
+            }
+
+            if (GetComponent<Rigidbody2D>().velocity.y < -1)
+            {
+                anim.SetBool("isFalling", true);
+                anim.SetBool("isWalking", false);
+                anim.SetBool("isJumping", false);
+            }
         }
     }
 
@@ -86,6 +90,7 @@ public class PlayerController : MonoBehaviour {
         if (collision.gameObject.tag == "NPC_untalkable" && Input.GetKeyDown(KeyCode.E))
         {
             //name of gameobject is box where text is, not textbox itself
+            canMove = false;
             collision.gameObject.tag = "NPC_talkable";
         }
 
@@ -101,13 +106,15 @@ public class PlayerController : MonoBehaviour {
             }
 
             //supplies the needed parameters to dialogue_system class
-            dialogue_System.run_dialogue(utility.split_text(collision.gameObject.GetComponent<NPC_Attributes>().Dialogue.text),
-                                        GameObject.Find("Text").GetComponent<Text>());
+            utility.run_text(utility.split_text(collision.gameObject.GetComponent<NPC_Attributes>().Dialogue.text),
+                                                GameObject.Find("Text").GetComponent<Text>(),
+                                                0.07f);
 
             //when dialogue hits length of lines
             if(utility.current_line == collision.GetComponent<NPC_Attributes>().stop_scroll_line)
             {
                 //to revert changes made by the dialogue_system
+                canMove = true;
                 utility.can_scroll = true;
                 utility.letter = 0;
                 utility.current_line = 0;
@@ -139,7 +146,6 @@ public class PlayerController : MonoBehaviour {
     {
    
         utility = FindObjectOfType<Utility>();
-        dialogue_System = FindObjectOfType<Dialogue_System>();
     }
 
     private void FixedUpdate()

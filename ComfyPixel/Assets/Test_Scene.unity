@@ -326,7 +326,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -557,12 +557,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Dialogue: {fileID: 4900000, guid: 1301b0da65ee7bb42b0dd2b60b2f173c, type: 3}
   Sprites:
-  - {fileID: 21300000, guid: be2959007cec7544dba4a28dbbccca5d, type: 3}
-  - {fileID: 21300000, guid: ff5e16575b2b86a4c8339531e5693ae1, type: 3}
+  - {fileID: 21300000, guid: 9c5073d418327924bb57aa3a05c3be62, type: 3}
+  - {fileID: 21300000, guid: 6bbdb7182a4ebd64c810736e7ba261c2, type: 3}
   choose_button: {fileID: 114615033198918234, guid: dec73cc1d9508724aa471d56b7618e76,
     type: 2}
-  chosen_sprite: {fileID: 21300000, guid: be2959007cec7544dba4a28dbbccca5d, type: 3}
-  not_chosen_sprite: {fileID: 21300000, guid: ff5e16575b2b86a4c8339531e5693ae1, type: 3}
+  chosen_sprite: {fileID: 21300000, guid: b2cb7a2a0f9089a498d33f22c661eb86, type: 3}
+  not_chosen_sprite: {fileID: 21300000, guid: d8162e0cc9eb85543af1e6284904b1c1, type: 3}
   stop_scroll_line: 5
   oneTime: 1
 --- !u!1 &896561817
@@ -912,7 +912,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 43.872047
+  orthographic size: 22.619043
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -949,7 +949,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1761469162}
   - component: {fileID: 1761469161}
-  - component: {fileID: 1761469163}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -985,17 +984,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1761469163
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1761469160}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7f3a5c74a7b23d42b2a29caebdb1726, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1863450698
 GameObject:
   m_ObjectHideFlags: 0
