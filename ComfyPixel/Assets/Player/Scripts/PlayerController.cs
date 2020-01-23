@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour {
 
     public string NPC_name;
 
-    private bool canMove = true;
+    [HideInInspector] public bool canMove = true;
 
     private void player_movement(float moveSpeed, float jumpHeight)
     {

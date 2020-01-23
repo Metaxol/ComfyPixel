@@ -47,6 +47,19 @@ public class Utility : MonoBehaviour {
         }
     }
 
+    //stopped here
+    public List<GameObject> delete_list_objects(List<GameObject> list_to_delete)
+    {
+        foreach(GameObject i in list_to_delete.ToArray())
+        {
+            GameObject reference = list_to_delete[System.Array.IndexOf(list_to_delete.ToArray(), i)];
+            list_to_delete.Remove(reference);
+            Destroy(reference);
+        }
+
+        return list_to_delete;
+    }
+
     public List<string> split_text(string text)
     {
         //take some form of string as input
@@ -135,7 +148,7 @@ public class Utility : MonoBehaviour {
                 {
                     to_change = 0;
                 }
-                else
+                else if(to_change != 0)
                 {
                     to_change -= 1;
                 }
@@ -150,11 +163,11 @@ public class Utility : MonoBehaviour {
             {
                 if (to_change == -1)
                 {
-                    to_change = stop;
+                    to_change = 0;
                 }
-                else
+                else if(to_change != 0)
                 {
-                    to_change += 1;
+                    to_change -= 1;
                 }
             }
             else if (Input.GetKeyDown(KeyCode.DownArrow))
@@ -165,7 +178,7 @@ public class Utility : MonoBehaviour {
                 }
                 else
                 {
-                    to_change -= 1;
+                    to_change += 1;
                 }
             }
             
