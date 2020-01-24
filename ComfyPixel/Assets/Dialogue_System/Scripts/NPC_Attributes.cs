@@ -44,12 +44,8 @@ public class NPC_Attributes : MonoBehaviour {
             if (Input.GetKeyDown(KeyCode.E) && buttons[0].GetComponent<Image>().sprite == chosen_sprite)
             {
                 //delete buttons and continue dialogue on line according to button chosen (also reset certain dialogue_system-attributes)
-                foreach (GameObject i in buttons.ToArray())
-                {
-                    GameObject reference = buttons[System.Array.IndexOf(buttons.ToArray(), i)];
-                    buttons.Remove(reference);
-                    Destroy(reference);
-                }
+                buttons = utility.delete_list_objects(buttons);
+
                 stop_scroll_line = new_dialogue_attr_1[0];
                 utility.current_line = new_dialogue_attr_1[1];
                 utility.letter = 0;
@@ -59,12 +55,8 @@ public class NPC_Attributes : MonoBehaviour {
             }
             else if (Input.GetKeyDown(KeyCode.E) && buttons[1].GetComponent<Image>().sprite == chosen_sprite)
             {
-                foreach (GameObject i in buttons.ToArray())
-                {
-                    GameObject reference = buttons[System.Array.IndexOf(buttons.ToArray(), i)];
-                    buttons.Remove(reference);
-                    Destroy(reference);
-                }
+                buttons = utility.delete_list_objects(buttons);
+
                 stop_scroll_line = new_dialogue_attr_2[0];
                 utility.current_line = new_dialogue_attr_2[1];
                 utility.letter = 0;
