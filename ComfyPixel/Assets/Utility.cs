@@ -31,6 +31,23 @@ public class Utility : MonoBehaviour {
         return lines; //returns list of buttons (gameobjects) for further use by other methods
     }
 
+    public GameObject[] create_image(int amount_buttons, string[] button_name, Vector2[] scale, Vector3[] position, Quaternion[] rotation)
+    {
+        GameObject[] button = new GameObject[amount_buttons];
+        for (int c = 0; c <= amount_buttons; c++)
+        {
+            button[c] = new GameObject();
+            button[c].name = button_name[c];
+            button[c].AddComponent<Image>();
+            button[c].GetComponent<RectTransform>().sizeDelta = scale[c];
+            button[c].GetComponent<RectTransform>().position = position[c];
+            button[c].GetComponent<RectTransform>().rotation = rotation[c];
+            button[c].GetComponent<RectTransform>().SetParent(GameObject.Find("Canvas").transform, false);
+        }
+
+        return button;
+    }
+
     public void choose_buttons(GameObject[] button, Sprite button_chosen, Sprite button_not_chosen, int stop, string ver_hor)
     {
         options_choosing(stop, ver_hor); //can choose between buttons
@@ -198,11 +215,5 @@ public class Utility : MonoBehaviour {
         {
             to_change = 0;
         }
-    }
-
-    public void set_zero()
-    {
-        //to reset choosing to beginning
-        to_change = 0; 
     }
 }

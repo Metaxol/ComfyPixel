@@ -144,7 +144,6 @@ public class PlayerController : MonoBehaviour {
 
     private void Awake()
     {
-   
         utility = FindObjectOfType<Utility>();
     }
 
