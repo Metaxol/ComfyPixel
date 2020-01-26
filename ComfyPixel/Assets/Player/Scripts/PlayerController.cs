@@ -98,8 +98,11 @@ public class PlayerController : MonoBehaviour {
         {
             Sprite[] NPC_sprites = collision.GetComponent<NPC_Attributes>().Sprites;
 
-            //turn alpha component on
-            GameObject.Find("dialogue_box").GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
+            //turn alpha component on (work on implementing new image-spawning method)
+            GameObject[] dialogue_box =  utility.create_image(0, new string[] { "dialogue_box"},
+                                                              new Vector2[] { new Vector2(478.2f, 77f) }, 
+                                                              new Vector3[] { new Vector3(1.2398e-05f, -260f, 0f) },
+                                                              new Quaternion[] { new Quaternion()});
             if(NPC_sprites.Length != 0)
             {
                 GameObject.Find("sprite_box").GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
@@ -123,6 +126,7 @@ public class PlayerController : MonoBehaviour {
                 collision.GetComponent<NPC_Attributes>().oneTime = true;
 
                 //turn alpha component off
+                
                 GameObject.Find("dialogue_box").GetComponent<Image>().color = new Color(1f, 1f, 1f, 0f);
                 GameObject.Find("sprite_box").GetComponent<Image>().color = new Color(1f, 1f, 1f, 0f);
 
