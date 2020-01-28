@@ -13,6 +13,7 @@ public class Utility : MonoBehaviour {
 
     public int to_change = -1; //choosing variable 
 
+    //this method will be replaced by create_ui_object()
     public List<GameObject> spawn_Buttons(Image button, int amount_of_buttons, Vector3[] button_positions, Quaternion[] button_rotations, string[] button_texts)
     {
         List<GameObject> lines = new List<GameObject>(); //creates list of buttons, so it can be used
@@ -30,22 +31,48 @@ public class Utility : MonoBehaviour {
 
         return lines; //returns list of buttons (gameobjects) for further use by other methods
     }
+    //this method will be replaced by create_ui_object()
 
-    public GameObject[] create_ui_object<T>(T type_of_object, int amount_buttons, string[] button_name, Vector2[] scale, Vector3[] position, Quaternion[] rotation) where T: Component
+    //create any type of object
+    public object create_object(System.Type type_of_object, int amount_objects, string[] button_name, Vector2[] scale, Vector3[] position, Quaternion[] rotation)
     {
-        GameObject[] button = new GameObject[amount_buttons];
-        for (int c = 0; c < amount_buttons; c++)
+        //assign two variables, for comfortability (dont always have to use arrays to pass on values)
+        GameObject[] objects = new GameObject[amount_objects];
+        GameObject single_object = null;
+
+        for (int c = 0; c < amount_objects; c++)
         {
-            button[c] = new GameObject();
-            button[c].name = button_name[c];
-            button[c].gameObject.AddComponent<T>();
-            button[c].GetComponent<RectTransform>().sizeDelta = scale[c];
-            button[c].GetComponent<RectTransform>().position = position[c];
-            button[c].GetComponent<RectTransform>().rotation = rotation[c];
-            button[c].GetComponent<RectTransform>().SetParent(GameObject.Find("Canvas").transform, false);
+            //assignment if array of objects wanted
+            if (amount_objects > 1)
+            {
+                objects[c] = new GameObject(); //instantiates object as GameObject
+                objects[c].name = button_name[c]; //assigns name
+                objects[c].gameObject.AddComponent(type_of_object); //assigns any type of component (image, text, etc...)
+                objects[c].transform.localScale = scale[c]; //sets scale
+                objects[c].transform.position = position[c]; //sets pos
+                objects[c].transform.rotation = rotation[c]; //sets rot
+            }
+            //assignment if single object wanted
+            else
+            {
+                single_object = new GameObject();
+                single_object.name = button_name[c];
+                single_object.gameObject.AddComponent(type_of_object);
+                single_object.transform.localScale = scale[c];
+                single_object.transform.position = position[c];
+                single_object.transform.rotation = rotation[c];
+            }
         }
 
-        return button;
+        //return based on amount of objects wanted
+        if (amount_objects == 1)
+        {
+            return single_object;
+        }
+        else
+        {
+            return objects;
+        }
     }
 
     public void choose_buttons(GameObject[] button, Sprite button_chosen, Sprite button_not_chosen, int stop, string ver_hor)
@@ -64,16 +91,22 @@ public class Utility : MonoBehaviour {
         }
     }
 
-    //stopped here
+    //delete a list full of active objects (preferable used for buttons)
     public List<GameObject> delete_list_objects(List<GameObject> list_to_delete)
     {
         foreach(GameObject i in list_to_delete.ToArray())
         {
+            //create reference to any object in array
             GameObject reference = list_to_delete[System.Array.IndexOf(list_to_delete.ToArray(), i)];
+
+            //remove the object by referencing it with refernce in List<>
             list_to_delete.Remove(reference);
+
+            //destroy object through reference
             Destroy(reference);
         }
 
+        //always returns empty List<> to empty the original List<>
         return list_to_delete;
     }
 
@@ -147,9 +180,9 @@ public class Utility : MonoBehaviour {
         //change value with the right/left arrows
         if(hor_ver == "ver")
         {
-
             if (Input.GetKeyDown(KeyCode.RightArrow))
             {
+                //to not have any option chosen at beginning, to_change is set to -1
                 if(to_change == -1)
                 {
                     to_change = stop;
@@ -178,6 +211,7 @@ public class Utility : MonoBehaviour {
         {
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
+                //to not have any option chosen at beginning, to_change is set to -1
                 if (to_change == -1)
                 {
                     to_change = 0;

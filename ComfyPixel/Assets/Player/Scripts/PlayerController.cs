@@ -146,28 +146,14 @@ public class PlayerController : MonoBehaviour {
     }
     #endregion
 
-    public GameObject[] create_ui_object(System.Type type_of_object, int amount_objects, string[] button_name, Vector2[] scale, Vector3[] position, Quaternion[] rotation)
-    {
-        GameObject[] button = new GameObject[amount_objects];
-        for (int c = 0; c < amount_objects; c++)
-        {
-
-            button[c] = new GameObject();
-            button[c].name = button_name[c];
-            button[c].gameObject.AddComponent(type_of_object);
-            button[c].transform.localScale = scale[c];
-            button[c].transform.position = position[c];
-            button[c].transform.rotation = rotation[c];
-            //button[c].GetComponent<RectTransform>().SetParent(GameObject.Find("Canvas").transform, false);
-        }
-
-        return button;
-    }
-
     private void Awake()
     {
         utility = FindObjectOfType<Utility>();
-        create_ui_object(typeof(Image), 1, new string[] { "test" }, new Vector2[] { new Vector2(10f, 10f) }, new Vector3[] { new Vector3(10f, 10f, 10f) }, new Quaternion[] { new Quaternion() });
+
+        //GameObject[] test = (GameObject[]) utility.create_ui_object(typeof(Image), 
+        //                     2, new string[] { "test" , "test1"}, new Vector2[] { new Vector2(10f, 10f), new Vector2(10f, 10f)}, 
+        //                     new Vector3[] { new Vector3(10f, 10f, 10f), new Vector3(10f, 10f, 10f) },
+        //                     new Quaternion[] { new Quaternion(), new Quaternion() });
     }
 
     private void FixedUpdate()
