@@ -31,21 +31,49 @@ public class Utility : MonoBehaviour {
         return lines; //returns list of buttons (gameobjects) for further use by other methods
     }
 
-    public GameObject[] create_image(int amount_buttons, string[] button_name, Vector2[] scale, Vector3[] position, Quaternion[] rotation)
+    public object create_ui_object(System.Type type_of_object, int amount_objects, string[] button_name, Vector2[] scale, Vector3[] position, Quaternion[] rotation)
     {
-        GameObject[] button = new GameObject[amount_buttons];
-        for (int c = 0; c <= amount_buttons; c++)
+        //assign two variables, for comfortability (dont always have to use arrays to pass on values)
+        GameObject[] objects = new GameObject[amount_objects];
+        GameObject single_object = null;
+
+        for (int c = 0; c < amount_objects; c++)
         {
-            button[c] = new GameObject();
-            button[c].name = button_name[c];
-            button[c].AddComponent<Image>();
-            button[c].GetComponent<RectTransform>().sizeDelta = scale[c];
-            button[c].GetComponent<RectTransform>().position = position[c];
-            button[c].GetComponent<RectTransform>().rotation = rotation[c];
-            button[c].GetComponent<RectTransform>().SetParent(GameObject.Find("Canvas").transform, false);
+
+
+            //assignment if array of objects wanted
+            if (amount_objects > 1)
+            {
+                objects[c] = new GameObject(); //instantiates object as GameObject
+                objects[c].transform.SetParent(GameObject.Find("Canvas").transform, false);
+                objects[c].name = button_name[c]; //assigns name
+                objects[c].gameObject.AddComponent(type_of_object); //assigns any type of component (image, text, etc...)
+                objects[c].GetComponent<RectTransform>().sizeDelta = scale[c]; //sets scale
+                objects[c].transform.position = position[c]; //sets pos
+                objects[c].transform.rotation = rotation[c]; //sets rot
+            }
+            //assignment if single object wanted
+            else
+            {
+                single_object = new GameObject();
+                single_object.transform.SetParent(GameObject.Find("Canvas").transform, false);
+                single_object.name = button_name[c];
+                single_object.gameObject.AddComponent(type_of_object);
+                single_object.GetComponent<RectTransform>().sizeDelta = scale[c];
+                single_object.transform.position = position[c];
+                single_object.transform.rotation = rotation[c];
+            }
         }
 
-        return button;
+        //return based on amount of objects wanted
+        if (amount_objects == 1)
+        {
+            return single_object;
+        }
+        else
+        {
+            return objects;
+        }
     }
 
     public void choose_buttons(GameObject[] button, Sprite button_chosen, Sprite button_not_chosen, int stop, string ver_hor)

@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour {
     private Utility utility;
 
     public string NPC_name;
+    public Sprite[] NPC_sprites;
 
     [HideInInspector] public bool canMove = true;
 
@@ -86,6 +87,7 @@ public class PlayerController : MonoBehaviour {
     {
         #region player_collision_dialogue_handling
         NPC_name = collision.gameObject.name;
+        NPC_sprites = collision.GetComponent<NPC_Attributes>().Sprites;
 
         if (collision.gameObject.tag == "NPC_untalkable" && Input.GetKeyDown(KeyCode.E))
         {
@@ -145,6 +147,10 @@ public class PlayerController : MonoBehaviour {
     private void Awake()
     {
         utility = FindObjectOfType<Utility>();
+        Image test =  ((GameObject)utility.create_ui_object(typeof(Image), 1, new string[] { "test" }, 
+                                                      new Vector2[] { new Vector2(478.2f, 77f) },
+                                                      new Vector3[] { new Vector3(1.2398e-05f, -260f) }, 
+                                                      new Quaternion[] { new Quaternion() })).GetComponent<Image>();
     }
 
     private void FixedUpdate()
