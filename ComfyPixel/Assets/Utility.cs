@@ -31,14 +31,14 @@ public class Utility : MonoBehaviour {
         return lines; //returns list of buttons (gameobjects) for further use by other methods
     }
 
-    public GameObject[] create_ui_object<T>(T type_of_object, int amount_buttons, string[] button_name, Vector2[] scale, Vector3[] position, Quaternion[] rotation) where T: Component
+    public GameObject[] create_image(int amount_buttons, string[] button_name, Vector2[] scale, Vector3[] position, Quaternion[] rotation)
     {
         GameObject[] button = new GameObject[amount_buttons];
         for (int c = 0; c < amount_buttons; c++)
         {
             button[c] = new GameObject();
             button[c].name = button_name[c];
-            button[c].gameObject.AddComponent<T>();
+            button[c].AddComponent<Image>();
             button[c].GetComponent<RectTransform>().sizeDelta = scale[c];
             button[c].GetComponent<RectTransform>().position = position[c];
             button[c].GetComponent<RectTransform>().rotation = rotation[c];
