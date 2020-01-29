@@ -98,32 +98,20 @@ public class PlayerController : MonoBehaviour {
         {
             Sprite[] NPC_sprites = collision.GetComponent<NPC_Attributes>().Sprites;
 
-            //spawn needed objects for dialogue
-            Image sprite_box = null;
-            Image dialogue_box = ((GameObject)utility.create_object(typeof(Image), 1, new string[] { "dialogue_box" },
-                                                              new Vector2[] { new Vector2(478.2f, 77f) },
-                                                              new Vector3[] { new Vector3(1.2398e-05f, -260f, 0f) },
-                                                              new Quaternion[] { new Quaternion() })).GetComponent<Image>();
-            dialogue_box.transform.SetParent(GameObject.Find("Canvas").transform, false);
-
-            Text dialogue_text = ((GameObject)utility.create_object(typeof(Text), 1, new string[] { "Text" },
-                                                             new Vector2[] { new Vector2(478.18f, 77f) },
-                                                             new Vector3[] { new Vector3(0.012494f, 0.012501f, 0f) },
-                                                             new Quaternion[] { new Quaternion() })).GetComponent<Text>();
-            dialogue_text.transform.SetParent(dialogue_box.transform, false);
-
-            if (NPC_sprites.Length != 0)
+            //turn alpha component on (work on implementing new image-spawning method)
+            //GameObject[] dialogue_box =  utility.create_image(0, new string[] { "dialogue_box"},
+            //                                                  new Vector2[] { new Vector2(478.2f, 77f) }, 
+            //                                                  new Vector3[] { new Vector3(1.2398e-05f, -260f, 0f) },
+            //                                                  new Quaternion[] { new Quaternion()});
+            if(NPC_sprites.Length != 0)
             {
-                sprite_box = (Image)utility.create_object(typeof(Image), 1, new string[] { "sprite_box" },
-                                                  new Vector2[] { new Vector2(90.3f, 77f) },
-                                                  new Vector3[] { new Vector3(194f, -0.0060034f, 0f) },
-                                                  new Quaternion[] { new Quaternion() });
-                sprite_box.transform.SetParent(dialogue_box.transform, false);
+                GameObject.Find("sprite_box").GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
             }
 
             //supplies the needed parameters to dialogue_system class
             utility.run_text(utility.split_text(collision.gameObject.GetComponent<NPC_Attributes>().Dialogue.text),
-                                                dialogue_text, 0.07f);
+                                                GameObject.Find("Text").GetComponent<Text>(),
+                                                0.07f);
 
             //when dialogue hits length of lines
             if(utility.current_line == collision.GetComponent<NPC_Attributes>().stop_scroll_line)
@@ -134,12 +122,13 @@ public class PlayerController : MonoBehaviour {
                 utility.letter = 0;
                 utility.current_line = 0;
                 utility.to_change = -1;
-                sprite_box.sprite = null;
+                GameObject.Find("sprite_box").GetComponent<Image>().sprite = null;
                 collision.GetComponent<NPC_Attributes>().oneTime = true;
 
-                //destroy created dialogue-objects
-                Destroy(dialogue_box);
-                Destroy(sprite_box);
+                //turn alpha component off
+                
+                GameObject.Find("dialogue_box").GetComponent<Image>().color = new Color(1f, 1f, 1f, 0f);
+                GameObject.Find("sprite_box").GetComponent<Image>().color = new Color(1f, 1f, 1f, 0f);
 
                 //stop repeated execution of same dialogue
                 collision.gameObject.tag = "NPC_nottalk";
