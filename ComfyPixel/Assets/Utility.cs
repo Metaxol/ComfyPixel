@@ -34,7 +34,7 @@ public class Utility : MonoBehaviour {
     public GameObject[] create_image(int amount_buttons, string[] button_name, Vector2[] scale, Vector3[] position, Quaternion[] rotation)
     {
         GameObject[] button = new GameObject[amount_buttons];
-        for (int c = 0; c < amount_buttons; c++)
+        for (int c = 0; c <= amount_buttons; c++)
         {
             button[c] = new GameObject();
             button[c].name = button_name[c];
