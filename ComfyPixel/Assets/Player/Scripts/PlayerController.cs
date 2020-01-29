@@ -98,6 +98,7 @@ public class PlayerController : MonoBehaviour {
         {
             Sprite[] NPC_sprites = collision.GetComponent<NPC_Attributes>().Sprites;
 
+<<<<<<< HEAD
             //spawn needed objects for dialogue
             Image sprite_box = null;
             Image dialogue_box = ((GameObject)utility.create_object(typeof(Image), 1, new string[] { "dialogue_box" },
@@ -113,6 +114,11 @@ public class PlayerController : MonoBehaviour {
             dialogue_text.transform.SetParent(dialogue_box.transform, false);
 
             if (NPC_sprites.Length != 0)
+=======
+            //turn alpha component on
+            GameObject.Find("dialogue_box").GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
+            if(NPC_sprites.Length != 0)
+>>>>>>> parent of 1bc9b01... work on new method implementation
             {
                 sprite_box = (Image)utility.create_object(typeof(Image), 1, new string[] { "sprite_box" },
                                                   new Vector2[] { new Vector2(90.3f, 77f) },
@@ -137,9 +143,15 @@ public class PlayerController : MonoBehaviour {
                 sprite_box.sprite = null;
                 collision.GetComponent<NPC_Attributes>().oneTime = true;
 
+<<<<<<< HEAD
                 //destroy created dialogue-objects
                 Destroy(dialogue_box);
                 Destroy(sprite_box);
+=======
+                //turn alpha component off
+                GameObject.Find("dialogue_box").GetComponent<Image>().color = new Color(1f, 1f, 1f, 0f);
+                GameObject.Find("sprite_box").GetComponent<Image>().color = new Color(1f, 1f, 1f, 0f);
+>>>>>>> parent of 1bc9b01... work on new method implementation
 
                 //stop repeated execution of same dialogue
                 collision.gameObject.tag = "NPC_nottalk";

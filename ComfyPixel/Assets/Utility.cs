@@ -36,11 +36,16 @@ public class Utility : MonoBehaviour {
     //create any type of object
     public object create_object(System.Type type_of_object, int amount_objects, string[] button_name, Vector2[] scale, Vector3[] position, Quaternion[] rotation)
     {
+<<<<<<< HEAD
         //assign two variables, for comfortability (dont always have to use arrays to pass on values)
         GameObject[] objects = new GameObject[amount_objects];
         GameObject single_object = null;
 
         for (int c = 0; c < amount_objects; c++)
+=======
+        GameObject[] button = new GameObject[amount_buttons];
+        for (int c = 0; c <= amount_buttons; c++)
+>>>>>>> parent of 1bc9b01... work on new method implementation
         {
             //assignment if array of objects wanted
             if (amount_objects > 1)
