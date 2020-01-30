@@ -73,9 +73,9 @@ public class NPC_Attributes : MonoBehaviour {
     private void Update()
     {
         //keep adding changing sprites/other special events in this switch statement for the npc's that need it
-        if(playerController.NPC_name == name)
+        if(playerController.NPC.name == name)
         {
-            switch (playerController.NPC_name)
+            switch (playerController.NPC.name)
             {
                 //just for testing purposes
                 case "NPC":

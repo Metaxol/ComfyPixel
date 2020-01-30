@@ -9,8 +9,9 @@ public class PlayerController : MonoBehaviour {
 
     private Utility utility;
 
-    public string NPC_name;
-    public Sprite[] NPC_sprites;
+    //public string NPC_name;
+    //public Sprite[] NPC_sprites;
+    public GameObject NPC;
 
     [HideInInspector] public bool canMove = true;
 
@@ -86,8 +87,13 @@ public class PlayerController : MonoBehaviour {
     private void OnTriggerStay2D(Collider2D collision)
     {
         #region player_collision_dialogue_handling
-        NPC_name = collision.gameObject.name;
-        NPC_sprites = collision.GetComponent<NPC_Attributes>().Sprites;
+        if(collision.tag == "NPC_untalkable")
+        {
+            NPC = collision.gameObject;
+        }
+
+        //NPC_name = collision.gameObject.name;
+        //NPC_sprites = collision.GetComponent<NPC_Attributes>().Sprites;
 
         if (collision.gameObject.tag == "NPC_untalkable" && Input.GetKeyDown(KeyCode.E))
         {
