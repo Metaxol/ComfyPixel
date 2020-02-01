@@ -13,6 +13,7 @@ public class Utility : MonoBehaviour {
 
     public int to_change = -1; //choosing variable 
 
+    //will be replayed by other ui_object-spawning method, so you can eventually remove it
     public List<GameObject> spawn_Buttons(Image button, int amount_of_buttons, Vector3[] button_positions, Quaternion[] button_rotations, string[] button_texts)
     {
         List<GameObject> lines = new List<GameObject>(); //creates list of buttons, so it can be used
@@ -31,7 +32,7 @@ public class Utility : MonoBehaviour {
         return lines; //returns list of buttons (gameobjects) for further use by other methods
     }
 
-    public object create_ui_object(System.Type type_of_object, int amount_objects, string[] button_name, Vector2[] scale, Vector3[] position, Quaternion[] rotation)
+    public object create_ui_object(System.Type type_of_object, int amount_objects, string[] button_name, Vector2[] scale, Vector3[] position, Vector3[] rotation)
     {
         //assign two variables, for comfortability (dont always have to use arrays to pass on values)
         GameObject[] objects = new GameObject[amount_objects];
@@ -39,18 +40,16 @@ public class Utility : MonoBehaviour {
 
         for (int c = 0; c < amount_objects; c++)
         {
-
-
             //assignment if array of objects wanted
             if (amount_objects > 1)
             {
                 objects[c] = new GameObject(); //instantiates object as GameObject
-                objects[c].transform.SetParent(GameObject.Find("Canvas").transform, false);
+                objects[c].transform.SetParent(GameObject.Find("Canvas").transform, false); //set ui object as child to canvas to see it
                 objects[c].name = button_name[c]; //assigns name
                 objects[c].gameObject.AddComponent(type_of_object); //assigns any type of component (image, text, etc...)
                 objects[c].GetComponent<RectTransform>().sizeDelta = scale[c]; //sets scale
-                objects[c].transform.position = position[c]; //sets pos
-                objects[c].transform.rotation = rotation[c]; //sets rot
+                objects[c].GetComponent<RectTransform>().anchoredPosition = position[c]; //sets pos
+                objects[c].GetComponent<RectTransform>().Rotate(rotation[c]); //sets rot
             }
             //assignment if single object wanted
             else
@@ -60,8 +59,8 @@ public class Utility : MonoBehaviour {
                 single_object.name = button_name[c];
                 single_object.gameObject.AddComponent(type_of_object);
                 single_object.GetComponent<RectTransform>().sizeDelta = scale[c];
-                single_object.transform.position = position[c];
-                single_object.transform.rotation = rotation[c];
+                single_object.GetComponent<RectTransform>().anchoredPosition = position[c];
+                single_object.GetComponent<RectTransform>().Rotate(rotation[c]);
             }
         }
 
@@ -92,16 +91,21 @@ public class Utility : MonoBehaviour {
         }
     }
 
-    //stopped here
     public List<GameObject> delete_list_objects(List<GameObject> list_to_delete)
     {
         foreach(GameObject i in list_to_delete.ToArray())
         {
+            //create reference to element in list
             GameObject reference = list_to_delete[System.Array.IndexOf(list_to_delete.ToArray(), i)];
+
+            //remove reference from list
             list_to_delete.Remove(reference);
+
+            //finally destroy reference in scene
             Destroy(reference);
         }
 
+        //always return empty list (empties original list)
         return list_to_delete;
     }
 
@@ -175,7 +179,7 @@ public class Utility : MonoBehaviour {
         //change value with the right/left arrows
         if(hor_ver == "ver")
         {
-
+            //not directly able to choose option, have to press key to choose direction of option-choosing
             if (Input.GetKeyDown(KeyCode.RightArrow))
             {
                 if(to_change == -1)
@@ -204,6 +208,7 @@ public class Utility : MonoBehaviour {
         //change value with up/down arrows
         else if(hor_ver == "hor")
         {
+            //not directly able to choose option, have to press key to choose direction of option-choosing
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
                 if (to_change == -1)

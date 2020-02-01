@@ -6,14 +6,9 @@ using System.Collections;
 public class PlayerController : MonoBehaviour {
 
     private bool onGround = true; //to reactivate jump 
-
-    private Utility utility;
-
-    //public string NPC_name;
-    //public Sprite[] NPC_sprites;
-    public GameObject NPC;
-
     [HideInInspector] public bool canMove = true;
+
+    public GameObject NPC;
 
     private void player_movement(float moveSpeed, float jumpHeight)
     {
@@ -26,6 +21,7 @@ public class PlayerController : MonoBehaviour {
 
             Animator anim = GetComponent<Animator>();
 
+            //handle walking animation of player
             if ((Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow)) && (!anim.GetBool("isJumping") && !anim.GetBool("isFalling")))
             {
                 anim.SetBool("isWalking", true);
@@ -35,6 +31,7 @@ public class PlayerController : MonoBehaviour {
                 anim.SetBool("isWalking", false);
             }
 
+            //player can turn left/right
             if (Input.GetKey(KeyCode.RightArrow))
             {
                 GetComponent<SpriteRenderer>().flipX = false;
@@ -46,18 +43,18 @@ public class PlayerController : MonoBehaviour {
 
             if (Input.GetKeyDown(KeyCode.Space) && onGround)
             {
-                GetComponent<Rigidbody2D>().velocity = new Vector2(0, jumpHeight * y * Time.deltaTime);
-                //GetComponent<Rigidbody2D>().AddForce(new Vector2(0, jumpHeight), ForceMode2D.Impulse);
                 //jumping method based on rigidbody-object of player
+                GetComponent<Rigidbody2D>().velocity = new Vector2(0, jumpHeight * y * Time.deltaTime);
 
                 anim.SetBool("isJumping", true);
                 anim.SetBool("isWalking", false);
-                onGround = false;
                 //take away ability of jumping
+                onGround = false;
             }
 
             if (GetComponent<Rigidbody2D>().velocity.y < -1)
             {
+                //when player starts to fall, activate falling animation
                 anim.SetBool("isFalling", true);
                 anim.SetBool("isWalking", false);
                 anim.SetBool("isJumping", false);
@@ -86,77 +83,14 @@ public class PlayerController : MonoBehaviour {
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        #region player_collision_dialogue_handling
-        if(collision.tag == "NPC_untalkable")
+        //handles NPC-dialogue part of player
+        if(collision.tag == "NPC_untalkable" && Input.GetKeyDown(KeyCode.E))
         {
+            //get NPC the player is talking to 
             NPC = collision.gameObject;
+
+            FindObjectOfType<NPC_Dialogue_System>().enabled = true;
         }
-
-        //NPC_name = collision.gameObject.name;
-        //NPC_sprites = collision.GetComponent<NPC_Attributes>().Sprites;
-
-        if (collision.gameObject.tag == "NPC_untalkable" && Input.GetKeyDown(KeyCode.E))
-        {
-            //name of gameobject is box where text is, not textbox itself
-            canMove = false;
-            collision.gameObject.tag = "NPC_talkable";
-        }
-
-        if (collision.gameObject.tag == "NPC_talkable") //said signal received here
-        {
-            Sprite[] NPC_sprites = collision.GetComponent<NPC_Attributes>().Sprites;
-
-            //turn alpha component on
-            GameObject.Find("dialogue_box").GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
-            if(NPC_sprites.Length != 0)
-            {
-                GameObject.Find("sprite_box").GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
-            }
-
-            //supplies the needed parameters to dialogue_system class
-            utility.run_text(utility.split_text(collision.gameObject.GetComponent<NPC_Attributes>().Dialogue.text),
-                                                GameObject.Find("Text").GetComponent<Text>(),
-                                                0.07f);
-
-            //when dialogue hits length of lines
-            if(utility.current_line == collision.GetComponent<NPC_Attributes>().stop_scroll_line)
-            {
-                //to revert changes made by the dialogue_system
-                canMove = true;
-                utility.can_scroll = true;
-                utility.letter = 0;
-                utility.current_line = 0;
-                utility.to_change = -1;
-                GameObject.Find("sprite_box").GetComponent<Image>().sprite = null;
-                collision.GetComponent<NPC_Attributes>().oneTime = true;
-
-                //turn alpha component off
-                GameObject.Find("dialogue_box").GetComponent<Image>().color = new Color(1f, 1f, 1f, 0f);
-                GameObject.Find("sprite_box").GetComponent<Image>().color = new Color(1f, 1f, 1f, 0f);
-
-                //stop repeated execution of same dialogue
-                collision.gameObject.tag = "NPC_nottalk";
-                StartCoroutine(set_tag_NPC(0.7f, collision.gameObject));
-            }
-        }
-        #endregion
-    }
-
-    #region dialogue_coroutine (ignore)
-    IEnumerator set_tag_NPC(float delay, GameObject NPC)
-    {
-        yield return new WaitForSeconds(delay);
-        NPC.tag = "NPC_untalkable"; //make dialogue able to scroll again
-    }
-    #endregion
-
-    private void Awake()
-    {
-        utility = FindObjectOfType<Utility>();
-        Image test =  ((GameObject)utility.create_ui_object(typeof(Image), 1, new string[] { "test" }, 
-                                                      new Vector2[] { new Vector2(478.2f, 77f) },
-                                                      new Vector3[] { new Vector3(1.2398e-05f, -260f) }, 
-                                                      new Quaternion[] { new Quaternion() })).GetComponent<Image>();
     }
 
     private void FixedUpdate()

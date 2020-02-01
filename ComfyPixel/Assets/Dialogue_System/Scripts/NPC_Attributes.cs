@@ -73,39 +73,46 @@ public class NPC_Attributes : MonoBehaviour {
     private void Update()
     {
         //keep adding changing sprites/other special events in this switch statement for the npc's that need it
-        if(playerController.NPC.name == name)
+        if(playerController.NPC != null)
         {
-            switch (playerController.NPC.name)
+            dialogue_box = GameObject.Find("dialogue_box").GetComponent<Image>();
+            
+            if (playerController.NPC.name == name)
             {
-                //just for testing purposes
-                case "NPC":
-                    switch (utility.current_line)
-                    {
-                        case 0:
-                            sprite_box.sprite = Sprites[0];
-                            break;
-                        case 1:
-                            sprite_box.sprite = Sprites[1];
-                            break;
-                        case 3:
-                            NPC_dialogue_choosing(new string[] { "Erste Option", "Zweite Option" },
-                                                  new int[] { 9, 4}, new int[] { 18, 16});
-                            break;
-                        case 8:
-                            NPC_dialogue_choosing(new string[] { "Erste Option", "Zweite Option" },
-                                                  new int[] { 12, 9}, new int[] { 16, 12});
-                            break;
-                    }
-                    break;
+                if (Sprites.Length != 0)
+                {
+                    sprite_box = GameObject.Find("sprite_box").GetComponent<Image>();
+                }
+
+                switch (playerController.NPC.name)
+                {
+                    //just for testing purposes
+                    case "NPC":
+                        switch (utility.current_line)
+                        {
+                            case 0:
+                                sprite_box.sprite = Sprites[0];
+                                break;
+                            case 1:
+                                sprite_box.sprite = Sprites[1];
+                                break;
+                            case 3:
+                                NPC_dialogue_choosing(new string[] { "Erste Option", "Zweite Option" },
+                                                      new int[] { 9, 4 }, new int[] { 18, 16 });
+                                break;
+                            case 8:
+                                NPC_dialogue_choosing(new string[] { "Erste Option", "Zweite Option" },
+                                                      new int[] { 12, 9 }, new int[] { 16, 12 });
+                                break;
+                        }
+                        break;
+                }
             }
         }
     }
 
     private void Awake()
     {
-        dialogue_box = GameObject.Find("dialogue_box").GetComponent<Image>();
-        sprite_box = GameObject.Find("sprite_box").GetComponent<Image>();
-
         utility = FindObjectOfType<Utility>();
         playerController = FindObjectOfType<PlayerController>();
     }
