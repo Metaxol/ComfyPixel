@@ -93,6 +93,11 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    private void Start()
+    {
+        //Image s = new GameObject().AddComponent<Image>();
+    }
+
     private void FixedUpdate()
     {
         player_movement(10f, 400f);

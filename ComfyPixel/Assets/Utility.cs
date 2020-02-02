@@ -35,7 +35,7 @@ public class Utility : MonoBehaviour {
     public object create_ui_object(System.Type type_of_object, int amount_objects, string[] button_name, Vector2[] scale, Vector3[] position, Vector3[] rotation)
     {
         //assign two variables, for comfortability (dont always have to use arrays to pass on values)
-        GameObject[] objects = new GameObject[amount_objects];
+        List<GameObject> objects = new List<GameObject>();
         GameObject single_object = null;
 
         for (int c = 0; c < amount_objects; c++)
@@ -91,18 +91,18 @@ public class Utility : MonoBehaviour {
         }
     }
 
-    public List<GameObject> delete_list_objects(List<GameObject> list_to_delete)
+    public List<T> delete_list_objects<T>(List<T> list_to_delete)
     {
-        foreach(GameObject i in list_to_delete.ToArray())
+        foreach(T i in list_to_delete.ToArray())
         {
             //create reference to element in list
-            GameObject reference = list_to_delete[System.Array.IndexOf(list_to_delete.ToArray(), i)];
+            T reference = list_to_delete[System.Array.IndexOf(list_to_delete.ToArray(), i)];
 
             //remove reference from list
             list_to_delete.Remove(reference);
 
             //finally destroy reference in scene
-            Destroy(reference);
+            Destroy(reference as GameObject);
         }
 
         //always return empty list (empties original list)
