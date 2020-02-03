@@ -95,6 +95,13 @@ public class PlayerController : MonoBehaviour {
 
     private void Start()
     {
+        Utility utility = FindObjectOfType<Utility>();
+
+        //testing
+        //utility.create_ui_object(typeof(Image), 2, new string[] { "option1", "option2" }, new Vector2[] { new Vector2(10f, 10f), new Vector2(10f, 10f) },
+        //                                                    new Vector3[] {new Vector3(0f, 0f),
+        //                                                                   new Vector3(0f, 0f)},
+        //                                                    new Vector3[] { Vector3.zero, Vector3.zero });
         //Image s = new GameObject().AddComponent<Image>();
     }
 

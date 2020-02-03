@@ -32,7 +32,7 @@ public class Utility : MonoBehaviour {
         return lines; //returns list of buttons (gameobjects) for further use by other methods
     }
 
-    public object create_ui_object(System.Type type_of_object, int amount_objects, string[] button_name, Vector2[] scale, Vector3[] position, Vector3[] rotation)
+    public object create_ui_object<T>(T actual_type, System.Type type_of_object, int amount_objects, string[] button_name, Vector2[] scale, Vector3[] position, Vector3[] rotation)
     {
         //assign two variables, for comfortability (dont always have to use arrays to pass on values)
         List<GameObject> objects = new List<GameObject>();
@@ -43,7 +43,7 @@ public class Utility : MonoBehaviour {
             //assignment if array of objects wanted
             if (amount_objects > 1)
             {
-                objects[c] = new GameObject(); //instantiates object as GameObject
+                objects.Add(new GameObject()); //instantiates object as GameObject
                 objects[c].transform.SetParent(GameObject.Find("Canvas").transform, false); //set ui object as child to canvas to see it
                 objects[c].name = button_name[c]; //assigns name
                 objects[c].gameObject.AddComponent(type_of_object); //assigns any type of component (image, text, etc...)
@@ -64,14 +64,24 @@ public class Utility : MonoBehaviour {
             }
         }
 
+        List<T> actual_list = new List<T>();
+
+        if(amount_objects > 1)
+        {
+            for (int c = 0; c < amount_objects; c++)
+            {
+                actual_list.Add(objects[c].GetComponent<T>());
+            }
+        }
+
         //return based on amount of objects wanted
         if (amount_objects == 1)
         {
-            return single_object;
+            return single_object.GetComponent<T>();
         }
         else
         {
-            return objects;
+            return actual_list;
         }
     }
 

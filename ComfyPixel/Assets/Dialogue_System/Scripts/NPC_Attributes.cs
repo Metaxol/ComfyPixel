@@ -28,20 +28,22 @@ public class NPC_Attributes : MonoBehaviour {
         if (oneTime)
         {
             //instantiating buttons, always 2 since this is part of a NPC's dialogue (would get too complicated storywise)
-            buttons = (List<GameObject>) utility.create_ui_object(typeof(Image), 2, new string[] { "option1", "option2" }, new Vector2[] { new Vector2(10f, 10f), new Vector2(10f, 10f) },
-                                                            new Vector3[] {new Vector3(dialogue_box.rectTransform.anchoredPosition.x - 100f, dialogue_box.rectTransform.anchoredPosition.y),
-                                                                           new Vector3(dialogue_box.rectTransform.anchoredPosition.x + 100f, dialogue_box.rectTransform.anchoredPosition.y)},
-                                                            new Vector3[] {Vector3.zero, Vector3.zero});
+            //buttons = (List<GameObject>) utility.create_ui_object(typeof(Image), 2, new string[] { "option1", "option2" }, new Vector2[] { new Vector2(10f, 10f), new Vector2(10f, 10f) },
+               //                                             new Vector3[] {new Vector3(dialogue_box.rectTransform.anchoredPosition.x - 100f, dialogue_box.rectTransform.anchoredPosition.y),
+               //                                                            new Vector3(dialogue_box.rectTransform.anchoredPosition.x + 100f, dialogue_box.rectTransform.anchoredPosition.y)},
+               //                                             new Vector3[] {Vector3.zero, Vector3.zero});
 
-            List<Text> buttons_texts;
-            buttons_texts = (List<Text>)utility.create_ui_object(typeof(Text), 2, new string[] { "option1_text", "option2_text" }, new Vector2[] { new Vector2(10f, 10f), new Vector2(10f, 10f) },
-                                                new Vector3[] {new Vector3(dialogue_box.rectTransform.anchoredPosition.x - 100f, dialogue_box.rectTransform.anchoredPosition.y),
-                                                                           new Vector3(dialogue_box.rectTransform.anchoredPosition.x + 100f, dialogue_box.rectTransform.anchoredPosition.y)},
-                                                new Vector3[] { Vector3.zero, Vector3.zero });
+            //List<Text> buttons_texts;
+            //buttons_texts = (List<Text>)utility.create_ui_object(typeof(Text), 2, new string[] { "option1_text", "option2_text" }, new Vector2[] { new Vector2(10f, 10f), new Vector2(10f, 10f) },
+             //                                   new Vector3[] {new Vector3(dialogue_box.rectTransform.anchoredPosition.x - 100f, dialogue_box.rectTransform.anchoredPosition.y),
+             //                                                              new Vector3(dialogue_box.rectTransform.anchoredPosition.x + 100f, dialogue_box.rectTransform.anchoredPosition.y)},
+             //                                   new Vector3[] { Vector3.zero, Vector3.zero });
             
             //testing purposes
             buttons[0].GetComponent<Image>().color = new Color(99f, 15, 15f, 255f);
             buttons[1].GetComponent<Image>().color = new Color(99f, 15, 15f, 255f);
+            //buttons_texts[0].GetComponent<RectTransform>().SetParent(GameObject.Find(buttons[0].name).transform);
+            //buttons_texts[0].GetComponent<RectTransform>().SetParent(GameObject.Find(buttons[1].name).transform);
 
             //   buttons = utility.spawn_Buttons(choose_button, 1,
             //                                   new Vector3[] { new Vector3(dialogue_box.rectTransform.anchoredPosition.x - 100f, dialogue_box.rectTransform.anchoredPosition.y),
@@ -51,6 +53,7 @@ public class NPC_Attributes : MonoBehaviour {
 
             //spawn buttons once and stop dialogue from scrolling
             oneTime = false;
+            print("asd");
             tag = "NPC_nottalk";
         }
         else if (!oneTime)
