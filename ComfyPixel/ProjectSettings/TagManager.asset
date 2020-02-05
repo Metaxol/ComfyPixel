@@ -8,6 +8,7 @@ TagManager:
   - NPC_talkable
   - NPC_untalkable
   - NPC_nottalk
+  - destroy
   layers:
   - Default
   - TransparentFX

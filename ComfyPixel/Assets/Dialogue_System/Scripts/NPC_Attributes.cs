@@ -17,39 +17,38 @@ public class NPC_Attributes : MonoBehaviour {
     public Sprite not_chosen_sprite;
     public int stop_scroll_line;
     public bool oneTime = true;
-    private List<GameObject> buttons = new List<GameObject>();
 
     private PlayerController playerController;
     private Utility utility;
 
+    private List<Image> buttons = new List<Image>();
+    private List<Text> buttons_texts = new List<Text>();
 
     private void NPC_dialogue_choosing(string[] button_texts, int[] new_dialogue_attr_1, int[] new_dialogue_attr_2)
     {
         if (oneTime)
         {
             //instantiating buttons, always 2 since this is part of a NPC's dialogue (would get too complicated storywise)
-            //buttons = (List<GameObject>) utility.create_ui_object(typeof(Image), 2, new string[] { "option1", "option2" }, new Vector2[] { new Vector2(10f, 10f), new Vector2(10f, 10f) },
-               //                                             new Vector3[] {new Vector3(dialogue_box.rectTransform.anchoredPosition.x - 100f, dialogue_box.rectTransform.anchoredPosition.y),
-               //                                                            new Vector3(dialogue_box.rectTransform.anchoredPosition.x + 100f, dialogue_box.rectTransform.anchoredPosition.y)},
-               //                                             new Vector3[] {Vector3.zero, Vector3.zero});
+            buttons = (List<Image>) utility.create_ui_object(new GameObject().AddComponent<Image>(), typeof(Image), 2, new string[] { "option1", "option2" }, new Vector2[] { new Vector2(100f, 100f), new Vector2(100f, 100f) }, 
+                                                            new Vector3[] {new Vector3(dialogue_box.rectTransform.anchoredPosition.x - 100f, dialogue_box.rectTransform.anchoredPosition.y),
+                                                            new Vector3(dialogue_box.rectTransform.anchoredPosition.x + 100f, dialogue_box.rectTransform.anchoredPosition.y)},
+                                                            new Vector3[] {Vector3.zero, Vector3.zero});
 
-            //List<Text> buttons_texts;
-            //buttons_texts = (List<Text>)utility.create_ui_object(typeof(Text), 2, new string[] { "option1_text", "option2_text" }, new Vector2[] { new Vector2(10f, 10f), new Vector2(10f, 10f) },
-             //                                   new Vector3[] {new Vector3(dialogue_box.rectTransform.anchoredPosition.x - 100f, dialogue_box.rectTransform.anchoredPosition.y),
-             //                                                              new Vector3(dialogue_box.rectTransform.anchoredPosition.x + 100f, dialogue_box.rectTransform.anchoredPosition.y)},
-             //                                   new Vector3[] { Vector3.zero, Vector3.zero });
+            buttons_texts = (List<Text>)utility.create_ui_object(new GameObject().AddComponent<Text>(),typeof(Text), 2, new string[] { "option1_text", "option2_text" }, new Vector2[] { new Vector2(100f, 100f), new Vector2(100f, 100f) },
+                                                                 new Vector3[] {new Vector3(dialogue_box.rectTransform.anchoredPosition.x - 100f, dialogue_box.rectTransform.anchoredPosition.y),
+                                                                 new Vector3(dialogue_box.rectTransform.anchoredPosition.x + 100f, dialogue_box.rectTransform.anchoredPosition.y)},
+                                                                 new Vector3[] { Vector3.zero, Vector3.zero });
             
             //testing purposes
             buttons[0].GetComponent<Image>().color = new Color(99f, 15, 15f, 255f);
             buttons[1].GetComponent<Image>().color = new Color(99f, 15, 15f, 255f);
-            //buttons_texts[0].GetComponent<RectTransform>().SetParent(GameObject.Find(buttons[0].name).transform);
-            //buttons_texts[0].GetComponent<RectTransform>().SetParent(GameObject.Find(buttons[1].name).transform);
 
-            //   buttons = utility.spawn_Buttons(choose_button, 1,
-            //                                   new Vector3[] { new Vector3(dialogue_box.rectTransform.anchoredPosition.x - 100f, dialogue_box.rectTransform.anchoredPosition.y),
-            //                                                       new Vector3(dialogue_box.rectTransform.anchoredPosition.x + 100f, dialogue_box.rectTransform.anchoredPosition.y) },
-            //                                   new Quaternion[] { new Quaternion(), new Quaternion() },
-            //                                   new string[] { button_texts[0], button_texts[1] });
+            buttons_texts[0].GetComponent<RectTransform>().SetParent(GameObject.Find(buttons[0].name).transform);
+            buttons_texts[1].GetComponent<RectTransform>().SetParent(GameObject.Find(buttons[1].name).transform);
+            buttons_texts[0].font = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;
+            buttons_texts[1].font = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;
+            buttons_texts[0].text = button_texts[0];
+            buttons_texts[1].text = button_texts[1];
 
             //spawn buttons once and stop dialogue from scrolling
             oneTime = false;
@@ -59,28 +58,35 @@ public class NPC_Attributes : MonoBehaviour {
         else if (!oneTime)
         {
             //depending on options chosen:
-            if (Input.GetKeyDown(KeyCode.E) && buttons[0].GetComponent<Image>().sprite == chosen_sprite)
+            if (Input.GetKeyDown(KeyCode.E) && (buttons[0].sprite == chosen_sprite || buttons[1].sprite == chosen_sprite))
             {
-                //delete buttons and continue dialogue on line according to button chosen (also reset certain dialogue_system-attributes)
-                buttons = utility.delete_list_objects(buttons);
-
-                stop_scroll_line = new_dialogue_attr_1[0];
-                utility.current_line = new_dialogue_attr_1[1];
+                //delete buttons and continue dialogue on line according to button chosen (also reset certain dialogue_system-attributes)                
                 utility.letter = 0;
                 utility.to_change = -1;
                 tag = "NPC_talkable";
                 oneTime = true;
-            }
-            else if (Input.GetKeyDown(KeyCode.E) && buttons[1].GetComponent<Image>().sprite == chosen_sprite)
-            {
-                buttons = utility.delete_list_objects(buttons);
 
-                stop_scroll_line = new_dialogue_attr_2[0];
-                utility.current_line = new_dialogue_attr_2[1];
-                utility.letter = 0;
-                utility.to_change = -1;
-                tag = "NPC_talkable";
-                oneTime = true;
+                if (buttons[0].sprite == chosen_sprite)
+                {
+                    stop_scroll_line = new_dialogue_attr_1[0];
+                    utility.current_line = new_dialogue_attr_1[1];
+                }
+                else if(buttons[1].sprite == chosen_sprite)
+                {
+                    stop_scroll_line = new_dialogue_attr_2[0];
+                    utility.current_line = new_dialogue_attr_2[1];
+                }
+
+                //buttons = utility.delete_list_objects(buttons);
+                //buttons_texts = utility.delete_list_objects(buttons_texts);
+
+                foreach (GameObject i in Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[])
+                {
+                    if (i.name == "New Game Object" || i.name == buttons[0].name || i.name == buttons[1].name || i.name == buttons_texts[0].name || i.name == buttons_texts[1].name)
+                    {
+                        Destroy(i);
+                    }
+                }
             }
         }
         

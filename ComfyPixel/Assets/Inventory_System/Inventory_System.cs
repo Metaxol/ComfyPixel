@@ -55,7 +55,7 @@ public class Inventory_System : MonoBehaviour {
         {           
             if (graphics_sound.color == new Color(1f, 1f, 1f, 0f) && inventory.color == new Color(1f, 1f, 1f, 0f))
             {
-                utility.choose_buttons(inv_buttons.ToArray(), inv_button_chosen, inv_button_not_chosen, 1, "hor");
+               // utility.choose_buttons(inv_buttons.ToArray(), inv_button_chosen, inv_button_not_chosen, 1, "hor");
 
                 if (inv_buttons[0].GetComponent<Image>().sprite == inv_button_chosen && Input.GetKeyDown(KeyCode.D))
                 {

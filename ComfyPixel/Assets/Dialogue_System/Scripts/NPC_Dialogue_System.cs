@@ -48,6 +48,13 @@ public class NPC_Dialogue_System : MonoBehaviour {
                 utility.to_change = -1;
                 sprite_box.sprite = null;
                 playerController.NPC.GetComponent<NPC_Attributes>().oneTime = true;
+                foreach (GameObject i in Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[])
+                {
+                    if(i.name == "New Game Object")
+                    {
+                        Destroy(i);
+                    }
+                }
 
                 //stop repeated execution of same dialogue
                 playerController.NPC.gameObject.tag = "NPC_nottalk";
@@ -73,17 +80,15 @@ public class NPC_Dialogue_System : MonoBehaviour {
         utility = FindObjectOfType<Utility>();
         playerController = FindObjectOfType<PlayerController>();
 
-        Image s = null;
-        dialogue_box = ((Image)utility.create_ui_object(s, typeof(Image), 1, new string[] { "dialogue_box" }, new Vector2[] { new Vector2(478.2f, 77f) },
-                                        new Vector3[] { new Vector3(1.2398e-05f, -260f) }, new Vector3[] { Vector3.zero })).GetComponent<Image>();
+        dialogue_box = (Image)utility.create_ui_object(new GameObject().AddComponent<Image>(), typeof(Image), 1, new string[] { "dialogue_box" }, new Vector2[] { new Vector2(478.2f, 77f) },
+                                        new Vector3[] { new Vector3(1.2398e-05f, -260f) }, new Vector3[] { Vector3.zero });
 
-        sprite_box = ((Image)utility.create_ui_object(s, typeof(Image), 1, new string[] { "sprite_box" }, new Vector2[] { new Vector2(90.3f, 77f) },
-                                                new Vector3[] { new Vector3(194f, 0.0060034f) }, new Vector3[] { Vector3.zero })).GetComponent<Image>();
+        sprite_box = (Image)utility.create_ui_object(new GameObject().AddComponent<Image>(), typeof(Image), 1, new string[] { "sprite_box" }, new Vector2[] { new Vector2(90.3f, 77f) },
+                                                new Vector3[] { new Vector3(194f, 0.0060034f) }, new Vector3[] { Vector3.zero });
         sprite_box.GetComponent<RectTransform>().transform.SetParent(dialogue_box.GetComponent<RectTransform>(), false);
 
-        Text T = null;
-        dialogue_text = ((Text)utility.create_ui_object(T, typeof(Text), 1, new string[] { "dialogue_text" }, new Vector2[] { new Vector2(478.18f, 77f) },
-                                                new Vector3[] { new Vector3(0.012494f, 0.012494f) }, new Vector3[] { Vector3.zero })).GetComponent<Text>();
+        dialogue_text = (Text)utility.create_ui_object(new GameObject().AddComponent<Text>(), typeof(Text), 1, new string[] { "dialogue_text" }, new Vector2[] { new Vector2(478.18f, 77f) },
+                                                new Vector3[] { new Vector3(0.012494f, 0.012494f) }, new Vector3[] { Vector3.zero });
         dialogue_text.GetComponent<RectTransform>().transform.SetParent(dialogue_box.GetComponent<RectTransform>(), false);
 
         //testing purposes

@@ -37,7 +37,7 @@ public class Utility : MonoBehaviour {
         //assign two variables, for comfortability (dont always have to use arrays to pass on values)
         List<GameObject> objects = new List<GameObject>();
         GameObject single_object = null;
-
+        
         for (int c = 0; c < amount_objects; c++)
         {
             //assignment if array of objects wanted
@@ -85,18 +85,18 @@ public class Utility : MonoBehaviour {
         }
     }
 
-    public void choose_buttons(GameObject[] button, Sprite button_chosen, Sprite button_not_chosen, int stop, string ver_hor)
+    public void choose_buttons(Image[] button, Sprite button_chosen, Sprite button_not_chosen, int stop, string ver_hor)
     {
         options_choosing(stop, ver_hor); //can choose between buttons
-        foreach(GameObject i in button)
+        foreach(Image i in button)
         {
             if (to_change == System.Array.IndexOf(button, i)) //working with index specification
             {
-                button[System.Array.IndexOf(button, i)].GetComponent<Image>().sprite = button_chosen; //chosen sprite, if number evaluates
+                button[System.Array.IndexOf(button, i)].sprite = button_chosen; //chosen sprite, if number evaluates
             }
             else
             {
-                button[System.Array.IndexOf(button, i)].GetComponent<Image>().sprite = button_not_chosen; //default sprite, if otherwise 
+                button[System.Array.IndexOf(button, i)].sprite = button_not_chosen; //default sprite, if otherwise 
             }
         }
     }
@@ -112,7 +112,7 @@ public class Utility : MonoBehaviour {
             list_to_delete.Remove(reference);
 
             //finally destroy reference in scene
-            Destroy(reference as GameObject);
+            Destroy(reference as Object);
         }
 
         //always return empty list (empties original list)
