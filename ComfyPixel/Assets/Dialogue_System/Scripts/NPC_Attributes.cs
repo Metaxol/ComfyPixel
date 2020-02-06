@@ -21,6 +21,7 @@ public class NPC_Attributes : MonoBehaviour {
     private PlayerController playerController;
     private Utility utility;
 
+    //multiple choice objects
     private List<Image> buttons = new List<Image>();
     private List<Text> buttons_texts = new List<Text>();
 
@@ -77,12 +78,12 @@ public class NPC_Attributes : MonoBehaviour {
                     utility.current_line = new_dialogue_attr_2[1];
                 }
 
-                //buttons = utility.delete_list_objects(buttons);
-                //buttons_texts = utility.delete_list_objects(buttons_texts);
+                buttons = utility.delete_list_objects(buttons);
+                buttons_texts = utility.delete_list_objects(buttons_texts);
 
                 foreach (GameObject i in Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[])
                 {
-                    if (i.name == "New Game Object" || i.name == buttons[0].name || i.name == buttons[1].name || i.name == buttons_texts[0].name || i.name == buttons_texts[1].name)
+                    if (i.name == "New Game Object")
                     {
                         Destroy(i);
                     }

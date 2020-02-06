@@ -32,7 +32,7 @@ public class Inventory_System : MonoBehaviour {
     private void close_inv_menu()
     {
         inv_menu_Holder.color = new Color(1f, 1f, 1f, 0f);
-        inv_buttons = utility.delete_list_objects(inv_buttons);
+        //inv_buttons = utility.delete_list_objects(inv_buttons);
         playerController.canMove = true;
         utility.to_change = -1;
     }

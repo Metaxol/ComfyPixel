@@ -12,7 +12,7 @@ public class NPC_Dialogue_System : MonoBehaviour {
     private Image dialogue_box;
     private Image sprite_box;
     private Text dialogue_text;
-
+    
     private void run_NPC_dialogue()
     {
         //getting name and sprites of NPC 

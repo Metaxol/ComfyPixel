@@ -13,6 +13,8 @@ public class Utility : MonoBehaviour {
 
     public int to_change = -1; //choosing variable 
 
+    public GameObject referenc_name;
+
     //will be replayed by other ui_object-spawning method, so you can eventually remove it
     public List<GameObject> spawn_Buttons(Image button, int amount_of_buttons, Vector3[] button_positions, Quaternion[] button_rotations, string[] button_texts)
     {
@@ -101,8 +103,9 @@ public class Utility : MonoBehaviour {
         }
     }
 
-    public List<T> delete_list_objects<T>(List<T> list_to_delete)
+    public List<T> delete_list_objects<T>(List<T> list_to_delete) where T: MonoBehaviour
     {
+        //cant use GameObject for T, dont have to tho so always use actual type (good practice too, cant overuse GameObject type for everything)
         foreach(T i in list_to_delete.ToArray())
         {
             //create reference to element in list
@@ -112,7 +115,7 @@ public class Utility : MonoBehaviour {
             list_to_delete.Remove(reference);
 
             //finally destroy reference in scene
-            Destroy(reference as Object);
+            Destroy(reference.gameObject);
         }
 
         //always return empty list (empties original list)
