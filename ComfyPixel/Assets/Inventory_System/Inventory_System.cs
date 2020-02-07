@@ -8,17 +8,20 @@ public class Inventory_System : MonoBehaviour {
     private Utility utility;
     private PlayerController playerController;
 
+    private Image inv_menu_Holder;
     public Image inv_menu_button;
 
     public Sprite inv_button_not_chosen, inv_button_chosen;
     public Sprite[] sound, graphics;
     private int[] sound_settings, graphics_settings;
 
-    private Image inv_menu_Holder;
     private List<GameObject> inv_buttons = new List<GameObject>();
 
     private void spawn_inv_menu()
     {
+        inv_menu_Holder = (Image) utility.create_ui_object(new GameObject().AddComponent<Image>(), typeof(Image), 1, new string[] { "inventory_holder" }, new Vector2[] { new Vector2(170.8f, 208.6f) },
+                                                           new Vector3[] { new Vector3(241.1f, 230.2f) }, new Vector3[] { Vector3.zero });
+
         playerController.gameObject.GetComponent<Animator>().SetBool("isWalking", false);
         inv_buttons = utility.spawn_Buttons(inv_menu_button, 1,
                         new Vector3[] { new Vector3(inv_menu_Holder.rectTransform.anchoredPosition.x, inv_menu_Holder.rectTransform.anchoredPosition.y+70f),
