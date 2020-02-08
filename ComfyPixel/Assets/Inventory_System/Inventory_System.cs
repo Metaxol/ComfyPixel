@@ -8,99 +8,89 @@ public class Inventory_System : MonoBehaviour {
     private Utility utility;
     private PlayerController playerController;
 
-    private Image inv_menu_Holder;
-    public Image inv_menu_button;
-
+    private Image inv_menu_Holder = null;
+    public List<Image> inv_menu_buttons = new List<Image>();
     public Sprite inv_button_not_chosen, inv_button_chosen;
     public Sprite[] sound, graphics;
-    private int[] sound_settings, graphics_settings;
-
-    private List<GameObject> inv_buttons = new List<GameObject>();
 
     private void spawn_inv_menu()
     {
-        inv_menu_Holder = (Image) utility.create_ui_object(new GameObject().AddComponent<Image>(), typeof(Image), 1, new string[] { "inventory_holder" }, new Vector2[] { new Vector2(170.8f, 208.6f) },
+        playerController.gameObject.GetComponent<Animator>().SetBool("isWalking", false);
+        playerController.canMove = false;
+
+        inv_menu_Holder = (Image)utility.create_ui_object(new GameObject().AddComponent<Image>(), typeof(Image), 1, new string[] { "inventory_holder" }, new Vector2[] { new Vector2(170.8f, 208.6f) },
                                                            new Vector3[] { new Vector3(241.1f, 230.2f) }, new Vector3[] { Vector3.zero });
 
-        playerController.gameObject.GetComponent<Animator>().SetBool("isWalking", false);
-        inv_buttons = utility.spawn_Buttons(inv_menu_button, 1,
-                        new Vector3[] { new Vector3(inv_menu_Holder.rectTransform.anchoredPosition.x, inv_menu_Holder.rectTransform.anchoredPosition.y+70f),
-                                        new Vector3(inv_menu_Holder.rectTransform.anchoredPosition.x, inv_menu_Holder.rectTransform.anchoredPosition.y-70f)},
-                        new Quaternion[] { new Quaternion(), new Quaternion() },
-                        new string[] { "inventory", "options" });
-        inv_menu_Holder.color = new Color(1f, 1f, 1f, 1f);
-        playerController.canMove = false;
+        inv_menu_buttons = (List<Image>)utility.create_ui_object(new GameObject().AddComponent<Image>(), typeof(Image), 2, new string[] { "inventory", "options" }, new Vector2[] { new Vector2(100f, 33.9f), new Vector2(100f, 33.9f) },
+                                               new Vector3[] {new Vector3(inv_menu_Holder.GetComponent<RectTransform>().anchoredPosition.x, inv_menu_Holder.GetComponent<RectTransform>().anchoredPosition.y + 50f),
+                                                              new Vector3(inv_menu_Holder.GetComponent<RectTransform>().anchoredPosition.x, inv_menu_Holder.GetComponent<RectTransform>().anchoredPosition.y - 50f)},
+                                               new Vector3[] { Vector3.zero, Vector3.zero });
+
+        List<Text> inv_buttons_text = (List<Text>)utility.create_ui_object(
+                                       new GameObject().AddComponent<Text>(), typeof(Text), 2, new string[] { "inventory", "options" }, new Vector2[] { new Vector2(100f, 33.9f),
+                                       new Vector2(100f, 33.9f) },
+                                       new Vector3[] {new Vector3(-3.0518e-05f, 0),
+                                                      new Vector3(-3.0518e-05f, -1.5259e-05f)},
+                                       new Vector3[] { Vector3.zero, Vector3.zero });
+        inv_buttons_text[0].GetComponent<RectTransform>().SetParent(inv_menu_buttons[0].GetComponent<RectTransform>(), false);
+        inv_buttons_text[1].GetComponent<RectTransform>().SetParent(inv_menu_buttons[1].GetComponent<RectTransform>(), false);
+        inv_buttons_text[0].font = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;
+        inv_buttons_text[1].font = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;
+        inv_buttons_text[0].text = "inventory";
+        inv_buttons_text[1].text = "options";
     }
 
-    private void close_inv_menu()
+    public void close_inv_menu()
     {
-        inv_menu_Holder.color = new Color(1f, 1f, 1f, 0f);
-        //inv_buttons = utility.delete_list_objects(inv_buttons);
+        try
+        {
+            Destroy(GameObject.Find(inv_menu_Holder.name));
+        }
+        catch
+        {
+
+        }
+        inv_menu_Holder = null;
+        inv_menu_buttons = utility.delete_list_objects(inv_menu_buttons);
         playerController.canMove = true;
         utility.to_change = -1;
+
+        foreach (GameObject i in Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[])
+        {
+            if (i.name == "New Game Object")
+            {
+                Destroy(i);
+            }
+        }
     }
 
     private void use_inv_men()
     {
-        Image graphics_sound = GameObject.Find("sound_graphics").GetComponent<Image>();
-        Image inventory = GameObject.Find("inventory").GetComponent<Image>();
-
-        if (Input.GetKeyDown(KeyCode.D) && inv_menu_Holder.color != new Color(1f, 1f, 1f, 1f))
+        if (Input.GetKeyDown(KeyCode.D) && playerController.NPC == null && inv_menu_Holder == null)
         {
             spawn_inv_menu();
         }
-        else if (Input.GetKeyDown(KeyCode.Escape) && (graphics_sound.color == new Color(1f, 1f, 1f, 0f) && inventory.color == new Color(1f, 1f, 1f, 0f)))
+        else if (Input.GetKeyDown(KeyCode.Escape) && inv_menu_Holder != null)
         {
             close_inv_menu();
         }
-        
-        if(inv_menu_Holder.color == new Color(1f, 1f, 1f, 1f))
-        {           
-            if (graphics_sound.color == new Color(1f, 1f, 1f, 0f) && inventory.color == new Color(1f, 1f, 1f, 0f))
+
+        try
+        {
+            if (inv_menu_Holder.gameObject.activeInHierarchy)
             {
-               // utility.choose_buttons(inv_buttons.ToArray(), inv_button_chosen, inv_button_not_chosen, 1, "hor");
-
-                if (inv_buttons[0].GetComponent<Image>().sprite == inv_button_chosen && Input.GetKeyDown(KeyCode.D))
-                {
-                    inventory.color = new Color(1f, 1f, 1f, 1f);
-                }
-                else if (inv_buttons[1].GetComponent<Image>().sprite == inv_button_chosen && Input.GetKeyDown(KeyCode.D))
-                {
-                    graphics_sound.color = new Color(1f, 1f, 1f, 1f);
-                }
+                utility.choose_buttons(inv_menu_buttons.ToArray(), inv_button_chosen, inv_button_not_chosen, 1, "hor");
             }
+        }
+        catch
+        {
 
-            if(graphics_sound.color == new Color(1f, 1f, 1f, 1f))
-            {
-                //List<GameObject> graphics_sound_options = utility.spawn_Buttons()
-
-                /* supply: images for sound_graphics_options, sprites for chosen and no_chosen and sprites for specified settings
-                 * 
-                 * spawn graphics_sound_options-buttons
-                 * let player choose between them
-                 * if chosen button is being pressed left_arrow on, add to int-variable of that option
-                 * set sprite of that image according to int-variable of option
-                 */
-
-                if (Input.GetKeyDown(KeyCode.Escape))
-                {
-                    graphics_sound.color = new Color(1f, 1f, 1f, 0f);
-                }
-            }
-            if(inventory.color == new Color(1f, 1f, 1f, 1f))
-            {
-                if (Input.GetKeyDown(KeyCode.Escape))
-                {
-                    inventory.color = new Color(1f, 1f, 1f, 0f);
-                }
-            }
         }
     }
 
     private void Awake()
     {
         playerController = FindObjectOfType<PlayerController>();
-        inv_menu_Holder = GameObject.Find("Inventory_Holder").GetComponent<Image>();
         utility = FindObjectOfType<Utility>();
     }
 

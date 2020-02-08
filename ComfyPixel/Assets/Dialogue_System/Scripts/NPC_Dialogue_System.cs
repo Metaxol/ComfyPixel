@@ -9,7 +9,7 @@ public class NPC_Dialogue_System : MonoBehaviour {
     private Utility utility;
 
     //variables created for NPC-dialogue-ui-objects
-    private Image dialogue_box;
+    [HideInInspector] public Image dialogue_box;
     private Image sprite_box;
     private Text dialogue_text;
     

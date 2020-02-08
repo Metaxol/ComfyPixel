@@ -12,7 +12,6 @@ public class NPC_Attributes : MonoBehaviour {
     //variabled for NPC's to handle dialogue
     private Image dialogue_box;
     private Image sprite_box;
-    public Image choose_button;
     public Sprite chosen_sprite;
     public Sprite not_chosen_sprite;
     public int stop_scroll_line;

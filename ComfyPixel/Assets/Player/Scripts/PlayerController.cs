@@ -89,6 +89,7 @@ public class PlayerController : MonoBehaviour {
             //get NPC the player is talking to 
             NPC = collision.gameObject;
 
+            FindObjectOfType<Inventory_System>().close_inv_menu();
             FindObjectOfType<NPC_Dialogue_System>().enabled = true;
         }
     }
