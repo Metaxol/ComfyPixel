@@ -55,13 +55,7 @@ public class Inventory_System : MonoBehaviour {
         playerController.canMove = true;
         utility.to_change = -1;
 
-        foreach (GameObject i in Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[])
-        {
-            if (i.name == "New Game Object")
-            {
-                Destroy(i);
-            }
-        }
+        utility.delete_with_names(new string[] { "New Game Object" });
     }
 
     private void use_inv_men()
@@ -75,11 +69,27 @@ public class Inventory_System : MonoBehaviour {
             close_inv_menu();
         }
 
+        Image options_menu = null;
+
         try
         {
             if (inv_menu_Holder.gameObject.activeInHierarchy)
             {
                 utility.choose_buttons(inv_menu_buttons.ToArray(), inv_button_chosen, inv_button_not_chosen, 1, "hor");
+
+                switch (utility.to_change)
+                {
+                    case 0:
+                        print("inventory");
+                        break;
+                    case 1:
+                        if (Input.GetKeyDown(KeyCode.D) && options_menu == null)
+                        {
+                             options_menu = (Image) utility.create_ui_object(new GameObject().AddComponent<Image>(), typeof(Image), 1, new string[] { "options" }, new Vector2[] { new Vector2(218.2f, 276.5f) },
+                                                                             new Vector3[] { Vector3.zero }, new Vector3[] { Vector3.zero });
+                        }
+                        break;
+                }
             }
         }
         catch

@@ -52,7 +52,6 @@ public class NPC_Attributes : MonoBehaviour {
 
             //spawn buttons once and stop dialogue from scrolling
             oneTime = false;
-            print("asd");
             tag = "NPC_nottalk";
         }
         else if (!oneTime)
@@ -80,13 +79,7 @@ public class NPC_Attributes : MonoBehaviour {
                 buttons = utility.delete_list_objects(buttons);
                 buttons_texts = utility.delete_list_objects(buttons_texts);
 
-                foreach (GameObject i in Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[])
-                {
-                    if (i.name == "New Game Object")
-                    {
-                        Destroy(i);
-                    }
-                }
+                utility.delete_with_names(new string[] { "New Game Object" });
             }
         }
         

@@ -48,13 +48,7 @@ public class NPC_Dialogue_System : MonoBehaviour {
                 utility.to_change = -1;
                 sprite_box.sprite = null;
                 playerController.NPC.GetComponent<NPC_Attributes>().oneTime = true;
-                foreach (GameObject i in Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[])
-                {
-                    if(i.name == "New Game Object")
-                    {
-                        Destroy(i);
-                    }
-                }
+                utility.delete_with_names(new string[] { "New Game Object" });
 
                 //stop repeated execution of same dialogue
                 playerController.NPC.gameObject.tag = "NPC_nottalk";

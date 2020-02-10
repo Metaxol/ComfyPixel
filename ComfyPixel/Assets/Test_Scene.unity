@@ -800,6 +800,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70c2636a3d2b14241947f7f810b59b00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialogue_box: {fileID: 0}
 --- !u!1 &1863450698
 GameObject:
   m_ObjectHideFlags: 0

@@ -87,6 +87,20 @@ public class Utility : MonoBehaviour {
         }
     }
 
+    public void delete_with_names(string[] names_delete)
+    {
+        foreach (GameObject i in Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[])
+        {
+            foreach(string o in names_delete)
+            {
+                if(i.name == o)
+                {
+                    Destroy(i);
+                }
+            }
+        }
+    }
+
     public void choose_buttons(Image[] button, Sprite button_chosen, Sprite button_not_chosen, int stop, string ver_hor)
     {
         options_choosing(stop, ver_hor); //can choose between buttons
