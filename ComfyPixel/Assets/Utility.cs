@@ -76,6 +76,8 @@ public class Utility : MonoBehaviour {
             }
         }
 
+        delete_with_names(new string[] { "New Game Object" });
+
         //return based on amount of objects wanted
         if (amount_objects == 1)
         {

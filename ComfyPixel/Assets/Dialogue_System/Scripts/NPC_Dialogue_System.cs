@@ -22,6 +22,7 @@ public class NPC_Dialogue_System : MonoBehaviour {
         if (playerController.NPC.tag == "NPC_untalkable" && Input.GetKeyDown(KeyCode.E))
         {
             //name of gameobject is box where text is, not textbox itself
+            playerController.GetComponent<Animator>().SetBool("isWalking", false);
             playerController.canMove = false;
             playerController.NPC.tag = "NPC_talkable";
         }
@@ -48,7 +49,6 @@ public class NPC_Dialogue_System : MonoBehaviour {
                 utility.to_change = -1;
                 sprite_box.sprite = null;
                 playerController.NPC.GetComponent<NPC_Attributes>().oneTime = true;
-                utility.delete_with_names(new string[] { "New Game Object" });
 
                 //stop repeated execution of same dialogue
                 playerController.NPC.gameObject.tag = "NPC_nottalk";

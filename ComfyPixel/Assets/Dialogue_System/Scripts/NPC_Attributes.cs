@@ -78,8 +78,6 @@ public class NPC_Attributes : MonoBehaviour {
 
                 buttons = utility.delete_list_objects(buttons);
                 buttons_texts = utility.delete_list_objects(buttons_texts);
-
-                utility.delete_with_names(new string[] { "New Game Object" });
             }
         }
         
