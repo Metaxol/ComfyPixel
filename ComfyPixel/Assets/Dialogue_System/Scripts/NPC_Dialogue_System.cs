@@ -68,26 +68,31 @@ public class NPC_Dialogue_System : MonoBehaviour {
         NPC.tag = "NPC_untalkable"; //make dialogue able to scroll again
     }
 
-    private void OnEnable()
+    private void declare_dialogue_attr()
     {
         //create all necessary ui objects for NPC-dialogue
         utility = FindObjectOfType<Utility>();
         playerController = FindObjectOfType<PlayerController>();
 
-        dialogue_box = (Image)utility.create_ui_object(new GameObject().AddComponent<Image>(), typeof(Image), 1, new string[] { "dialogue_box" }, new Vector2[] { new Vector2(478.2f, 77f) },
+        dialogue_box = (Image)utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 1, new string[] { "dialogue_box" }, new Vector2[] { new Vector2(478.2f, 77f) },
                                         new Vector3[] { new Vector3(1.2398e-05f, -260f) }, new Vector3[] { Vector3.zero });
 
-        sprite_box = (Image)utility.create_ui_object(new GameObject().AddComponent<Image>(), typeof(Image), 1, new string[] { "sprite_box" }, new Vector2[] { new Vector2(90.3f, 77f) },
+        sprite_box = (Image)utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 1, new string[] { "sprite_box" }, new Vector2[] { new Vector2(90.3f, 77f) },
                                                 new Vector3[] { new Vector3(194f, 0.0060034f) }, new Vector3[] { Vector3.zero });
         sprite_box.GetComponent<RectTransform>().transform.SetParent(dialogue_box.GetComponent<RectTransform>(), false);
 
-        dialogue_text = (Text)utility.create_ui_object(new GameObject().AddComponent<Text>(), typeof(Text), 1, new string[] { "dialogue_text" }, new Vector2[] { new Vector2(478.18f, 77f) },
+        dialogue_text = (Text)utility.create_ui_object(new GameObject().AddComponent<Text>(), new System.Type[] { typeof(Text) }, 1, new string[] { "dialogue_text" }, new Vector2[] { new Vector2(478.18f, 77f) },
                                                 new Vector3[] { new Vector3(0.012494f, 0.012494f) }, new Vector3[] { Vector3.zero });
         dialogue_text.GetComponent<RectTransform>().transform.SetParent(dialogue_box.GetComponent<RectTransform>(), false);
 
         //testing purposes
         dialogue_text.font = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;
         dialogue_text.color = new Color(0f, 0f, 0f, 255f);
+    }
+
+    private void OnEnable()
+    {
+        declare_dialogue_attr();
     }
 
     private void Update()

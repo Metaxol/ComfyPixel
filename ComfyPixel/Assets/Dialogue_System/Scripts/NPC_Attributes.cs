@@ -29,12 +29,12 @@ public class NPC_Attributes : MonoBehaviour {
         if (oneTime)
         {
             //instantiating buttons, always 2 since this is part of a NPC's dialogue (would get too complicated storywise)
-            buttons = (List<Image>) utility.create_ui_object(new GameObject().AddComponent<Image>(), typeof(Image), 2, new string[] { "option1", "option2" }, new Vector2[] { new Vector2(100f, 100f), new Vector2(100f, 100f) }, 
+            buttons = (List<Image>) utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 2, new string[] { "option1", "option2" }, new Vector2[] { new Vector2(100f, 100f), new Vector2(100f, 100f) }, 
                                                             new Vector3[] {new Vector3(dialogue_box.rectTransform.anchoredPosition.x - 100f, dialogue_box.rectTransform.anchoredPosition.y),
                                                             new Vector3(dialogue_box.rectTransform.anchoredPosition.x + 100f, dialogue_box.rectTransform.anchoredPosition.y)},
                                                             new Vector3[] {Vector3.zero, Vector3.zero});
 
-            buttons_texts = (List<Text>)utility.create_ui_object(new GameObject().AddComponent<Text>(),typeof(Text), 2, new string[] { "option1_text", "option2_text" }, new Vector2[] { new Vector2(100f, 100f), new Vector2(100f, 100f) },
+            buttons_texts = (List<Text>)utility.create_ui_object(new GameObject().AddComponent<Text>(), new System.Type[] { typeof(Text) }, 2, new string[] { "option1_text", "option2_text" }, new Vector2[] { new Vector2(100f, 100f), new Vector2(100f, 100f) },
                                                                  new Vector3[] {new Vector3(dialogue_box.rectTransform.anchoredPosition.x - 100f, dialogue_box.rectTransform.anchoredPosition.y),
                                                                  new Vector3(dialogue_box.rectTransform.anchoredPosition.x + 100f, dialogue_box.rectTransform.anchoredPosition.y)},
                                                                  new Vector3[] { Vector3.zero, Vector3.zero });

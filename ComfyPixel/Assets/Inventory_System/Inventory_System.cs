@@ -15,7 +15,7 @@ public class Inventory_System : MonoBehaviour {
         playerController.gameObject.GetComponent<Animator>().SetBool("isWalking", false);
         playerController.canMove = false;
 
-        inv_Holder = (Image)utility.create_ui_object(new GameObject().AddComponent<Image>(), typeof(Image), 1, new string[] { "inventory_holder" }, new Vector2[] { new Vector2(430f, 272.6f) },
+        inv_Holder = (Image)utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 1, new string[] { "inventory_holder" }, new Vector2[] { new Vector2(430f, 272.6f) },
                                                            new Vector3[] { new Vector3(1.1444e-05f, 1.1444e-05f) }, new Vector3[] { Vector3.zero });
     }
 

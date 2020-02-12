@@ -34,12 +34,12 @@ public class Utility : MonoBehaviour {
         return lines; //returns list of buttons (gameobjects) for further use by other methods
     }
 
-    public object create_ui_object<T>(T actual_type, System.Type type_of_object, int amount_objects, string[] button_name, Vector2[] scale, Vector3[] position, Vector3[] rotation)
+    public object create_ui_object<T>(T actual_type, System.Type[] type_of_object, int amount_objects, string[] button_name, Vector2[] scale, Vector3[] position, Vector3[] rotation)
     {
         //assign two variables, for comfortability (dont always have to use arrays to pass on values)
         List<GameObject> objects = new List<GameObject>();
         GameObject single_object = null;
-        
+
         for (int c = 0; c < amount_objects; c++)
         {
             //assignment if array of objects wanted
@@ -48,7 +48,10 @@ public class Utility : MonoBehaviour {
                 objects.Add(new GameObject()); //instantiates object as GameObject
                 objects[c].transform.SetParent(GameObject.Find("Canvas").transform, false); //set ui object as child to canvas to see it
                 objects[c].name = button_name[c]; //assigns name
-                objects[c].gameObject.AddComponent(type_of_object); //assigns any type of component (image, text, etc...)
+                foreach(System.Type i in type_of_object)
+                {
+                    objects[c].gameObject.AddComponent(i); //assigns any type of component (image, text, etc...)
+                }                
                 objects[c].GetComponent<RectTransform>().sizeDelta = scale[c]; //sets scale
                 objects[c].GetComponent<RectTransform>().anchoredPosition = position[c]; //sets pos
                 objects[c].GetComponent<RectTransform>().Rotate(rotation[c]); //sets rot
@@ -59,7 +62,10 @@ public class Utility : MonoBehaviour {
                 single_object = new GameObject();
                 single_object.transform.SetParent(GameObject.Find("Canvas").transform, false);
                 single_object.name = button_name[c];
-                single_object.gameObject.AddComponent(type_of_object);
+                foreach(System.Type i in type_of_object)
+                {
+                    single_object.gameObject.AddComponent(i);
+                }
                 single_object.GetComponent<RectTransform>().sizeDelta = scale[c];
                 single_object.GetComponent<RectTransform>().anchoredPosition = position[c];
                 single_object.GetComponent<RectTransform>().Rotate(rotation[c]);

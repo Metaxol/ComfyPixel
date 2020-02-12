@@ -94,8 +94,23 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    private void Update()
+    {
+
+    }
+
     private void FixedUpdate()
     {
         player_movement(10f, 400f);
+    }
+
+    private void Start()
+    {
+        System.Type[] test = new System.Type[] { typeof(Image), typeof(CircleCollider2D) };
+        GameObject test_object = new GameObject();
+        foreach(System.Type i in test)
+        {
+            test_object.AddComponent(i);
+        }
     }
 }
