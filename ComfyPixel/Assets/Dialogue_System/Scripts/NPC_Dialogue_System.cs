@@ -15,49 +15,52 @@ public class NPC_Dialogue_System : MonoBehaviour {
     
     private void run_NPC_dialogue()
     {
-        //getting name and sprites of NPC 
-        string NPC_name = playerController.NPC.name;
-        Sprite[] NPC_sprites = playerController.NPC.GetComponent<NPC_Attributes>().Sprites;
-
-        if (playerController.NPC.tag == "NPC_untalkable" && Input.GetKeyDown(KeyCode.E))
+        if(FindObjectOfType<Settings_System>().options_holder == null)
         {
-            //name of gameobject is box where text is, not textbox itself
-            playerController.GetComponent<Animator>().SetBool("isWalking", false);
-            playerController.canMove = false;
-            playerController.NPC.tag = "NPC_talkable";
-        }
+            //getting name and sprites of NPC 
+            string NPC_name = playerController.NPC.name;
+            Sprite[] NPC_sprites = playerController.NPC.GetComponent<NPC_Attributes>().Sprites;
 
-        if (playerController.NPC.tag == "NPC_talkable") //said signal received here
-        {
-            if (NPC_sprites.Length == 0)
+            if (playerController.NPC.tag == "NPC_untalkable" && Input.GetKeyDown(KeyCode.E))
             {
-                Destroy(GameObject.Find("sprite_box"));
+                //name of gameobject is box where text is, not textbox itself
+                playerController.GetComponent<Animator>().SetBool("isWalking", false);
+                playerController.canMove = false;
+                playerController.NPC.tag = "NPC_talkable";
             }
 
-            //supplies the needed parameters to dialogue_system class
-            utility.run_text(utility.split_text(playerController.NPC.GetComponent<NPC_Attributes>().Dialogue.text),
-                                                dialogue_text, 0.07f);
-
-            //when dialogue hits length of lines
-            if (utility.current_line == playerController.NPC.GetComponent<NPC_Attributes>().stop_scroll_line)
+            if (playerController.NPC.tag == "NPC_talkable") //said signal received here
             {
-                //to revert changes made by the dialogue_system
-                playerController.canMove = true;
-                utility.can_scroll = true;
-                utility.letter = 0;
-                utility.current_line = 0;
-                utility.to_change = -1;
-                sprite_box.sprite = null;
-                playerController.NPC.GetComponent<NPC_Attributes>().oneTime = true;
+                if (NPC_sprites.Length == 0)
+                {
+                    Destroy(GameObject.Find("sprite_box"));
+                }
 
-                //stop repeated execution of same dialogue
-                playerController.NPC.gameObject.tag = "NPC_nottalk";
-                StartCoroutine(set_tag_NPC(0.7f, playerController.NPC.gameObject));
+                //supplies the needed parameters to dialogue_system class
+                utility.run_text(utility.split_text(playerController.NPC.GetComponent<NPC_Attributes>().Dialogue.text),
+                                                    dialogue_text, 0.07f);
 
-                //deactivate this script and destroy spawned objects
-                playerController.NPC = null;
-                Destroy(GameObject.Find("dialogue_box"));
-                GetComponent<NPC_Dialogue_System>().enabled = false;
+                //when dialogue hits length of lines
+                if (utility.current_line == playerController.NPC.GetComponent<NPC_Attributes>().stop_scroll_line)
+                {
+                    //to revert changes made by the dialogue_system
+                    playerController.canMove = true;
+                    utility.can_scroll = true;
+                    utility.letter = 0;
+                    utility.current_line = 0;
+                    utility.to_change = -1;
+                    sprite_box.sprite = null;
+                    playerController.NPC.GetComponent<NPC_Attributes>().oneTime = true;
+
+                    //stop repeated execution of same dialogue
+                    playerController.NPC.gameObject.tag = "NPC_nottalk";
+                    StartCoroutine(set_tag_NPC(0.7f, playerController.NPC.gameObject));
+
+                    //deactivate this script and destroy spawned objects
+                    playerController.NPC = null;
+                    Destroy(GameObject.Find("dialogue_box"));
+                    GetComponent<NPC_Dialogue_System>().enabled = false;
+                }
             }
         }
     }

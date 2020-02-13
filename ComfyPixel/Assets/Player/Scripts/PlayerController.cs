@@ -84,7 +84,7 @@ public class PlayerController : MonoBehaviour {
     private void OnTriggerStay2D(Collider2D collision)
     {
         //handles NPC-dialogue part of player
-        if(collision.tag == "NPC_untalkable" && Input.GetKeyDown(KeyCode.E))
+        if (collision.tag == "NPC_untalkable" && Input.GetKeyDown(KeyCode.E) && FindObjectOfType<Settings_System>().options_holder == null)
         {
             //get NPC the player is talking to 
             NPC = collision.gameObject;
@@ -96,21 +96,11 @@ public class PlayerController : MonoBehaviour {
 
     private void Update()
     {
-
+        FindObjectOfType<Settings_System>().player_handling();
     }
 
     private void FixedUpdate()
     {
         player_movement(10f, 400f);
-    }
-
-    private void Start()
-    {
-        System.Type[] test = new System.Type[] { typeof(Image), typeof(CircleCollider2D) };
-        GameObject test_object = new GameObject();
-        foreach(System.Type i in test)
-        {
-            test_object.AddComponent(i);
-        }
     }
 }

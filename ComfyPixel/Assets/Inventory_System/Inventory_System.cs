@@ -36,11 +36,11 @@ public class Inventory_System : MonoBehaviour {
 
     private void use_inv_men()
     {
-        if (Input.GetKeyDown(KeyCode.D) && playerController.NPC == null && inv_Holder == null)
+        if (Input.GetKeyDown(KeyCode.D) && playerController.NPC == null && inv_Holder == null && FindObjectOfType<Settings_System>().options_holder == null)
         {
             spawn_inv_menu();
         }
-        else if (Input.GetKeyDown(KeyCode.F) && inv_Holder != null)
+        else if (Input.GetKeyDown(KeyCode.F) && inv_Holder != null && FindObjectOfType<Settings_System>().options_holder == null)
         {
             close_inv_menu();
         }
