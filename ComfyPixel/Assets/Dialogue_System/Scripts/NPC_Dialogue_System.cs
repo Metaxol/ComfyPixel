@@ -12,10 +12,12 @@ public class NPC_Dialogue_System : MonoBehaviour {
     [HideInInspector] public Image dialogue_box;
     private Image sprite_box;
     private Text dialogue_text;
-    
+
+    public bool NPC_Dialogue_System_bool = true;
+
     private void run_NPC_dialogue()
     {
-        if(FindObjectOfType<Settings_System>().options_holder == null)
+        if(NPC_Dialogue_System_bool)
         {
             //getting name and sprites of NPC 
             string NPC_name = playerController.NPC.name;
@@ -51,6 +53,7 @@ public class NPC_Dialogue_System : MonoBehaviour {
                     utility.to_change = -1;
                     sprite_box.sprite = null;
                     playerController.NPC.GetComponent<NPC_Attributes>().oneTime = true;
+                    FindObjectOfType<Inventory_System>().Inventory_System_bool = true;
 
                     //stop repeated execution of same dialogue
                     playerController.NPC.gameObject.tag = "NPC_nottalk";
@@ -76,6 +79,7 @@ public class NPC_Dialogue_System : MonoBehaviour {
         //create all necessary ui objects for NPC-dialogue
         utility = FindObjectOfType<Utility>();
         playerController = FindObjectOfType<PlayerController>();
+        FindObjectOfType<Inventory_System>().Inventory_System_bool = false;
 
         dialogue_box = (Image)utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 1, new string[] { "dialogue_box" }, new Vector2[] { new Vector2(478.2f, 77f) },
                                         new Vector3[] { new Vector3(1.2398e-05f, -260f) }, new Vector3[] { Vector3.zero });

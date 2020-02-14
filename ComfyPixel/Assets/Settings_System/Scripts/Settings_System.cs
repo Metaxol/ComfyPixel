@@ -7,6 +7,7 @@ public class Settings_System : MonoBehaviour {
 
     public Image options_holder = null;
     private List<Image> settings_buttons;
+    
 
     private Utility utility;
 
@@ -26,23 +27,29 @@ public class Settings_System : MonoBehaviour {
                                                    new Vector3[] { new Vector3(options_holder.GetComponent<RectTransform>().anchoredPosition.x, options_holder.GetComponent<RectTransform>().anchoredPosition.y + 140f),
                                                                    new Vector3(options_holder.GetComponent<RectTransform>().anchoredPosition.x, options_holder.GetComponent<RectTransform>().anchoredPosition.y - 140f)},
                                                    new Vector3[] { Vector3.zero, Vector3.zero });
-
+        
         //for testing
         settings_buttons[0].GetComponent<RectTransform>().SetParent(options_holder.GetComponent<RectTransform>());
         settings_buttons[1].GetComponent<RectTransform>().SetParent(options_holder.GetComponent<RectTransform>());
         settings_buttons[0].color = new Color(204f / 255f, 21f / 255f, 21f / 255f, 255f / 255f);
-        settings_buttons[1].color = new Color(0f, 0f, 0f, 255f);
+        //settings_buttons[1].color = new Color(0f, 0f, 0f, 255f);
+        Sprite textureCheck = Resources.Load<Sprite>("ZULULBTTV");
+        settings_buttons[1].sprite = textureCheck;
     }
 
     public void player_handling()
     {
         if (Input.GetKeyDown(KeyCode.Escape) && FindObjectOfType<Settings_System>().enabled == false)
         {
+            FindObjectOfType<Inventory_System>().Inventory_System_bool = false;
+            FindObjectOfType<NPC_Dialogue_System>().NPC_Dialogue_System_bool = false;
             FindObjectOfType<Settings_System>().enabled = true;
         }
         else if(Input.GetKeyDown(KeyCode.Escape) && FindObjectOfType<Settings_System>().enabled == true)
         {
             FindObjectOfType<PlayerController>().canMove = true;
+            FindObjectOfType<Inventory_System>().Inventory_System_bool = true;
+            FindObjectOfType<NPC_Dialogue_System>().NPC_Dialogue_System_bool = true;
             utility.delete_with_names(new string[] { options_holder.name, "cover_game" });
             options_holder = null;
             settings_buttons = utility.delete_list_objects(settings_buttons);

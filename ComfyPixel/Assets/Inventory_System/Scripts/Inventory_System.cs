@@ -10,6 +10,8 @@ public class Inventory_System : MonoBehaviour {
 
     private Image inv_Holder = null;
 
+    public bool Inventory_System_bool = true;
+
     private void spawn_inv_menu()
     {
         playerController.gameObject.GetComponent<Animator>().SetBool("isWalking", false);
@@ -36,13 +38,16 @@ public class Inventory_System : MonoBehaviour {
 
     private void use_inv_men()
     {
-        if (Input.GetKeyDown(KeyCode.D) && playerController.NPC == null && inv_Holder == null && FindObjectOfType<Settings_System>().options_holder == null)
+        if (Inventory_System_bool)
         {
-            spawn_inv_menu();
-        }
-        else if (Input.GetKeyDown(KeyCode.F) && inv_Holder != null && FindObjectOfType<Settings_System>().options_holder == null)
-        {
-            close_inv_menu();
+            if (Input.GetKeyDown(KeyCode.D) && inv_Holder == null)
+            {
+                spawn_inv_menu();
+            }
+            else if (Input.GetKeyDown(KeyCode.F) && inv_Holder != null)
+            {
+                close_inv_menu();
+            }
         }
 
         if (inv_Holder != null)

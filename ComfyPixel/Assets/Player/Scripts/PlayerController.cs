@@ -84,7 +84,7 @@ public class PlayerController : MonoBehaviour {
     private void OnTriggerStay2D(Collider2D collision)
     {
         //handles NPC-dialogue part of player
-        if (collision.tag == "NPC_untalkable" && Input.GetKeyDown(KeyCode.E) && FindObjectOfType<Settings_System>().options_holder == null)
+        if (collision.tag == "NPC_untalkable" && Input.GetKeyDown(KeyCode.E) && FindObjectOfType<NPC_Dialogue_System>().NPC_Dialogue_System_bool)
         {
             //get NPC the player is talking to 
             NPC = collision.gameObject;
