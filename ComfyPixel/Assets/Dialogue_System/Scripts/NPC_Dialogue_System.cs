@@ -62,7 +62,7 @@ public class NPC_Dialogue_System : MonoBehaviour {
                     //deactivate this script and destroy spawned objects
                     playerController.NPC = null;
                     Destroy(GameObject.Find("dialogue_box"));
-                    GetComponent<NPC_Dialogue_System>().enabled = false;
+                    enabled = false;
                 }
             }
         }

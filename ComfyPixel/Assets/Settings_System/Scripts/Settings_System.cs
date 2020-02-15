@@ -7,14 +7,11 @@ public class Settings_System : MonoBehaviour {
 
     public Image options_holder = null;
     private List<Image> settings_buttons;
-    
 
     private Utility utility;
 
     private void spawn_settings_menu()
     {
-        FindObjectOfType<PlayerController>().canMove = false;
-
         Image game_coverup = (Image)utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) },
                                                                1, new string[] { "cover_game" }, new Vector2[] { new Vector2(1920f, 1080f) }, new Vector3[] { new Vector3(0f, 0f) }, new Vector3[] { Vector3.zero });
         game_coverup.color = new Color(0f, 0f, 0f, 110f / 255f);
@@ -32,28 +29,23 @@ public class Settings_System : MonoBehaviour {
         settings_buttons[0].GetComponent<RectTransform>().SetParent(options_holder.GetComponent<RectTransform>());
         settings_buttons[1].GetComponent<RectTransform>().SetParent(options_holder.GetComponent<RectTransform>());
         settings_buttons[0].color = new Color(204f / 255f, 21f / 255f, 21f / 255f, 255f / 255f);
-        //settings_buttons[1].color = new Color(0f, 0f, 0f, 255f);
-        Sprite textureCheck = Resources.Load<Sprite>("ZULULBTTV");
-        settings_buttons[1].sprite = textureCheck;
+        settings_buttons[1].color = new Color(0f, 0f, 0f, 255f);
+        Time.timeScale = 0;
     }
 
     public void player_handling()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && FindObjectOfType<Settings_System>().enabled == false)
+        if (Input.GetKeyDown(KeyCode.Escape) && enabled == false)
         {
-            FindObjectOfType<Inventory_System>().Inventory_System_bool = false;
-            FindObjectOfType<NPC_Dialogue_System>().NPC_Dialogue_System_bool = false;
-            FindObjectOfType<Settings_System>().enabled = true;
+            enabled = true;
         }
-        else if(Input.GetKeyDown(KeyCode.Escape) && FindObjectOfType<Settings_System>().enabled == true)
+        else if(Input.GetKeyDown(KeyCode.Escape) && enabled == true)
         {
-            FindObjectOfType<PlayerController>().canMove = true;
-            FindObjectOfType<Inventory_System>().Inventory_System_bool = true;
-            FindObjectOfType<NPC_Dialogue_System>().NPC_Dialogue_System_bool = true;
+            Time.timeScale = 1;
             utility.delete_with_names(new string[] { options_holder.name, "cover_game" });
             options_holder = null;
             settings_buttons = utility.delete_list_objects(settings_buttons);
-            FindObjectOfType<Settings_System>().enabled = false;
+            enabled = false;
         }
     }
 
