@@ -81,8 +81,8 @@ public class NPC_Dialogue_System : MonoBehaviour {
         playerController = FindObjectOfType<PlayerController>();
         FindObjectOfType<Inventory_System>().Inventory_System_bool = false;
 
-        dialogue_box = (Image)utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 1, new string[] { "dialogue_box" }, new Vector2[] { new Vector2(478.2f, 77f) },
-                                        new Vector3[] { new Vector3(1.2398e-05f, -260f) }, new Vector3[] { Vector3.zero });
+        dialogue_box = (Image)utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 1, new string[] { "dialogue_box" }, new Vector2[] { new Vector2(1800f, 1800f) },
+                                        new Vector3[] { new Vector3(-98f, 436f) }, new Vector3[] { Vector3.zero });
 
         sprite_box = (Image)utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 1, new string[] { "sprite_box" }, new Vector2[] { new Vector2(90.3f, 77f) },
                                                 new Vector3[] { new Vector3(194f, 0.0060034f) }, new Vector3[] { Vector3.zero });

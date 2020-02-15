@@ -7,6 +7,7 @@ public class Settings_System : MonoBehaviour {
 
     public Image options_holder = null;
     private List<Image> settings_buttons;
+    
 
     private Utility utility;
 
