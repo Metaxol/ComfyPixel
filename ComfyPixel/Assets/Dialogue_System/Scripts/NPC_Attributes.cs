@@ -29,24 +29,31 @@ public class NPC_Attributes : MonoBehaviour {
         if (oneTime)
         {
             //instantiating buttons, always 2 since this is part of a NPC's dialogue (would get too complicated storywise)
-            buttons = (List<Image>) utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 2, new string[] { "option1", "option2" }, new Vector2[] { new Vector2(100f, 100f), new Vector2(100f, 100f) }, 
-                                                            new Vector3[] {new Vector3(dialogue_box.rectTransform.anchoredPosition.x - 100f, dialogue_box.rectTransform.anchoredPosition.y),
-                                                            new Vector3(dialogue_box.rectTransform.anchoredPosition.x + 100f, dialogue_box.rectTransform.anchoredPosition.y)},
+            buttons = (List<Image>) utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 2, new string[] { "option1", "option2" }, new Vector2[] { new Vector2(1800f, 1800f), new Vector2(1800f, 1800f) }, 
+                                                            new Vector3[] {new Vector3(-11f, 0f),
+                                                            new Vector3(285f, 0f)},
                                                             new Vector3[] {Vector3.zero, Vector3.zero});
 
-            buttons_texts = (List<Text>)utility.create_ui_object(new GameObject().AddComponent<Text>(), new System.Type[] { typeof(Text) }, 2, new string[] { "option1_text", "option2_text" }, new Vector2[] { new Vector2(100f, 100f), new Vector2(100f, 100f) },
-                                                                 new Vector3[] {new Vector3(dialogue_box.rectTransform.anchoredPosition.x - 100f, dialogue_box.rectTransform.anchoredPosition.y),
-                                                                 new Vector3(dialogue_box.rectTransform.anchoredPosition.x + 100f, dialogue_box.rectTransform.anchoredPosition.y)},
+            buttons_texts = (List<Text>)utility.create_ui_object(new GameObject().AddComponent<Text>(), new System.Type[] { typeof(Text) }, 2, new string[] { "option1_text", "option2_text" }, 
+                                                                 new Vector2[] { new Vector2(166.0045f, 57.9966f),
+                                                                 new Vector2(166.007f, 57.997f) },
+                                                                 new Vector3[] {new Vector3(-62.9977f, -44.99806f),
+                                                                 new Vector3(-63.002f, -44.99805f)},
                                                                  new Vector3[] { Vector3.zero, Vector3.zero });
-            
-            //testing purposes
-            buttons[0].GetComponent<Image>().color = new Color(99f, 15, 15f, 255f);
-            buttons[1].GetComponent<Image>().color = new Color(99f, 15, 15f, 255f);
 
+            buttons[0].GetComponent<RectTransform>().SetParent(dialogue_box.transform);
+            buttons[1].GetComponent<RectTransform>().SetParent(dialogue_box.transform);
+            buttons[0].sprite = Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen");
+            buttons[1].sprite = Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen");
+
+            buttons_texts[0].color = new Color(0f, 0f, 0f, 255f);
+            buttons_texts[1].color = new Color(0f, 0f, 0f, 255f);
+            buttons_texts[0].fontSize = 25;
+            buttons_texts[1].fontSize = 25;
             buttons_texts[0].GetComponent<RectTransform>().SetParent(GameObject.Find(buttons[0].name).transform);
             buttons_texts[1].GetComponent<RectTransform>().SetParent(GameObject.Find(buttons[1].name).transform);
-            buttons_texts[0].font = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;
-            buttons_texts[1].font = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;
+            buttons_texts[0].font = Resources.Load<Font>("Dialogue_System_Graphics/dpcomic");
+            buttons_texts[1].font = Resources.Load<Font>("Dialogue_System_Graphics/dpcomic");
             buttons_texts[0].text = button_texts[0];
             buttons_texts[1].text = button_texts[1];
 
@@ -80,9 +87,11 @@ public class NPC_Attributes : MonoBehaviour {
                 buttons_texts = utility.delete_list_objects(buttons_texts);
             }
         }
-        
+        //Dialogue_Option_Not_Chosen
+        //Dialogue_Option_Chosen
         //give ability to choose between buttons, always vertically because this is part of the dialogue_system
-        utility.choose_buttons(buttons.ToArray(), chosen_sprite, not_chosen_sprite, 1, "ver");
+        utility.choose_buttons(buttons.ToArray(), Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen"),
+                               Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Not_Chosen"), 1, "ver");
     }
 
     private void Update()

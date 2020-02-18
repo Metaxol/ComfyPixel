@@ -83,13 +83,22 @@ public class NPC_Dialogue_System : MonoBehaviour {
 
         dialogue_box = (Image)utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 1, new string[] { "dialogue_box" }, new Vector2[] { new Vector2(1800f, 1800f) },
                                         new Vector3[] { new Vector3(-98f, 436f) }, new Vector3[] { Vector3.zero });
+        dialogue_box.sprite = Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Box");
 
-        sprite_box = (Image)utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 1, new string[] { "sprite_box" }, new Vector2[] { new Vector2(90.3f, 77f) },
-                                                new Vector3[] { new Vector3(194f, 0.0060034f) }, new Vector3[] { Vector3.zero });
-        sprite_box.GetComponent<RectTransform>().transform.SetParent(dialogue_box.GetComponent<RectTransform>(), false);
+        Image sprite_box_holder = (Image)utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 1, new string[] { "sprite_box_holder" }, new Vector2[] { new Vector2(1800f, 1800f) },
+                                                                  new Vector3[] { new Vector3(-342.8f, 0f) }, new Vector3[] { Vector3.zero });
+        sprite_box_holder.GetComponent<RectTransform>().transform.SetParent(dialogue_box.GetComponent<RectTransform>(), false);
+        sprite_box_holder.sprite = Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Sprite_Frame");
 
-        dialogue_text = (Text)utility.create_ui_object(new GameObject().AddComponent<Text>(), new System.Type[] { typeof(Text) }, 1, new string[] { "dialogue_text" }, new Vector2[] { new Vector2(478.18f, 77f) },
-                                                new Vector3[] { new Vector3(0.012494f, 0.012494f) }, new Vector3[] { Vector3.zero });
+        sprite_box = (Image)utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 1, new string[] { "sprite_box" }, new Vector2[] { new Vector2(215.931f, 216.004f) },
+                                                new Vector3[] { new Vector3(-35.61694f, -54.01702f) }, new Vector3[] { Vector3.zero });
+        sprite_box.GetComponent<RectTransform>().transform.SetParent(sprite_box_holder.GetComponent<RectTransform>(), false);
+        
+        dialogue_text = (Text)utility.create_ui_object(new GameObject().AddComponent<Text>(), new System.Type[] { typeof(Text) }, 1, new string[] { "dialogue_text" }, new Vector2[] { new Vector2(609.13f, 215.41f) },
+                                                new Vector3[] { new Vector3(55.64f, -53.86f) }, new Vector3[] { Vector3.zero });
+        dialogue_text.color = new Color(0f, 0f, 0f, 255f);
+        dialogue_text.fontSize = 40;
+        dialogue_text.font = Resources.Load<Font>("Dialogue_System_Graphics/dpcomic");
         dialogue_text.GetComponent<RectTransform>().transform.SetParent(dialogue_box.GetComponent<RectTransform>(), false);
 
         //testing purposes
