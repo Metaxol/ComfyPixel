@@ -12,8 +12,6 @@ public class NPC_Attributes : MonoBehaviour {
     //variabled for NPC's to handle dialogue
     private Image dialogue_box;
     private Image sprite_box;
-    public Sprite chosen_sprite;
-    public Sprite not_chosen_sprite;
     public int stop_scroll_line;
     public bool oneTime = true;
 
@@ -30,30 +28,24 @@ public class NPC_Attributes : MonoBehaviour {
         {
             //instantiating buttons, always 2 since this is part of a NPC's dialogue (would get too complicated storywise)
             buttons = (List<Image>) utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 2, new string[] { "option1", "option2" }, new Vector2[] { new Vector2(1800f, 1800f), new Vector2(1800f, 1800f) }, 
-                                                            new Vector3[] {new Vector3(-11f, 0f),
-                                                            new Vector3(285f, 0f)},
+                                                            new Vector3[] {new Vector3(-98f, 459f),
+                                                            new Vector3(208f, 442f)},
                                                             new Vector3[] {Vector3.zero, Vector3.zero});
 
             buttons_texts = (List<Text>)utility.create_ui_object(new GameObject().AddComponent<Text>(), new System.Type[] { typeof(Text) }, 2, new string[] { "option1_text", "option2_text" }, 
                                                                  new Vector2[] { new Vector2(166.0045f, 57.9966f),
                                                                  new Vector2(166.007f, 57.997f) },
-                                                                 new Vector3[] {new Vector3(-62.9977f, -44.99806f),
-                                                                 new Vector3(-63.002f, -44.99805f)},
+                                                                 new Vector3[] {new Vector3(-62.8f, -63f),
+                                                                 new Vector3(-62.9f, -44.6f)},
                                                                  new Vector3[] { Vector3.zero, Vector3.zero });
 
-            buttons[0].GetComponent<RectTransform>().SetParent(dialogue_box.transform);
-            buttons[1].GetComponent<RectTransform>().SetParent(dialogue_box.transform);
-            buttons[0].sprite = Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen");
-            buttons[1].sprite = Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen");
-
-            buttons_texts[0].color = new Color(0f, 0f, 0f, 255f);
-            buttons_texts[1].color = new Color(0f, 0f, 0f, 255f);
-            buttons_texts[0].fontSize = 25;
-            buttons_texts[1].fontSize = 25;
-            buttons_texts[0].GetComponent<RectTransform>().SetParent(GameObject.Find(buttons[0].name).transform);
-            buttons_texts[1].GetComponent<RectTransform>().SetParent(GameObject.Find(buttons[1].name).transform);
-            buttons_texts[0].font = Resources.Load<Font>("Dialogue_System_Graphics/dpcomic");
-            buttons_texts[1].font = Resources.Load<Font>("Dialogue_System_Graphics/dpcomic");
+            foreach(Text i in buttons_texts)
+            {
+                i.color = new Color(0f, 0f, 0f, 255f);
+                i.fontSize = 25;
+                i.font = Resources.Load<Font>("Dialogue_System_Graphics/dpcomic");
+                i.GetComponent<RectTransform>().SetParent(buttons[buttons_texts.IndexOf(i)].rectTransform);
+            }
             buttons_texts[0].text = button_texts[0];
             buttons_texts[1].text = button_texts[1];
 
@@ -64,7 +56,7 @@ public class NPC_Attributes : MonoBehaviour {
         else if (!oneTime)
         {
             //depending on options chosen:
-            if (Input.GetKeyDown(KeyCode.E) && (buttons[0].sprite == chosen_sprite || buttons[1].sprite == chosen_sprite))
+            if (Input.GetKeyDown(KeyCode.E) && (buttons[0].sprite == Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen") || buttons[1].sprite == Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen")))
             {
                 //delete buttons and continue dialogue on line according to button chosen (also reset certain dialogue_system-attributes)                
                 utility.letter = 0;
@@ -72,12 +64,12 @@ public class NPC_Attributes : MonoBehaviour {
                 tag = "NPC_talkable";
                 oneTime = true;
 
-                if (buttons[0].sprite == chosen_sprite)
+                if (buttons[0].sprite == Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen"))
                 {
                     stop_scroll_line = new_dialogue_attr_1[0];
                     utility.current_line = new_dialogue_attr_1[1];
                 }
-                else if(buttons[1].sprite == chosen_sprite)
+                else if(buttons[1].sprite == Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen"))
                 {
                     stop_scroll_line = new_dialogue_attr_2[0];
                     utility.current_line = new_dialogue_attr_2[1];
@@ -87,8 +79,6 @@ public class NPC_Attributes : MonoBehaviour {
                 buttons_texts = utility.delete_list_objects(buttons_texts);
             }
         }
-        //Dialogue_Option_Not_Chosen
-        //Dialogue_Option_Chosen
         //give ability to choose between buttons, always vertically because this is part of the dialogue_system
         utility.choose_buttons(buttons.ToArray(), Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen"),
                                Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Not_Chosen"), 1, "ver");
