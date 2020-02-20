@@ -10,7 +10,6 @@ public class NPC_Attributes : MonoBehaviour {
     public Sprite[] Sprites;
 
     //variabled for NPC's to handle dialogue
-    private Image dialogue_box;
     private Image sprite_box;
     public int stop_scroll_line;
     public bool oneTime = true;
@@ -28,24 +27,31 @@ public class NPC_Attributes : MonoBehaviour {
         {
             //instantiating buttons, always 2 since this is part of a NPC's dialogue (would get too complicated storywise)
             buttons = (List<Image>) utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 2, new string[] { "option1", "option2" }, new Vector2[] { new Vector2(1800f, 1800f), new Vector2(1800f, 1800f) }, 
-                                                            new Vector3[] {new Vector3(-98f, 459f),
-                                                            new Vector3(208f, 442f)},
+                                                            new Vector3[] {new Vector3(-98f, 433f),
+                                                            new Vector3(198.5f, 433f)},
                                                             new Vector3[] {Vector3.zero, Vector3.zero});
 
+            //instantiating buttons_texts (always 2 because of the same reason as listed up above)
             buttons_texts = (List<Text>)utility.create_ui_object(new GameObject().AddComponent<Text>(), new System.Type[] { typeof(Text) }, 2, new string[] { "option1_text", "option2_text" }, 
                                                                  new Vector2[] { new Vector2(166.0045f, 57.9966f),
                                                                  new Vector2(166.007f, 57.997f) },
-                                                                 new Vector3[] {new Vector3(-62.8f, -63f),
-                                                                 new Vector3(-62.9f, -44.6f)},
+                                                                 new Vector3[] {new Vector3(0f, 0f),
+                                                                 new Vector3(0f, 0f)},
                                                                  new Vector3[] { Vector3.zero, Vector3.zero });
 
+            //setting specifications of buttons_texts
             foreach(Text i in buttons_texts)
             {
                 i.color = new Color(0f, 0f, 0f, 255f);
-                i.fontSize = 25;
+                i.fontSize = 30;
                 i.font = Resources.Load<Font>("Dialogue_System_Graphics/dpcomic");
                 i.GetComponent<RectTransform>().SetParent(buttons[buttons_texts.IndexOf(i)].rectTransform);
+                i.alignment = TextAnchor.MiddleCenter;
             }
+
+            //setting special specifications of buttons_texts
+            buttons_texts[0].rectTransform.localPosition = new Vector3(-62.89f, -44.8f);
+            buttons_texts[1].rectTransform.localPosition = new Vector3(-62.89f, -44.7f);
             buttons_texts[0].text = button_texts[0];
             buttons_texts[1].text = button_texts[1];
 
@@ -55,7 +61,18 @@ public class NPC_Attributes : MonoBehaviour {
         }
         else if (!oneTime)
         {
-            //depending on options chosen:
+            //moving buttons up and down when choosing between them
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                buttons_texts[0].rectTransform.localPosition = new Vector3(-62.89f, -64f);
+                buttons_texts[1].rectTransform.localPosition = new Vector3(-62.89f, -44.7f);
+            }
+            else if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                buttons_texts[1].rectTransform.localPosition = new Vector3(-62.89f, -64f);
+                buttons_texts[0].rectTransform.localPosition = new Vector3(-62.89f, -44.8f);
+            }
+
             if (Input.GetKeyDown(KeyCode.E) && (buttons[0].sprite == Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen") || buttons[1].sprite == Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen")))
             {
                 //delete buttons and continue dialogue on line according to button chosen (also reset certain dialogue_system-attributes)                
@@ -64,6 +81,7 @@ public class NPC_Attributes : MonoBehaviour {
                 tag = "NPC_talkable";
                 oneTime = true;
 
+                //skip to new line and set end_line according to chosen button when dialogue-key (E) is being pressed
                 if (buttons[0].sprite == Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen"))
                 {
                     stop_scroll_line = new_dialogue_attr_1[0];
@@ -75,6 +93,7 @@ public class NPC_Attributes : MonoBehaviour {
                     utility.current_line = new_dialogue_attr_2[1];
                 }
 
+                //delete buttons and their buttons_texts 
                 buttons = utility.delete_list_objects(buttons);
                 buttons_texts = utility.delete_list_objects(buttons_texts);
             }
@@ -88,9 +107,7 @@ public class NPC_Attributes : MonoBehaviour {
     {
         //keep adding changing sprites/other special events in this switch statement for the npc's that need it
         if(playerController.NPC != null)
-        {
-            dialogue_box = GameObject.Find("dialogue_box").GetComponent<Image>();
-            
+        {          
             if (playerController.NPC.name == name)
             {
                 if (Sprites.Length != 0)
@@ -111,11 +128,11 @@ public class NPC_Attributes : MonoBehaviour {
                                 sprite_box.sprite = Sprites[1];
                                 break;
                             case 3:
-                                NPC_dialogue_choosing(new string[] { "Erste Option", "Zweite Option" },
+                                NPC_dialogue_choosing(new string[] { "Ja", "Nein" },
                                                       new int[] { 9, 4 }, new int[] { 18, 16 });
                                 break;
                             case 8:
-                                NPC_dialogue_choosing(new string[] { "Erste Option", "Zweite Option" },
+                                NPC_dialogue_choosing(new string[] { "Ja, ich werde.", "Auf keinen Fall!" },
                                                       new int[] { 12, 9 }, new int[] { 16, 12 });
                                 break;
                         }

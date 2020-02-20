@@ -74,6 +74,7 @@ public class Utility : MonoBehaviour {
 
         List<T> actual_list = new List<T>();
 
+        //assigning list with right types
         if(amount_objects > 1)
         {
             for (int c = 0; c < amount_objects; c++)
@@ -82,7 +83,7 @@ public class Utility : MonoBehaviour {
             }
         }
 
-        delete_with_names(new string[] { "New Game Object" });
+        delete_with_names(new string[] { "New Game Object" }); //delete newly created objects (useless gameobjects)
 
         //return based on amount of objects wanted
         if (amount_objects == 1)
@@ -95,6 +96,7 @@ public class Utility : MonoBehaviour {
         }
     }
 
+    //delete list of objects in the scene, all with the same name
     public void delete_with_names(string[] names_delete)
     {
         foreach (GameObject i in Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[])
