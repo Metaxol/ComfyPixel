@@ -23,7 +23,7 @@ public class NPC_Attributes : MonoBehaviour {
 
     private void NPC_dialogue_choosing(string[] button_texts, int[] new_dialogue_attr_1, int[] new_dialogue_attr_2)
     {
-        if (oneTime)
+        if (oneTime && FindObjectOfType<NPC_Dialogue_System>().NPC_Dialogue_System_bool)
         {
             //instantiating buttons, always 2 since this is part of a NPC's dialogue (would get too complicated storywise)
             buttons = (List<Image>) utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 2, new string[] { "option1", "option2" }, new Vector2[] { new Vector2(1800f, 1800f), new Vector2(1800f, 1800f) }, 
@@ -59,7 +59,7 @@ public class NPC_Attributes : MonoBehaviour {
             oneTime = false;
             tag = "NPC_nottalk";
         }
-        else if (!oneTime)
+        else if (!oneTime && FindObjectOfType<NPC_Dialogue_System>().NPC_Dialogue_System_bool)
         {
             //moving buttons up and down when choosing between them
             if (Input.GetKeyDown(KeyCode.LeftArrow))
@@ -97,10 +97,11 @@ public class NPC_Attributes : MonoBehaviour {
                 buttons = utility.delete_list_objects(buttons);
                 buttons_texts = utility.delete_list_objects(buttons_texts);
             }
+
+            //give ability to choose between buttons, always vertically because this is part of the dialogue_system
+            utility.choose_buttons(buttons.ToArray(), Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen"),
+                        Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Not_Chosen"), 1, "ver");
         }
-        //give ability to choose between buttons, always vertically because this is part of the dialogue_system
-        utility.choose_buttons(buttons.ToArray(), Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen"),
-                               Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Not_Chosen"), 1, "ver");
     }
 
     private void Update()
