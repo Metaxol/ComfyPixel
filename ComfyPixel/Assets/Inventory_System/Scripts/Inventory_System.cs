@@ -34,6 +34,7 @@ public class Inventory_System : MonoBehaviour {
         inv_Holder = null;
         playerController.canMove = true;
         utility.to_change = -1;
+        FindObjectOfType<NPC_Dialogue_System>().NPC_Dialogue_System_bool = true;
     }
 
     private void use_inv_men()
@@ -52,7 +53,7 @@ public class Inventory_System : MonoBehaviour {
 
         if (inv_Holder != null)
         {
-
+            FindObjectOfType<NPC_Dialogue_System>().NPC_Dialogue_System_bool = false;
         }
     }
 

@@ -22,7 +22,7 @@ public class NPC_Dialogue_System : MonoBehaviour {
             //getting name and sprites of NPC 
             string NPC_name = playerController.NPC.name;
             Sprite[] NPC_sprites = playerController.NPC.GetComponent<NPC_Attributes>().Sprites;
-
+            FindObjectOfType<Inventory_System>().Inventory_System_bool = false;
             if (playerController.NPC.tag == "NPC_untalkable" && Input.GetKeyDown(KeyCode.E))
             {
                 //name of gameobject is box where text is, not textbox itself
@@ -82,7 +82,6 @@ public class NPC_Dialogue_System : MonoBehaviour {
         //create all necessary ui objects for NPC-dialogue
         utility = FindObjectOfType<Utility>();
         playerController = FindObjectOfType<PlayerController>();
-        FindObjectOfType<Inventory_System>().Inventory_System_bool = false;
 
         dialogue_box = (Image)utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 1, new string[] { "dialogue_box" }, new Vector2[] { new Vector2(1800f, 1800f) },
                                 new Vector3[] { new Vector3(-98f, 436f) }, new Vector3[] { Vector3.zero });
