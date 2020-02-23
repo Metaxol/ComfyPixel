@@ -30,6 +30,8 @@ public class NPC_Attributes : MonoBehaviour {
                                                             new Vector3[] {new Vector3(-98f, 433f),
                                                             new Vector3(198.5f, 433f)},
                                                             new Vector3[] {Vector3.zero, Vector3.zero});
+            buttons[0].sprite = Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Not_Chosen");
+            buttons[1].sprite = Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Not_Chosen");
 
             //instantiating buttons_texts (always 2 because of the same reason as listed up above)
             buttons_texts = (List<Text>)utility.create_ui_object(new GameObject().AddComponent<Text>(), new System.Type[] { typeof(Text) }, 2, new string[] { "option1_text", "option2_text" }, 

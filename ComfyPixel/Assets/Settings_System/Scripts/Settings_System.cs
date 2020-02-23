@@ -5,7 +5,8 @@ using System.Collections.Generic;
 
 public class Settings_System : MonoBehaviour {
 
-    public Image settings_holder = null; 
+    private Image settings_holder = null; 
+    
 
     private Utility utility;
 
