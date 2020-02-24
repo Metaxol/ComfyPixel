@@ -45,6 +45,8 @@ public class Settings_System : MonoBehaviour {
             i.alignment = TextAnchor.MiddleCenter;
         }
 
+
+
         settings_holder.sprite = Resources.Load<Sprite>("Settings_System_Graphics/Settings_Holder");
         Time.timeScale = 0;
     }
