@@ -6,7 +6,8 @@ using System.Collections.Generic;
 public class Settings_System : MonoBehaviour {
 
     private Image settings_holder = null;
-    private List<Text> settings_texts = null;
+    private List<Image> settings_options;
+    private List<Text> settings_texts;
 
     private Utility utility;
 
@@ -29,23 +30,30 @@ public class Settings_System : MonoBehaviour {
         quit_sprite.sprite = Resources.Load<Sprite>("Settings_System_Graphics/Quit_Symbol");
         quit_sprite.rectTransform.SetParent(settings_holder.rectTransform);
 
+        settings_options = (List<Image>)utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 2, new string[] { "game_settings", "quit" }, 
+                                                                 new Vector2[] { new Vector2(600f, 600f), new Vector2(600f, 600f) },
+                                                                 new Vector3[] { new Vector3(-3f, 35f),  new Vector3(-3f, -205f) }, new Vector3[] { Vector3.zero, Vector3.zero });
+        foreach(Image i in settings_options)
+        {
+            i.sprite = Resources.Load<Sprite>("Settings_System_Graphics/Not_Chosen_Settings");
+            i.rectTransform.SetParent(settings_holder.rectTransform);
+        }
+
         settings_texts = (List<Text>)utility.create_ui_object(new GameObject().AddComponent<Text>(), new System.Type[] { typeof(Text) }, 2, new string[] { "settings_sprite_text", "quit_sprite_text" }, 
                                                               new Vector2[] { new Vector2(301.4f, 92.6f), new Vector2(301.4f, 92.6f) },
-                                                              new Vector3[] { new Vector3(-14.2f, 35f), new Vector3(-14.2f, -208f) }, new Vector3[] { Vector3.zero, Vector3.zero });
+                                                              new Vector3[] { new Vector3(-14.2f, 23f), new Vector3(-14.2f, -216f) }, new Vector3[] { Vector3.zero, Vector3.zero });
 
         settings_texts[0].text = "Settings";
-        settings_texts[0].rectTransform.SetParent(settings_sprite.rectTransform);
         settings_texts[1].text = "Quit";
-        settings_texts[1].rectTransform.SetParent(quit_sprite.rectTransform);
+
         foreach (Text i in settings_texts)
         {
-            i.fontSize = 100;
+            i.rectTransform.SetParent(settings_options[settings_texts.IndexOf(i)].rectTransform);
+            i.fontSize = 50;
             i.font = Resources.Load<Font>("Dialogue_System_Graphics/dpcomic");
             i.color = new Color(0f, 0f, 0f, 255f);
             i.alignment = TextAnchor.MiddleCenter;
         }
-
-
 
         settings_holder.sprite = Resources.Load<Sprite>("Settings_System_Graphics/Settings_Holder");
         Time.timeScale = 0;
@@ -58,6 +66,8 @@ public class Settings_System : MonoBehaviour {
             FindObjectOfType<Inventory_System>().Inventory_System_bool = false;
             FindObjectOfType<NPC_Dialogue_System>().NPC_Dialogue_System_bool = false;
             enabled = true;
+            utility.multiple_to_change.Add(utility.to_change);
+            utility.to_change = -1;
         }
         else if(Input.GetKeyDown(KeyCode.Escape) && enabled == true)
         {
@@ -67,6 +77,8 @@ public class Settings_System : MonoBehaviour {
             utility.delete_with_names(new string[] { settings_holder.name, "cover_game" });
             settings_holder = null;
             enabled = false;
+            utility.to_change = utility.multiple_to_change[0];
+            utility.multiple_to_change.Remove(utility.multiple_to_change[0]);
         }
     }
 
@@ -74,16 +86,16 @@ public class Settings_System : MonoBehaviour {
     {
         if (settings_holder != null)
         {
-            
-            if (Input.GetKeyDown(KeyCode.UpArrow))
+            utility.choose_buttons(settings_options.ToArray(), Resources.Load<Sprite>("Settings_System_Graphics/Chosen_Settings"), Resources.Load<Sprite>("Settings_System_Graphics/Not_Chosen_Settings"), 1, "hor");
+            if (Input.GetKeyDown(KeyCode.UpArrow) )
             {
-                settings_texts[0].color = new Color(128f / 255f, 8f / 255f, 8f / 255f, 255f / 255f);
-                settings_texts[1].color = new Color(0f, 0f, 0f, 255f);
+                settings_texts[0].rectTransform.localPosition = new Vector3(-13, -20);
+                settings_texts[1].rectTransform.localPosition = new Vector3(-11.2f, -11f);
             }
             else if (Input.GetKeyDown(KeyCode.DownArrow))
             {
-                settings_texts[1].color = new Color(128f / 255f, 8f / 255f, 8f / 255f, 255f);
-                settings_texts[0].color = new Color(0f, 0f, 0f, 255f);
+                settings_texts[1].rectTransform.localPosition = new Vector3(-11.2f, -21f);
+                settings_texts[0].rectTransform.localPosition = new Vector3(-11.2f, -12f);
             }
         }
     }

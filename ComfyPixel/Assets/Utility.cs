@@ -12,6 +12,7 @@ public class Utility : MonoBehaviour {
     public int current_line = 0;
 
     public int to_change = -1; //choosing variable 
+    public List<int> multiple_to_change;
 
     public GameObject referenc_name;
 
