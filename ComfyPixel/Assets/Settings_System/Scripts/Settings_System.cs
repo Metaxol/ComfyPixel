@@ -97,6 +97,16 @@ public class Settings_System : MonoBehaviour {
                 settings_texts[1].rectTransform.localPosition = new Vector3(-11.2f, -21f);
                 settings_texts[0].rectTransform.localPosition = new Vector3(-11.2f, -12f);
             }
+
+            if(settings_texts[0].rectTransform.localPosition == new Vector3(-13, -20) && Input.GetKeyDown(KeyCode.Return))
+            {
+
+            }
+            else if(settings_texts[1].rectTransform.localPosition == new Vector3(-11.2f, -21f) && Input.GetKeyDown(KeyCode.Return))
+            {
+               // Image quitting_choices = (Image)utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 1, new string[] { "quit_sprite" }, new Vector2[] { new Vector2(650f, 650f) },
+               //                                                          new Vector3[] { new Vector3(0f, -90f) }, new Vector3[] { Vector3.zero });
+            }
         }
     }
 
