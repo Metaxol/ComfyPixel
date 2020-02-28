@@ -755,6 +755,7 @@ MonoBehaviour:
   letter: 0
   current_line: 0
   to_change: -1
+  multiple_to_change: 
   referenc_name: {fileID: 0}
 --- !u!4 &1761469162
 Transform:
