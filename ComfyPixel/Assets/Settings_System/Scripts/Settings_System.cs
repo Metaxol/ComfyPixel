@@ -91,13 +91,22 @@ public class Settings_System : MonoBehaviour {
         quitting_choices.sprite = Resources.Load<Sprite>("Settings_System_Graphics/Not_Chosen_Settings");
         quitting_choices.rectTransform.SetParent(settings_holder.rectTransform);
 
-        quit_buttons = (List<Image>)utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 2, new string[] { "quit_yes", "quit_no" },
-                                                                         new Vector2[] { new Vector2(1000f, 1000f), new Vector2(1000f, 1000f) },
-                                                                         new Vector3[] { new Vector3(-629f, -7f), new Vector3(-391f, -7f) }, new Vector3[] { Vector3.zero, Vector3.zero });
+        quit_buttons = (List<Image>)utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 3, new string[] { "quit_yes", "quit_no", "close_button" },
+                                                                         new Vector2[] { new Vector2(1000f, 1000f), new Vector2(1000f, 1000f), new Vector2(400f, 400f) },
+                                                                         new Vector3[] { new Vector3(-629f, -7f), new Vector3(-391f, -7f), new Vector3(-303.1f, -94.4f) }, new Vector3[] { Vector3.zero, Vector3.zero, Vector3.zero  });
+
         foreach (Image i in quit_buttons)
         {
             i.rectTransform.SetParent(quitting_choices.rectTransform);
-            i.sprite = Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Not_Chosen");
+
+            if(quit_buttons.IndexOf(i) == 2)
+            {
+                i.sprite = Resources.Load<Sprite>("Dialogue_System_Graphics/Close_Not_Chosen");
+            }
+            else
+            {
+                i.sprite = Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Not_Chosen");
+            }
         }
 
         List<Text> quit_buttons_texts = (List<Text>)utility.create_ui_object(new GameObject().AddComponent<Text>(), new System.Type[] { typeof(Text) }, 2, new string[] { "quit_yes_text", "quit_no_text" },

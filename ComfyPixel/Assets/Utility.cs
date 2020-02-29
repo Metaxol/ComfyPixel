@@ -112,7 +112,7 @@ public class Utility : MonoBehaviour {
         }
     }
 
-    public void choose_buttons(Image[] button, Sprite button_chosen, Sprite button_not_chosen, int stop, string ver_hor)
+    public void choose_buttons(Image[] button, Sprite button_chosen, Sprite button_not_chosen, int stop, string ver_hor) //work  on implementing different sprites for specific buttons
     {
         options_choosing(stop, ver_hor); //can choose between buttons
         foreach(Image i in button)
