@@ -112,18 +112,18 @@ public class Utility : MonoBehaviour {
         }
     }
 
-    public void choose_buttons(Image[] button, Sprite button_chosen, Sprite button_not_chosen, int stop, string ver_hor) //work  on implementing different sprites for specific buttons
+    public void choose_buttons(Image[] button, Sprite[] button_chosen, Sprite[] button_not_chosen, int stop, string ver_hor) //work  on implementing different sprites for specific buttons
     {
         options_choosing(stop, ver_hor); //can choose between buttons
         foreach(Image i in button)
         {
             if (to_change == System.Array.IndexOf(button, i)) //working with index specification
             {
-                button[System.Array.IndexOf(button, i)].sprite = button_chosen; //chosen sprite, if number evaluates
+                button[System.Array.IndexOf(button, i)].sprite = button_chosen[System.Array.IndexOf(button, i)]; //chosen sprite, if number evaluates
             }
             else
             {
-                button[System.Array.IndexOf(button, i)].sprite = button_not_chosen; //default sprite, if otherwise 
+                button[System.Array.IndexOf(button, i)].sprite = button_not_chosen[System.Array.IndexOf(button, i)]; //default sprite, if otherwise 
             }
         }
     }

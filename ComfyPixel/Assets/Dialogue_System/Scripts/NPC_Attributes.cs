@@ -101,8 +101,8 @@ public class NPC_Attributes : MonoBehaviour {
             }
 
             //give ability to choose between buttons, always vertically because this is part of the dialogue_system
-            utility.choose_buttons(buttons.ToArray(), Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen"),
-                        Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Not_Chosen"), 1, "ver");
+            utility.choose_buttons(buttons.ToArray(),  new Sprite[] { Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen"), Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen") },
+                        new Sprite[] { Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Not_Chosen"), Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Not_Chosen") }, 1, "ver");
         }
     }
 

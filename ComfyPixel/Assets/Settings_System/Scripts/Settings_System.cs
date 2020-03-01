@@ -10,6 +10,7 @@ public class Settings_System : MonoBehaviour {
     private List<Text> settings_texts;
     private Image quitting_choices = null;
     private List<Image> quit_buttons = null;
+    private List<Text> quit_buttons_texts;
 
     private Utility utility;
 
@@ -101,7 +102,7 @@ public class Settings_System : MonoBehaviour {
 
             if(quit_buttons.IndexOf(i) == 2)
             {
-                i.sprite = Resources.Load<Sprite>("Dialogue_System_Graphics/Close_Not_Chosen");
+                i.sprite = Resources.Load<Sprite>("Settings_System_Graphics/Close_Not_Chosen");
             }
             else
             {
@@ -109,7 +110,7 @@ public class Settings_System : MonoBehaviour {
             }
         }
 
-        List<Text> quit_buttons_texts = (List<Text>)utility.create_ui_object(new GameObject().AddComponent<Text>(), new System.Type[] { typeof(Text) }, 2, new string[] { "quit_yes_text", "quit_no_text" },
+        quit_buttons_texts = (List<Text>)utility.create_ui_object(new GameObject().AddComponent<Text>(), new System.Type[] { typeof(Text) }, 2, new string[] { "quit_yes_text", "quit_no_text" },
                                                                          new Vector2[] { new Vector2(90f, 50f), new Vector2(90f, 50f) },
                                                                          new Vector3[] { new Vector3(-663.94f, -31.89997f), new Vector3(-426.17f, -31.89997f) }, new Vector3[] { Vector3.zero, Vector3.zero });
         foreach (Text i in quit_buttons_texts)
@@ -149,7 +150,8 @@ public class Settings_System : MonoBehaviour {
         {
             if (quitting_choices == null)
             {
-                utility.choose_buttons(settings_options.ToArray(), Resources.Load<Sprite>("Settings_System_Graphics/Chosen_Settings"), Resources.Load<Sprite>("Settings_System_Graphics/Not_Chosen_Settings"), 1, "hor");
+                utility.choose_buttons(settings_options.ToArray(), new Sprite[] { Resources.Load<Sprite>("Settings_System_Graphics/Chosen_Settings"), Resources.Load<Sprite>("Settings_System_Graphics/Chosen_Settings") },
+                    new Sprite[] { Resources.Load<Sprite>("Settings_System_Graphics/Not_Chosen_Settings"), Resources.Load<Sprite>("Settings_System_Graphics/Not_Chosen_Settings") }, 1, "hor");
 
                 if (Input.GetKeyDown(KeyCode.UpArrow))
                 {
@@ -162,20 +164,26 @@ public class Settings_System : MonoBehaviour {
                     settings_texts[0].rectTransform.localPosition = new Vector3(-11.2f, -12f);
                 }
             }
-            else if(quitting_choices != null)
+            else if (quitting_choices != null)
             {
-                utility.choose_buttons(quit_buttons.ToArray(), Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen"), Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Not_Chosen"),
-                       1, "ver");
-
-                if (Input.GetKeyDown(KeyCode.LeftArrow))
+                utility.choose_buttons(quit_buttons.ToArray(), new Sprite[] { Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen"), Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen"),
+                                                                              Resources.Load<Sprite>("Settings_System_Graphics/Close_Chosen")},
+                                                               new Sprite[] { Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Not_Chosen"), Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Not_Chosen"),
+                                                                              Resources.Load<Sprite>("Settings_System_Graphics/Close_Not_Chosen")}, 2, "ver");
+                if (quit_buttons[0].sprite == Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen"))
                 {
-                    quit_buttons[0].rectTransform.localPosition = new Vector3(-34.94006f, -32);
-                    quit_buttons[1].rectTransform.localPosition = new Vector3(-35.17001f, -24.89997f);
+                    quit_buttons_texts[0].rectTransform.localPosition = new Vector3(-34.94006f, -37);
+                    quit_buttons_texts[1].rectTransform.localPosition = new Vector3(-35.17001f, -24.89997f);
                 }
-                else if (Input.GetKeyDown(KeyCode.RightArrow))
+                else if(quit_buttons[1].sprite == Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen"))
                 {
-                    quit_buttons[1].rectTransform.localPosition = new Vector3(-35.17001f, -32f);
-                    quit_buttons[0].rectTransform.localPosition = new Vector3(-34.94006f, -24.89997f);
+                    quit_buttons_texts[1].rectTransform.localPosition = new Vector3(-35.17001f, -37f);
+                    quit_buttons_texts[0].rectTransform.localPosition = new Vector3(-34.94006f, -24.89997f);
+                }
+                else
+                {
+                    quit_buttons_texts[0].rectTransform.localPosition = new Vector3(-34.94006f, -24.89997f);
+                    quit_buttons_texts[1].rectTransform.localPosition = new Vector3(-35.17001f, -24.89997f);
                 }
             }
 
