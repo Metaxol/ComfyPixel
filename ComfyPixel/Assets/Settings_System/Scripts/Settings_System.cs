@@ -180,6 +180,7 @@ public class Settings_System : MonoBehaviour {
                     if (Input.GetKeyDown(KeyCode.Return))
                     {
                         Destroy(GameObject.Find(quitting_choices.name));
+                        
                     }
                 }
                 else
