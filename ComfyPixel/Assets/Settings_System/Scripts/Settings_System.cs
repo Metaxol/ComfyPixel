@@ -10,7 +10,7 @@ public class Settings_System : MonoBehaviour {
     private List<Text> settings_texts;
     private Image quitting_choices = null;
     private List<Image> quit_buttons = null;
-    private List<Text> quit_buttons_texts;
+    private Image game_settings_choices = null;
 
     private Utility utility;
 
@@ -93,34 +93,20 @@ public class Settings_System : MonoBehaviour {
         quitting_choices.rectTransform.SetParent(settings_holder.rectTransform);
 
         quit_buttons = (List<Image>)utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 2, new string[] { "quit_yes", "quit_no"},
-                                                                         new Vector2[] { new Vector2(1000f, 1000f), new Vector2(1000f, 1000f)},
-                                                                         new Vector3[] { new Vector3(-629f, -7f), new Vector3(-391f, -7f)}, new Vector3[] { Vector3.zero, Vector3.zero});
+                                                                         new Vector2[] { new Vector2(500f, 500f), new Vector2(630f, 650f)},
+                                                                         new Vector3[] { new Vector3(-654f, -58f), new Vector3(-429.9f, -42.3f) }, new Vector3[] { Vector3.zero, Vector3.zero});
 
         foreach (Image i in quit_buttons)
         {
             i.rectTransform.SetParent(quitting_choices.rectTransform);
-            i.sprite = Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Not_Chosen");           
-        }
-
-        quit_buttons_texts = (List<Text>)utility.create_ui_object(new GameObject().AddComponent<Text>(), new System.Type[] { typeof(Text) }, 2, new string[] { "quit_yes_text", "quit_no_text" },
-                                                                         new Vector2[] { new Vector2(90f, 50f), new Vector2(90f, 50f) },
-                                                                         new Vector3[] { new Vector3(-663.94f, -31.89997f), new Vector3(-426.17f, -31.89997f) }, new Vector3[] { Vector3.zero, Vector3.zero });
-        foreach (Text i in quit_buttons_texts)
-        {
-            if (quit_buttons_texts.IndexOf(i) == 0)
+            if(quit_buttons.IndexOf(i) == 0)
             {
-                i.text = "Yes";
-                i.rectTransform.SetParent(quit_buttons[0].rectTransform);
+                i.sprite = Resources.Load<Sprite>("Settings_System_Graphics/Agree_Not_Chosen");
             }
-            else if (quit_buttons_texts.IndexOf(i) == 1)
+            else if(quit_buttons.IndexOf(i) == 1)
             {
-                i.text = "No";
-                i.rectTransform.SetParent(quit_buttons[1].rectTransform);
-            }
-            i.font = Resources.Load<Font>("Dialogue_System_Graphics/dpcomic");
-            i.fontSize = 30;
-            i.color = new Color(0, 0, 0, 255f);
-            i.alignment = TextAnchor.MiddleCenter;
+                i.sprite = Resources.Load<Sprite>("Settings_System_Graphics/Close_Not_Chosen");
+            }  
         }
 
         Text quitting_text = (Text)utility.create_ui_object(new GameObject().AddComponent<Text>(), new System.Type[] { typeof(Text) }, 1, new string[] { "quitting_text" },
@@ -134,6 +120,13 @@ public class Settings_System : MonoBehaviour {
         quitting_text.rectTransform.SetParent(quitting_choices.rectTransform);
 
         utility.to_change = -1;
+    }
+
+    private void create_gamesettings_menu()
+    {
+        game_settings_choices = (Image)utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 1, new string[] { "quitting_choices" }, new Vector2[] { new Vector2(1200f, 1200f) },
+                                                                new Vector3[] { new Vector3(551f, -2.2888e-05f) }, new Vector3[] { Vector3.zero });
+        game_settings_choices.sprite = Resources.Load<Sprite>("Settings_System_Graphics/Settings_Holder");
     }
 
     private void use_settings_menu()
@@ -158,43 +151,31 @@ public class Settings_System : MonoBehaviour {
             }
             else if (quitting_choices != null)
             {
-                utility.choose_buttons(quit_buttons.ToArray(), new Sprite[] { Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen"), Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen")},
-                                                               new Sprite[] { Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Not_Chosen"), Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Not_Chosen")}, 
+                utility.choose_buttons(quit_buttons.ToArray(), new Sprite[] { Resources.Load<Sprite>("Settings_System_Graphics/Agree_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/Close_Chosen") },
+                                                               new Sprite[] { Resources.Load<Sprite>("Settings_System_Graphics/Agree_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/Close_Not_Chosen") }, 
                                                                               1, "ver");
-                if (quit_buttons[0].sprite == Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen"))
+                if (quit_buttons[0].sprite == Resources.Load<Sprite>("Settings_System_Graphics/Agree_Chosen"))
                 {
-                    quit_buttons_texts[0].rectTransform.localPosition = new Vector3(-34.94006f, -37);
-                    quit_buttons_texts[1].rectTransform.localPosition = new Vector3(-35.17001f, -24.89997f);
-
                     if (Input.GetKeyDown(KeyCode.Return))
                     {
                         Application.Quit();
                         print("Application should quit now.");
                     }
                 }
-                else if(quit_buttons[1].sprite == Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen"))
+                else if(quit_buttons[1].sprite == Resources.Load<Sprite>("Settings_System_Graphics/Close_Chosen"))
                 {
-                    quit_buttons_texts[1].rectTransform.localPosition = new Vector3(-35.17001f, -37f);
-                    quit_buttons_texts[0].rectTransform.localPosition = new Vector3(-34.94006f, -24.89997f);
-
                     if (Input.GetKeyDown(KeyCode.Return))
                     {
                         Destroy(GameObject.Find(quitting_choices.name));
-                        
                     }
-                }
-                else
-                {
-                    quit_buttons_texts[0].rectTransform.localPosition = new Vector3(-34.94006f, -24.89997f);
-                    quit_buttons_texts[1].rectTransform.localPosition = new Vector3(-35.17001f, -24.89997f);
                 }
             }
 
-            if(settings_texts[0].rectTransform.localPosition == new Vector3(-13, -20) && Input.GetKeyDown(KeyCode.Return))
+            if(settings_texts[0].rectTransform.localPosition == new Vector3(-11.2f, -20) && Input.GetKeyDown(KeyCode.Return))
             {
-                
+                create_gamesettings_menu();
             }
-            else if(settings_texts[1].rectTransform.localPosition == new Vector3(-11.2f, -21f) && Input.GetKeyDown(KeyCode.Return) && GameObject.Find("quit_yes_text") == null)
+            else if(settings_texts[1].rectTransform.localPosition == new Vector3(-11.2f, -21f) && Input.GetKeyDown(KeyCode.Return) && quitting_choices == null)
             {
                 create_quitting_menu();
             }
