@@ -11,6 +11,8 @@ public class Settings_System : MonoBehaviour {
     private Image quitting_choices = null;
     private List<Image> quit_buttons = null;
     private Image game_settings_choices = null;
+    private List<Image> game_settings_buttons = null;
+    private List<Image> sounds_graphics = null;
 
     private Utility utility;
 
@@ -124,16 +126,49 @@ public class Settings_System : MonoBehaviour {
 
     private void create_gamesettings_menu()
     {
-        game_settings_choices = (Image)utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 1, new string[] { "quitting_choices" }, new Vector2[] { new Vector2(1200f, 1200f) },
+        utility.to_change = -1;
+
+        game_settings_choices = (Image)utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 1, new string[] { "gsettings_choices" }, new Vector2[] { new Vector2(1200f, 1200f) },
                                                                 new Vector3[] { new Vector3(551f, -2.2888e-05f) }, new Vector3[] { Vector3.zero });
         game_settings_choices.sprite = Resources.Load<Sprite>("Settings_System_Graphics/Settings_Holder");
+        game_settings_choices.rectTransform.SetParent(settings_holder.rectTransform);
+
+        game_settings_buttons = (List<Image>)utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 3, new string[] { "sound_gsettings", "graphics_gsettings", "close_gsettings" }, 
+                                                                      new Vector2[] { new Vector2(500f, 500f), new Vector2(500f, 500f), new Vector2(600f, 600f) },
+                                                                      new Vector3[] { new Vector3(527f, 121.3f), new Vector3(527f, -133f), new Vector3(708f, -271f) }, new Vector3[] { Vector3.zero, Vector3.zero, Vector3.zero });
+        foreach(Image i in game_settings_buttons)
+        {
+            i.sprite = Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen");
+            i.rectTransform.SetParent(game_settings_choices.rectTransform);
+
+            if(game_settings_buttons.IndexOf(i) == 2)
+            {
+                i.sprite = Resources.Load<Sprite>("Settings_System_Graphics/Close_Not_Chosen");
+            }
+        }
+
+        sounds_graphics = (List<Image>)utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 2, new string[] { "sounds_g", "graphics_g" },
+                                                                new Vector2[] { new Vector2(400f, 400f), new Vector2(100f, 100f)},
+                                                                new Vector3[] { new Vector3(513.2f, 97.9f), new Vector3(513.2f, -142.8f) }, new Vector3[] { Vector3.zero, Vector3.zero});
+        foreach(Image i in sounds_graphics)
+        {
+            if(sounds_graphics.IndexOf(i) == 0)
+            {
+                i.sprite = Resources.Load<Sprite>("Settings_System_Graphics/SSettings_0");
+                i.rectTransform.SetParent(game_settings_buttons[0].rectTransform);
+            }
+            else if(sounds_graphics.IndexOf(i) == 1)
+            {
+                i.rectTransform.SetParent(game_settings_buttons[1].rectTransform);
+            }
+        }
     }
 
     private void use_settings_menu()
     {
         if (settings_holder != null)
         {
-            if (quitting_choices == null)
+            if (quitting_choices == null && game_settings_choices == null)
             {
                 utility.choose_buttons(settings_options.ToArray(), new Sprite[] { Resources.Load<Sprite>("Settings_System_Graphics/Chosen_Settings"), Resources.Load<Sprite>("Settings_System_Graphics/Chosen_Settings") },
                     new Sprite[] { Resources.Load<Sprite>("Settings_System_Graphics/Not_Chosen_Settings"), Resources.Load<Sprite>("Settings_System_Graphics/Not_Chosen_Settings") }, 1, "hor");
@@ -149,7 +184,7 @@ public class Settings_System : MonoBehaviour {
                     settings_texts[0].rectTransform.localPosition = new Vector3(-11.2f, -12f);
                 }
             }
-            else if (quitting_choices != null)
+            else if (quitting_choices != null && game_settings_choices == null)
             {
                 utility.choose_buttons(quit_buttons.ToArray(), new Sprite[] { Resources.Load<Sprite>("Settings_System_Graphics/Agree_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/Close_Chosen") },
                                                                new Sprite[] { Resources.Load<Sprite>("Settings_System_Graphics/Agree_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/Close_Not_Chosen") }, 
@@ -170,8 +205,31 @@ public class Settings_System : MonoBehaviour {
                     }
                 }
             }
+            else if(game_settings_choices != null && quitting_choices == null)
+            {
+                utility.choose_buttons(game_settings_buttons.ToArray(), new Sprite[] { Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"),
+                                                                                       Resources.Load<Sprite>("Settings_System_Graphics/Close_Chosen")},
+                                                                        new Sprite[] { Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"),
+                                                                                       Resources.Load<Sprite>("Settings_System_Graphics/Close_Not_Chosen")}, 2, "hor");
 
-            if(settings_texts[0].rectTransform.localPosition == new Vector3(-11.2f, -20) && Input.GetKeyDown(KeyCode.Return))
+                if(game_settings_buttons[0].sprite == Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"))
+                {
+
+                }
+                else if(game_settings_buttons[1].sprite == Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"))
+                {
+
+                }
+                else if(game_settings_buttons[2].sprite == Resources.Load<Sprite>("Settings_System_Graphics/Close_Chosen"))
+                {
+                    if (Input.GetKeyDown(KeyCode.Return))
+                    {
+                        Destroy(GameObject.Find(game_settings_choices.name));
+                    }
+                }
+            }
+
+            if(settings_texts[0].rectTransform.localPosition == new Vector3(-11.2f, -20) && Input.GetKeyDown(KeyCode.Return) && game_settings_choices == null)
             {
                 create_gamesettings_menu();
             }
