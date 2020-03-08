@@ -13,6 +13,7 @@ public class Settings_System : MonoBehaviour {
     private Image game_settings_choices = null;
     private List<Image> game_settings_buttons = null;
     private List<Image> sounds_graphics = null;
+    private int[] s_g_settings = new int[2];
 
     private Utility utility;
 
@@ -214,26 +215,47 @@ public class Settings_System : MonoBehaviour {
 
                 if(game_settings_buttons[0].sprite == Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"))
                 {
+                    sounds_graphics[0].rectTransform.localPosition = new Vector3(-13.79999f, -34.8f);
+                    if (Input.GetKeyDown(KeyCode.RightArrow))
+                    {
+                        s_g_settings[0] += 1;
 
+                        if(s_g_settings[0] > 3)
+                        {
+                            s_g_settings[0] = 3;
+                        }
+                    }
+                    else if (Input.GetKeyDown(KeyCode.LeftArrow))
+                    {
+                        s_g_settings[0] -= 1;
+
+                        if(s_g_settings[0] < 0)
+                        {
+                            s_g_settings[0] = 0;
+                        }
+                    }
+
+                    sounds_graphics[0].sprite = Resources.Load<Sprite>("Settings_System_Graphics/SSettings_" + s_g_settings[0].ToString());
                 }
                 else if(game_settings_buttons[1].sprite == Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"))
                 {
-
+                    sounds_graphics[0].rectTransform.localPosition = new Vector3(-13.79999f, -23.39999f);
                 }
                 else if(game_settings_buttons[2].sprite == Resources.Load<Sprite>("Settings_System_Graphics/Close_Chosen"))
                 {
                     if (Input.GetKeyDown(KeyCode.Return))
                     {
+                        utility.to_change = 0;
                         Destroy(GameObject.Find(game_settings_choices.name));
                     }
                 }
             }
 
-            if(settings_texts[0].rectTransform.localPosition == new Vector3(-11.2f, -20) && Input.GetKeyDown(KeyCode.Return) && game_settings_choices == null)
+            if(Input.GetKeyDown(KeyCode.Return) && game_settings_choices == null && settings_options[0].sprite == Resources.Load<Sprite>("Settings_System_Graphics/Chosen_Settings"))
             {
                 create_gamesettings_menu();
             }
-            else if(settings_texts[1].rectTransform.localPosition == new Vector3(-11.2f, -21f) && Input.GetKeyDown(KeyCode.Return) && quitting_choices == null)
+            else if(Input.GetKeyDown(KeyCode.Return) && quitting_choices == null && settings_options[1].sprite == Resources.Load<Sprite>("Settings_System_Graphics/Chosen_Settings"))
             {
                 create_quitting_menu();
             }
