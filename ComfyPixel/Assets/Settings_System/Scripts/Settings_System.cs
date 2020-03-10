@@ -149,17 +149,18 @@ public class Settings_System : MonoBehaviour {
         }
 
         sounds_graphics = (List<Image>)utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 2, new string[] { "sounds_g", "graphics_g" },
-                                                                new Vector2[] { new Vector2(400f, 400f), new Vector2(100f, 100f)},
-                                                                new Vector3[] { new Vector3(513.2f, 97.9f), new Vector3(513.2f, -142.8f) }, new Vector3[] { Vector3.zero, Vector3.zero});
+                                                                new Vector2[] { new Vector2(400f, 400f), new Vector2(250f, 250f)},
+                                                                new Vector3[] { new Vector3(513.2f, 97.9f), new Vector3(509.3f, -156f) }, new Vector3[] { Vector3.zero, Vector3.zero});
         foreach(Image i in sounds_graphics)
         {
             if(sounds_graphics.IndexOf(i) == 0)
             {
-                i.sprite = Resources.Load<Sprite>("Settings_System_Graphics/SSettings_0");
+                i.sprite = Resources.Load<Sprite>("Settings_System_Graphics/SSettings_" + s_g_settings[0].ToString());
                 i.rectTransform.SetParent(game_settings_buttons[0].rectTransform);
             }
             else if(sounds_graphics.IndexOf(i) == 1)
             {
+                i.sprite = Resources.Load<Sprite>("Settings_System_Graphics/GSettings_" + s_g_settings[1].ToString());
                 i.rectTransform.SetParent(game_settings_buttons[1].rectTransform);
             }
         }
@@ -216,6 +217,7 @@ public class Settings_System : MonoBehaviour {
                 if(game_settings_buttons[0].sprite == Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"))
                 {
                     sounds_graphics[0].rectTransform.localPosition = new Vector3(-13.79999f, -34.8f);
+                    sounds_graphics[1].rectTransform.localPosition = new Vector3(-17.70001f, -23.39999f);
                     if (Input.GetKeyDown(KeyCode.RightArrow))
                     {
                         s_g_settings[0] += 1;
@@ -239,10 +241,35 @@ public class Settings_System : MonoBehaviour {
                 }
                 else if(game_settings_buttons[1].sprite == Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"))
                 {
+                    sounds_graphics[1].rectTransform.localPosition = new Vector3(-17.70001f, -34.39999f);
                     sounds_graphics[0].rectTransform.localPosition = new Vector3(-13.79999f, -23.39999f);
+
+                    if (Input.GetKeyDown(KeyCode.RightArrow))
+                    {
+                        s_g_settings[1] += 1;
+
+                        if(s_g_settings[1] > 2)
+                        {
+                            s_g_settings[1] = 2;
+                        }
+                    }
+                    else if (Input.GetKeyDown(KeyCode.LeftArrow))
+                    {
+                        s_g_settings[1] -= 1;
+
+                        if(s_g_settings[1] < 0)
+                        {
+                            s_g_settings[1] = 0;
+                        }
+                    }
+
+                    sounds_graphics[1].sprite = Resources.Load<Sprite>("Settings_System_Graphics/GSettings_" + s_g_settings[1].ToString());
                 }
                 else if(game_settings_buttons[2].sprite == Resources.Load<Sprite>("Settings_System_Graphics/Close_Chosen"))
                 {
+                    sounds_graphics[0].rectTransform.localPosition = new Vector3(-13.79999f, -23.39999f);
+                    sounds_graphics[1].rectTransform.localPosition = new Vector3(-17.70001f, -23.39999f);
+
                     if (Input.GetKeyDown(KeyCode.Return))
                     {
                         utility.to_change = 0;
