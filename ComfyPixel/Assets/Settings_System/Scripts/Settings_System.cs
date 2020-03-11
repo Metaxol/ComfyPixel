@@ -13,7 +13,8 @@ public class Settings_System : MonoBehaviour {
     private Image game_settings_choices = null;
     private List<Image> game_settings_buttons = null;
     private List<Image> sounds_graphics = null;
-    private int[] s_g_settings = new int[2];
+    private int[] s_g_settings = new int[] { 3, 2};
+    private List<Text> s_g_texts = null;
 
     private Utility utility;
 
@@ -164,6 +165,27 @@ public class Settings_System : MonoBehaviour {
                 i.rectTransform.SetParent(game_settings_buttons[1].rectTransform);
             }
         }
+
+        s_g_texts = (List<Text>)utility.create_ui_object(new GameObject().AddComponent<Text>(), new System.Type[] { typeof(Text) }, 2, new string[] { "sound_sprite_text", "graphics_sprite_text" },
+                                                         new Vector2[] { new Vector2(205.11f, 28.23f), new Vector2(205.11f, 28.23f) },
+                                                         new Vector3[] { new Vector3(524.74f, 201.9f), new Vector3(524.74f, 201.9f) }, new Vector3[] { Vector3.zero, Vector3.zero });
+        foreach(Text i in s_g_texts)
+        {
+            if(s_g_texts.IndexOf(i) == 0)
+            {
+                i.text = "High Sound";
+                i.rectTransform.SetParent(sounds_graphics[0].rectTransform);
+            }
+            else if(s_g_texts.IndexOf(i) == 1)
+            {
+                i.text = "Graphics Sound";
+                i.rectTransform.SetParent(sounds_graphics[1].rectTransform);
+            }
+
+            i.color = Color.black;
+            i.font = Resources.Load<Font>("Dialogue_System_Graphics/dpcomic");
+            i.fontSize = 30;
+        }
     }
 
     private void use_settings_menu()
@@ -221,19 +243,31 @@ public class Settings_System : MonoBehaviour {
                     if (Input.GetKeyDown(KeyCode.RightArrow))
                     {
                         s_g_settings[0] += 1;
+                        AudioListener.volume += 0.3f;
 
-                        if(s_g_settings[0] > 3)
+                        if (s_g_settings[0] > 3)
                         {
                             s_g_settings[0] = 3;
+                            AudioListener.volume = 1.0f;
+                        }
+                        else if(s_g_settings[0] == 3)
+                        {
+                            AudioListener.volume = 1.0f;
                         }
                     }
                     else if (Input.GetKeyDown(KeyCode.LeftArrow))
                     {
                         s_g_settings[0] -= 1;
+                        AudioListener.volume -= 0.3f;
 
                         if(s_g_settings[0] < 0)
                         {
                             s_g_settings[0] = 0;
+                            AudioListener.volume = 0f;
+                        }
+                        else if(s_g_settings[0] == 0)
+                        {
+                            AudioListener.volume = 0f;
                         }
                     }
 
