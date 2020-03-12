@@ -171,6 +171,7 @@ public class Settings_System : MonoBehaviour {
                                                          new Vector3[] { new Vector3(524.74f, 201.9f), new Vector3(524.74f, 201.9f) }, new Vector3[] { Vector3.zero, Vector3.zero });
         foreach(Text i in s_g_texts)
         {
+            //fix positioning of texts
             if(s_g_texts.IndexOf(i) == 0)
             {
                 i.text = "High Sound";
