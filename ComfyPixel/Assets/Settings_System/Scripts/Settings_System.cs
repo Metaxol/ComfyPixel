@@ -31,7 +31,7 @@ public class Settings_System : MonoBehaviour {
         game_coverup.color = new Color(0f, 0f, 0f, 110f / 255f);
 
         //contains options to choose between quitting-game and game_settings_options
-        settings_holder = (Image)utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 1, new string[] { "inventory_holder" }, new Vector2[] { new Vector2(1046.8f, 1239f) },
+        settings_holder = (Image)utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 1, new string[] { "settings_holder" }, new Vector2[] { new Vector2(1046.8f, 1239f) },
                                                      new Vector3[] { new Vector3(13f, -2.2888e-05f) }, new Vector3[] { Vector3.zero });
 
         //setting quit-sprite-choice
@@ -96,7 +96,6 @@ public class Settings_System : MonoBehaviour {
             //deleting settings-holder which is containing settings_options
             utility.delete_with_names(new string[] { settings_holder.name, "cover_game" });
             settings_holder = null;
-
             enabled = false; //disabling this script
             utility.to_change = utility.multiple_to_change[0]; //to allow multiple multiple-choices
             utility.multiple_to_change.Remove(utility.multiple_to_change[0]); //remove multiple multiple-choices
