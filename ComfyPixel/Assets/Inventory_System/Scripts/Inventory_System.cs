@@ -9,6 +9,7 @@ public class Inventory_System : MonoBehaviour {
     private PlayerController playerController;
 
     private Image inv_Holder = null;
+    private List<Image> inv_options_holder = null;
 
     public bool Inventory_System_bool = true;
 
@@ -20,6 +21,17 @@ public class Inventory_System : MonoBehaviour {
         inv_Holder = (Image)utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 1, new string[] { "inventory_holder" }, new Vector2[] { new Vector2(1800f, 2000f) },
                                                            new Vector3[] { new Vector3(-556f, -1.2398e-05f) }, new Vector3[] { Vector3.zero });
         inv_Holder.sprite = Resources.Load<Sprite>("Settings_System_Graphics/Settings_Holder");
+
+        inv_options_holder = (List<Image>)utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 3, new string[] { "stats_holder", "attacks_holder", "items_holder"}, 
+                                                                   new Vector2[] { new Vector2(400f, 400f), new Vector2(600f, 400f), new Vector2(1067.3f, 800f)},
+                                                                   new Vector3[] { new Vector3(-751f, -330f), new Vector3(-499f, -330f), new Vector3(-597.4f, -8)}, 
+                                                                   new Vector3[] { Vector3.zero, Vector3.zero, Vector3.zero, });
+
+        foreach(Image i in inv_options_holder)
+        {
+            i.sprite = Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen");
+            i.rectTransform.SetParent(inv_Holder.rectTransform);
+        }
     }
 
     public void close_inv_menu()
