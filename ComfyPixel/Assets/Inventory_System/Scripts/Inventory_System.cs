@@ -12,6 +12,8 @@ public class Inventory_System : MonoBehaviour {
     private Image inv_Holder = null;
     private List<Image> inv_options_holder = null;
 
+    //individual stuff for general interfaces
+    private List<Image> items_places = new List<Image>(12);
 
     public bool Inventory_System_bool = true;
 
@@ -62,15 +64,16 @@ public class Inventory_System : MonoBehaviour {
             i.font = Resources.Load<Font>("Dialogue_System_Graphics/dpcomic");
             i.fontSize = 40;
             i.color = Color.black;
-            i.text = "7";
             i.alignment = TextAnchor.MiddleCenter;
             if(stats_sprites_texts.IndexOf(i) == 0)
             {
                 i.rectTransform.SetParent(stats_sprites[0].rectTransform);
+                i.text = playerController.player_stats[0].ToString();
             }
             else if(stats_sprites_texts.IndexOf(i) == 1)
             {
                 i.rectTransform.SetParent(stats_sprites[1].rectTransform);
+                i.text = playerController.player_stats[1].ToString();
             }
         }
 
@@ -78,6 +81,15 @@ public class Inventory_System : MonoBehaviour {
         {
             i.sprite = Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen");
             i.rectTransform.SetParent(inv_Holder.rectTransform);
+        }
+
+        items_places = (List<Image>)utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 12, new string[] { "items_place", "items_place", "items_place", "items_place", "items_place", "items_place", "items_place", "items_place", "items_place", "items_place", "items_place", "items_place", },
+                                                                              new Vector2[] { new Vector2(200f, 200f), new Vector2(200f, 200f), new Vector2(200f, 200f), new Vector2(200f, 200f), new Vector2(200f, 200f), new Vector2(200f, 200f), new Vector2(200f, 200f), new Vector2(200f, 200f), new Vector2(200f, 200f), new Vector2(200f, 200f), new Vector2(200f, 200f),  new Vector2(200f, 200f) },
+                                                                              new Vector3[] { new Vector3(-757f, 87f), new Vector3(-757f+104f, 87f), new Vector3(-757f + 104f*2, 87f), new Vector3(-757f + 104f*3, 87f), new Vector3(-757f, 87f-106f), new Vector3(-757f + 104f, 87f-106f), new Vector3(-757f + 104f * 2, 87f-106f), new Vector3(-757f + 104f * 3, 87f-106), new Vector3(-757f, 87f-106*2), new Vector3(-757f+104f, 87f-106*2), new Vector3(-757f + 104f*2, 87f-106*2), new Vector3(-757f + 104f*3, 87f-106*2),},
+                                                                              new Vector3[] { Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, });
+        foreach (Image i in items_places)
+        {
+            i.sprite = Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen");
         }
     }
 
@@ -136,6 +148,12 @@ public class Inventory_System : MonoBehaviour {
             }
             else if(inv_options_holder[2].sprite == Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"))
             {
+                foreach (Image i in items_places)
+                {
+                    i.rectTransform.localPosition += new Vector3(0, -10f, 0);
+                }
+               
+
                 GameObject.Find("att_stat").GetComponent<Image>().rectTransform.localPosition = new Vector3(-40.20007f, 35.89996f);
                 GameObject.Find("def_stat").GetComponent<Image>().rectTransform.localPosition = new Vector3(-40.20007f, -47.20001f);
             }

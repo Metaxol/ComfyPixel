@@ -11,7 +11,8 @@ public class PlayerController : MonoBehaviour {
 
     public GameObject NPC;
 
-    private int[] player_stats = new int[3];
+    public int[] player_stats = new int[3];
+    public Sprite[] player_items = new Sprite[12];
 
     private void player_movement(float moveSpeed, float jumpHeight)
     {
@@ -99,8 +100,6 @@ public class PlayerController : MonoBehaviour {
 
     private void Update()
     {
-        print(player_stats[0]);
-        player_stats[0] += 1;
         FindObjectOfType<Settings_System>().player_handling();
     }
 

@@ -417,6 +417,8 @@ MonoBehaviour:
   Sprites:
   - {fileID: 21300000, guid: 9c5073d418327924bb57aa3a05c3be62, type: 3}
   - {fileID: 21300000, guid: 6bbdb7182a4ebd64c810736e7ba261c2, type: 3}
+  dialogue_scroll_speed: 0.03
+  dialogue_text_font: {fileID: 12800000, guid: 182b5e396a4da7741974033b1804414a, type: 3}
   stop_scroll_line: 5
   oneTime: 1
 --- !u!1 &896561817
@@ -639,6 +641,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Dialogue: {fileID: 4900000, guid: 054bc7e9d3b435343a1aebc08d3ca893, type: 3}
   Sprites: []
+  dialogue_scroll_speed: 0.03
+  dialogue_text_font: {fileID: 12800000, guid: 182b5e396a4da7741974033b1804414a, type: 3}
   stop_scroll_line: 4
   oneTime: 1
 --- !u!1 &1665526152

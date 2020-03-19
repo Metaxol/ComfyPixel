@@ -8,6 +8,8 @@ public class NPC_Attributes : MonoBehaviour {
     //NPC attributes, more will be added 
     public TextAsset Dialogue;
     public Sprite[] Sprites;
+    public float dialogue_scroll_speed;
+    public Font dialogue_text_font;
 
     //variabled for NPC's to handle dialogue
     private Image sprite_box;

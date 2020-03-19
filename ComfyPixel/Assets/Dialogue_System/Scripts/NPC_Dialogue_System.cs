@@ -40,7 +40,7 @@ public class NPC_Dialogue_System : MonoBehaviour {
 
                 //supplies the needed parameters to dialogue_system class
                 utility.run_text(utility.split_text(playerController.NPC.GetComponent<NPC_Attributes>().Dialogue.text),
-                                                    dialogue_text, 0.07f);
+                                                    dialogue_text, playerController.NPC.GetComponent<NPC_Attributes>().dialogue_scroll_speed);
 
                 //when dialogue hits length of lines
                 if (utility.current_line == playerController.NPC.GetComponent<NPC_Attributes>().stop_scroll_line)
@@ -112,7 +112,7 @@ public class NPC_Dialogue_System : MonoBehaviour {
         //making dialogue_text-specifications
         dialogue_text.color = new Color(0f, 0f, 0f, 255f);
         dialogue_text.fontSize = 60;
-        dialogue_text.font = Resources.Load<Font>("Dialogue_System_Graphics/dpcomic");
+        dialogue_text.font = playerController.NPC.GetComponent<NPC_Attributes>().dialogue_text_font;
         dialogue_text.GetComponent<RectTransform>().transform.SetParent(dialogue_box.GetComponent<RectTransform>(), false);
     }
 
