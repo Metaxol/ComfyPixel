@@ -90,6 +90,7 @@ public class Inventory_System : MonoBehaviour {
         foreach (Image i in items_places)
         {
             i.sprite = Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen");
+            i.rectTransform.SetParent(inv_options_holder[2].rectTransform);
         }
     }
 
@@ -140,19 +141,38 @@ public class Inventory_System : MonoBehaviour {
             {
                 GameObject.Find("att_stat").GetComponent<Image>().rectTransform.localPosition = new Vector3(-40.20007f, 22.49997f);
                 GameObject.Find("def_stat").GetComponent<Image>().rectTransform.localPosition = new Vector3(-40.20007f, -60.6f);
+                if (items_places[items_places.Count - 1].rectTransform.position != new Vector3(515.0f, 415.0f, 0f))
+                {
+                    foreach (Image i in items_places)
+                    {
+
+                        i.rectTransform.localPosition -= new Vector3(0, -22f, 0);
+                    }
+                }
             }
             else if(inv_options_holder[1].sprite == Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"))
             {
                 GameObject.Find("att_stat").GetComponent<Image>().rectTransform.localPosition = new Vector3(-40.20007f, 35.89996f);
                 GameObject.Find("def_stat").GetComponent<Image>().rectTransform.localPosition = new Vector3(-40.20007f, -47.20001f);
+                if (items_places[items_places.Count - 1].rectTransform.position != new Vector3(515.0f, 415.0f, 0f))
+                {
+                    foreach (Image i in items_places)
+                    {
+
+                        i.rectTransform.localPosition -= new Vector3(0, -22f, 0);
+                    }
+                }
             }
             else if(inv_options_holder[2].sprite == Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"))
             {
-                foreach (Image i in items_places)
+                if (items_places[items_places.Count - 1].rectTransform.position == new Vector3(515.0f, 415.0f, 0f))
                 {
-                    i.rectTransform.localPosition += new Vector3(0, -10f, 0);
+                    foreach (Image i in items_places)
+                    {
+
+                        i.rectTransform.localPosition += new Vector3(0, -22f, 0);
+                    }
                 }
-               
 
                 GameObject.Find("att_stat").GetComponent<Image>().rectTransform.localPosition = new Vector3(-40.20007f, 35.89996f);
                 GameObject.Find("def_stat").GetComponent<Image>().rectTransform.localPosition = new Vector3(-40.20007f, -47.20001f);
