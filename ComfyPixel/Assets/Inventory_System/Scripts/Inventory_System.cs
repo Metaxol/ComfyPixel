@@ -14,6 +14,8 @@ public class Inventory_System : MonoBehaviour {
 
     //individual stuff for general interfaces
     private List<Image> items_places = new List<Image>(12);
+    public bool inventory_bool;
+    private bool stats_bool;
 
     public bool Inventory_System_bool = true;
 
@@ -105,6 +107,7 @@ public class Inventory_System : MonoBehaviour {
         {
 
         }
+        inventory_bool = false;
         inv_Holder = null;
         playerController.canMove = true;
         utility.to_change = -1; //to choose between different option-systems
@@ -120,7 +123,7 @@ public class Inventory_System : MonoBehaviour {
             {
                 spawn_inv_menu();
             }
-            else if (Input.GetKeyDown(KeyCode.F) && inv_Holder != null)
+            else if (Input.GetKeyDown(KeyCode.F) && inv_Holder != null && !inventory_bool && !stats_bool)
             {
                 close_inv_menu();
             }
@@ -132,9 +135,12 @@ public class Inventory_System : MonoBehaviour {
             FindObjectOfType<NPC_Dialogue_System>().NPC_Dialogue_System_bool = false;
 
             //choosing between inv_options
-            utility.choose_buttons(inv_options_holder.ToArray(), new Sprite[] { Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen") },
-                                   new Sprite[] { Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen") }, 
-                                   2, "ver");
+            if (!inventory_bool && !stats_bool)
+            {
+                utility.choose_buttons(inv_options_holder.ToArray(), new Sprite[] { Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen") },
+                       new Sprite[] { Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen") },
+                       2, "ver");
+            }
 
             //moving specific elements in windows when chosen/not chosen
             if(inv_options_holder[0].sprite == Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"))
@@ -149,6 +155,24 @@ public class Inventory_System : MonoBehaviour {
                         i.rectTransform.localPosition -= new Vector3(0, -22f, 0);
                     }
                 }
+
+                if (Input.GetKeyDown(KeyCode.D))
+                {
+                    stats_bool = true;
+                    Image text_inv_holder = (Image)utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 1, new string[] { "stats_text_holder" }, new Vector2[] { new Vector2(830f, 650f) },
+                                                           new Vector3[] { new Vector3(-71f, -351.7f) }, new Vector3[] { Vector3.zero });
+                    text_inv_holder.sprite = Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen");
+                    Text stats_text = (Text)utility.create_ui_object(new GameObject().AddComponent<Text>(), new System.Type[] { typeof(Text) }, 1, new string[] { "stats_text" }, new Vector2[] { new Vector2(325f, 230f) },
+                                                           new Vector3[] { new Vector3(-71f, -360.9f) }, new Vector3[] { Vector3.zero });
+                    stats_text.fontSize = 45;
+                    stats_text.font = Resources.Load<Font>("Dialogue_System_Graphics/dpcomic");
+                    stats_text.color = Color.black;
+
+                    while(stats_text.text != "You have " + playerController.player_stats[0] + " Attack points and " + playerController.player_stats[1] + " Defense points.")
+                    {
+                        utility.run_text(new List<string> { "You have " + playerController.player_stats[0] + " Attack points and " + playerController.player_stats[1] + " Defense points." }, stats_text, 0.3f);
+                    }
+                }
             }
             else if(inv_options_holder[1].sprite == Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"))
             {
@@ -158,7 +182,6 @@ public class Inventory_System : MonoBehaviour {
                 {
                     foreach (Image i in items_places)
                     {
-
                         i.rectTransform.localPosition -= new Vector3(0, -22f, 0);
                     }
                 }
@@ -169,9 +192,42 @@ public class Inventory_System : MonoBehaviour {
                 {
                     foreach (Image i in items_places)
                     {
-
                         i.rectTransform.localPosition += new Vector3(0, -22f, 0);
                     }
+                }
+
+                if (Input.GetKeyDown(KeyCode.D) && !inventory_bool)
+                {
+                    items_places[0].sprite = Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen");
+                    utility.to_change = 0;
+                }
+
+                foreach(Image i in items_places)
+                {
+                    if(i.sprite == Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"))
+                    {
+                        inventory_bool = true;
+                    }
+                }
+
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    utility.to_change = 2;
+                    inventory_bool = false;
+                    foreach(Image i in items_places)
+                    {
+                        if(i.sprite == Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"))
+                        {
+                            i.sprite = Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen");
+                        }
+                    }
+                }
+
+                if (inventory_bool)
+                {
+                    utility.choose_buttons(items_places.ToArray(), new Sprite[] { Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen")},
+                                                         new Sprite[] { Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen") },
+                                                         11, "ver");
                 }
 
                 GameObject.Find("att_stat").GetComponent<Image>().rectTransform.localPosition = new Vector3(-40.20007f, 35.89996f);

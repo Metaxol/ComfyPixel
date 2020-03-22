@@ -182,7 +182,7 @@ public class Utility : MonoBehaviour {
         }
     }
 
-    public void run_text(List<string> lines, Text text_box, float scroll_speed) ///default input is e
+    public void run_text(List<string> lines, Text text_box, float scroll_speed) //default input is e
     {
         if (can_scroll)
         {
