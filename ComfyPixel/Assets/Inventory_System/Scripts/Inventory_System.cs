@@ -14,8 +14,8 @@ public class Inventory_System : MonoBehaviour {
 
     //individual stuff for general interfaces
     private List<Image> items_places = new List<Image>(12);
-    public bool inventory_bool;
-    private bool stats_bool;
+    private bool inventory_bool;
+    public bool stats_bool;
 
     public bool Inventory_System_bool = true;
 
@@ -156,22 +156,31 @@ public class Inventory_System : MonoBehaviour {
                     }
                 }
 
-                if (Input.GetKeyDown(KeyCode.D))
+                Image text_inv_holder = null;
+                Text stats_text = null;
+
+                if (Input.GetKeyDown(KeyCode.D) && !stats_bool)
                 {
                     stats_bool = true;
-                    Image text_inv_holder = (Image)utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 1, new string[] { "stats_text_holder" }, new Vector2[] { new Vector2(830f, 650f) },
+                    text_inv_holder = (Image)utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 1, new string[] { "stats_text_holder" }, new Vector2[] { new Vector2(830f, 650f) },
                                                            new Vector3[] { new Vector3(-71f, -351.7f) }, new Vector3[] { Vector3.zero });
                     text_inv_holder.sprite = Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen");
-                    Text stats_text = (Text)utility.create_ui_object(new GameObject().AddComponent<Text>(), new System.Type[] { typeof(Text) }, 1, new string[] { "stats_text" }, new Vector2[] { new Vector2(325f, 230f) },
+                    stats_text = (Text)utility.create_ui_object(new GameObject().AddComponent<Text>(), new System.Type[] { typeof(Text) }, 1, new string[] { "stats_text" }, new Vector2[] { new Vector2(325f, 230f) },
                                                            new Vector3[] { new Vector3(-71f, -360.9f) }, new Vector3[] { Vector3.zero });
+                    stats_text.rectTransform.SetParent(text_inv_holder.rectTransform);
                     stats_text.fontSize = 45;
                     stats_text.font = Resources.Load<Font>("Dialogue_System_Graphics/dpcomic");
                     stats_text.color = Color.black;
+                }
 
-                    while(stats_text.text != "You have " + playerController.player_stats[0] + " Attack points and " + playerController.player_stats[1] + " Defense points.")
+                if (stats_bool)
+                {
+                    if (Input.GetKeyDown(KeyCode.E) && GameObject.Find("stats_text").GetComponent<Text>().text == ("You have " + playerController.player_stats[0] + " Attack points and " + playerController.player_stats[1] + " Defense points."))
                     {
-                        utility.run_text(new List<string> { "You have " + playerController.player_stats[0] + " Attack points and " + playerController.player_stats[1] + " Defense points." }, stats_text, 0.3f);
+                        Destroy(GameObject.Find("stats_text_holder"));
+                        stats_bool = false;
                     }
+                    utility.run_text(new List<string> { "You have " + playerController.player_stats[0] + " Attack points and " + playerController.player_stats[1] + " Defense points." }, GameObject.Find("stats_text").GetComponent<Text>(), 0.03f);
                 }
             }
             else if(inv_options_holder[1].sprite == Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"))
