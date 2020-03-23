@@ -161,6 +161,9 @@ public class Inventory_System : MonoBehaviour {
 
                 if (Input.GetKeyDown(KeyCode.D) && !stats_bool)
                 {
+                    utility.can_scroll = true;
+                    utility.letter = 0;
+                    utility.current_line = 0;
                     stats_bool = true;
                     text_inv_holder = (Image)utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 1, new string[] { "stats_text_holder" }, new Vector2[] { new Vector2(830f, 650f) },
                                                            new Vector3[] { new Vector3(-71f, -351.7f) }, new Vector3[] { Vector3.zero });
@@ -179,6 +182,9 @@ public class Inventory_System : MonoBehaviour {
                     {
                         Destroy(GameObject.Find("stats_text_holder"));
                         stats_bool = false;
+                        utility.can_scroll = true;
+                        utility.letter = 0;
+                        utility.current_line = 0;
                     }
                     utility.run_text(new List<string> { "You have " + playerController.player_stats[0] + " Attack points and " + playerController.player_stats[1] + " Defense points." }, GameObject.Find("stats_text").GetComponent<Text>(), 0.03f);
                 }

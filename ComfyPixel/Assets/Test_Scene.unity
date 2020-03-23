@@ -866,6 +866,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6454865853b7224093dd52292682361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stats_bool: 0
   Inventory_System_bool: 1
 --- !u!114 &1761469164
 MonoBehaviour:
@@ -1091,6 +1092,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canMove: 1
   NPC: {fileID: 0}
+  player_stats: 000000000000000000000000
+  player_items:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!58 &1925472699
 CircleCollider2D:
   m_ObjectHideFlags: 0
