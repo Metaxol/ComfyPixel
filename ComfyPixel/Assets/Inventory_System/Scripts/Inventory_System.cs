@@ -14,6 +14,7 @@ public class Inventory_System : MonoBehaviour {
 
     //individual stuff for general interfaces
     private List<Image> items_places = new List<Image>(12);
+    private List<Image> items_places_sprites = new List<Image>(12);
     private bool inventory_bool;
     public bool stats_bool;
 
@@ -93,6 +94,17 @@ public class Inventory_System : MonoBehaviour {
         {
             i.sprite = Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen");
             i.rectTransform.SetParent(inv_options_holder[2].rectTransform);
+        }
+
+        //y=106.07806, x=103.9969
+        items_places_sprites = (List<Image>)utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 12, new string[] { "items_place_sprite", "items_place_sprite", "items_place_sprite", "items_place_sprite", "items_place_sprite", "items_place_sprite", "items_place_sprite", "items_place_sprite", "items_place_sprite", "items_place_sprite", "items_place_sprite", "items_place_sprite" },
+                                                                     new Vector2[] { new Vector2(82.12f, 82.142f), new Vector2(82.12f, 82.142f), new Vector2(82.12f, 82.142f), new Vector2(82.12f, 82.142f), new Vector2(82.12f, 82.142f), new Vector2(82.12f, 82.142f), new Vector2(82.12f, 82.142f), new Vector2(82.12f, 82.142f), new Vector2(82.12f, 82.142f), new Vector2(82.12f, 82.142f), new Vector2(82.12f, 82.142f), new Vector2(82.12f, 82.142f) },
+                                                                     new Vector3[] { new Vector3(-757.9969f, 83.97806f), new Vector3(-757.9969f+ 103.9969f, 83.97806f), new Vector3(-757.9969f+103.9969f*2, 83.97806f), new Vector3(-757.9969f+103.9969f*3, 83.97806f), new Vector3(-757.9969f, 83.97806f-106.07806f), new Vector3(-757.9969f + 103.9969f, 83.97806f - 106.07806f), new Vector3(-757.9969f + 103.9969f * 2, 83.97806f - 106.07806f), new Vector3(-757.9969f + 103.9969f * 3, 83.97806f - 106.07806f), new Vector3(-757.9969f, 83.97806f - 106.07806f*2), new Vector3(-757.9969f + 103.9969f, 83.97806f - 106.07806f*2), new Vector3(-757.9969f + 103.9969f * 2, 83.97806f - 106.07806f*2), new Vector3(-757.9969f + 103.9969f * 3, 83.97806f - 106.07806f*2), },
+                                                                     new Vector3[] { Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero });
+        foreach(Image i in items_places_sprites)
+        {
+            i.rectTransform.SetParent(items_places[items_places_sprites.IndexOf(i)].rectTransform);
+            i.sprite = Resources.Load<Sprite>("Inventory_System_Graphics/Test_Item");
         }
     }
 
@@ -214,6 +226,7 @@ public class Inventory_System : MonoBehaviour {
                 if (Input.GetKeyDown(KeyCode.D) && !inventory_bool)
                 {
                     items_places[0].sprite = Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen");
+                    items_places_sprites[0].rectTransform.localPosition -= new Vector3(0, 5.878058f, 0);
                     utility.to_change = 0;
                 }
 

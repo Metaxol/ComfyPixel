@@ -10,7 +10,7 @@ Du kannst jetzt nochmal zwischen zwei Optionen waehlen!
 Du hast wieder die erste Option gewaehlt.
 Ich hoffe, dass dir diese Option gefaellt.
 Der Dialog wird jetzt beendet.
-Diesmal hast du die zweite Option gewaehlt!
+Du bekommst jetzt einen potenziellen zweiten Pokeball!
 Jetzt wird der Dialog beendet.
 Oder?
 Jetzt wird er wirklich beendet.

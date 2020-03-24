@@ -133,7 +133,7 @@ public class NPC_Attributes : MonoBehaviour {
                                 sprite_box.sprite = Sprites[1];
                                 break;
                             case 3:
-                                NPC_dialogue_choosing(new string[] { "Ja", "Nein" },
+                                NPC_dialogue_choosing(new string[] { "Get a Pokeball!", "Nein" },
                                                       new int[] { 9, 4 }, new int[] { 18, 16 });
                                 break;
                             case 8:
