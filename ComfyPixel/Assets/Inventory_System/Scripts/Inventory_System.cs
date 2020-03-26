@@ -253,9 +253,34 @@ public class Inventory_System : MonoBehaviour {
 
                 if (inventory_bool)
                 {
+                    List<Vector3> items_sprites_pos = new List<Vector3>(0);
+                    foreach(Image i in items_places_sprites)
+                    {
+                        items_sprites_pos.Add(i.rectTransform.localPosition);
+                    }
+
                     utility.choose_buttons(items_places.ToArray(), new Sprite[] { Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen")},
                                                          new Sprite[] { Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen") },
                                                          11, "ver");
+
+                    if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.LeftArrow))
+                    {
+                        foreach (Image i in items_places_sprites)
+                        {
+                            if (i.rectTransform.localPosition.y < items_sprites_pos[items_places_sprites.IndexOf(i)].y)
+                            {
+                                i.rectTransform.localPosition += new Vector3(0, 5.878058f, 0);
+                            }
+                        }
+
+                        foreach (Image i in items_places)
+                        {
+                            if (i.sprite == Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"))
+                            {
+                                i.rectTransform.GetChild(0).GetComponent<Image>().rectTransform.localPosition -= new Vector3(0, 5.878058f, 0);
+                            }
+                        }
+                    }
                 }
 
                 GameObject.Find("att_stat").GetComponent<Image>().rectTransform.localPosition = new Vector3(-40.20007f, 35.89996f);
