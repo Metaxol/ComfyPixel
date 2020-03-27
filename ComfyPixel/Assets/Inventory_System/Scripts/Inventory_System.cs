@@ -71,12 +71,12 @@ public class Inventory_System : MonoBehaviour {
             if(stats_sprites_texts.IndexOf(i) == 0)
             {
                 i.rectTransform.SetParent(stats_sprites[0].rectTransform);
-                i.text = playerController.player_stats[0].ToString();
+                i.text = (playerController.player_stats[0] + playerController.added_player_stats[0]).ToString();
             }
             else if(stats_sprites_texts.IndexOf(i) == 1)
             {
                 i.rectTransform.SetParent(stats_sprites[1].rectTransform);
-                i.text = playerController.player_stats[1].ToString();
+                i.text = (playerController.player_stats[1] + playerController.added_player_stats[1]).ToString();
             }
         }
 
@@ -190,7 +190,7 @@ public class Inventory_System : MonoBehaviour {
 
                 if (stats_bool)
                 {
-                    if (Input.GetKeyDown(KeyCode.E) && GameObject.Find("stats_text").GetComponent<Text>().text == ("You have " + playerController.player_stats[0] + " Attack points and " + playerController.player_stats[1] + " Defense points."))
+                    if (Input.GetKeyDown(KeyCode.E) && GameObject.Find("stats_text").GetComponent<Text>().text == ("You have " + playerController.player_stats[0] + " Attack points (+" + playerController.added_player_stats[0] + ") and " + playerController.player_stats[1] + " Defense points (+" + playerController.added_player_stats[1] + ")."))
                     {
                         Destroy(GameObject.Find("stats_text_holder"));
                         stats_bool = false;
@@ -198,7 +198,7 @@ public class Inventory_System : MonoBehaviour {
                         utility.letter = 0;
                         utility.current_line = 0;
                     }
-                    utility.run_text(new List<string> { "You have " + playerController.player_stats[0] + " Attack points and " + playerController.player_stats[1] + " Defense points." }, GameObject.Find("stats_text").GetComponent<Text>(), 0.03f);
+                    utility.run_text(new List<string> { "You have " + playerController.player_stats[0] + " Attack points (+" + playerController.added_player_stats[0] + ") and "  + playerController.player_stats[1] + " Defense points (+" + playerController.added_player_stats[1] + ")." }, GameObject.Find("stats_text").GetComponent<Text>(), 0.03f);
                 }
             }
             else if(inv_options_holder[1].sprite == Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"))
@@ -227,6 +227,7 @@ public class Inventory_System : MonoBehaviour {
                 {
                     items_places[0].sprite = Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen");
                     items_places_sprites[0].rectTransform.localPosition -= new Vector3(0, 5.878058f, 0);
+                    items_places_sprites[0].tag = "inv_item_chosen";
                     utility.to_change = 0;
                 }
 
@@ -253,32 +254,36 @@ public class Inventory_System : MonoBehaviour {
 
                 if (inventory_bool)
                 {
-                    List<Vector3> items_sprites_pos = new List<Vector3>(0);
-                    foreach(Image i in items_places_sprites)
+                    if(Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow))
                     {
-                        items_sprites_pos.Add(i.rectTransform.localPosition);
+                        foreach(Image i in items_places)
+                        {
+                            if (i.sprite == Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"))
+                            {
+                                i.rectTransform.GetChild(0).tag = "prev_inv_item_chosen";
+                            }
+                        }
                     }
 
                     utility.choose_buttons(items_places.ToArray(), new Sprite[] { Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen")},
                                                          new Sprite[] { Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen") },
                                                          11, "ver");
 
-                    if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.LeftArrow))
+                    foreach(Image i in items_places_sprites)
                     {
-                        foreach (Image i in items_places_sprites)
+                        if(i.tag == "prev_inv_item_chosen")
                         {
-                            if (i.rectTransform.localPosition.y < items_sprites_pos[items_places_sprites.IndexOf(i)].y)
+                            foreach(Image o in items_places)
                             {
-                                i.rectTransform.localPosition += new Vector3(0, 5.878058f, 0);
+                                if(o.sprite == Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"))
+                                {
+                                    o.tag = "inv_item_chosen";
+                                    o.rectTransform.GetChild(0).localPosition -= new Vector3(0, 5.878058f, 0);
+                                }
                             }
-                        }
 
-                        foreach (Image i in items_places)
-                        {
-                            if (i.sprite == Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"))
-                            {
-                                i.rectTransform.GetChild(0).GetComponent<Image>().rectTransform.localPosition -= new Vector3(0, 5.878058f, 0);
-                            }
+                            i.rectTransform.localPosition += new Vector3(0, 5.878058f, 0);
+                            i.tag = "Untagged";
                         }
                     }
                 }

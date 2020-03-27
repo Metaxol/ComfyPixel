@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour {
     public GameObject NPC;
 
     public int[] player_stats = new int[3]; //attack, def, health
+    public int[] added_player_stats = new int[3];
     public Sprite[] player_items = new Sprite[12];
 
     private void player_movement(float moveSpeed, float jumpHeight)

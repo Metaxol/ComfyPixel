@@ -9,6 +9,8 @@ TagManager:
   - NPC_untalkable
   - NPC_nottalk
   - destroy
+  - inv_item_chosen
+  - prev_inv_item_chosen
   layers:
   - Default
   - TransparentFX
