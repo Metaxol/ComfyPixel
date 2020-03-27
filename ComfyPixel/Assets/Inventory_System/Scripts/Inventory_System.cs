@@ -14,9 +14,10 @@ public class Inventory_System : MonoBehaviour {
 
     //individual stuff for general interfaces
     private List<Image> items_places = new List<Image>(12);
-    private List<Image> items_places_sprites = new List<Image>(12);
+    public List<Image> items_places_sprites = new List<Image>(12);
     private bool inventory_bool;
     public bool stats_bool;
+    public enum item_type{permament, temporary};
 
     public bool Inventory_System_bool = true;
 
@@ -104,7 +105,23 @@ public class Inventory_System : MonoBehaviour {
         foreach(Image i in items_places_sprites)
         {
             i.rectTransform.SetParent(items_places[items_places_sprites.IndexOf(i)].rectTransform);
-            i.sprite = Resources.Load<Sprite>("Inventory_System_Graphics/Test_Item");
+        }
+    }
+
+    public void add_item(Sprite item_sprite, int stat_amount, int increase_stat, item_type type, int amount_rounds=0)
+    {
+        switch (item_sprite.name)
+        {
+            
+        }
+
+        if(type == item_type.permament)
+        {
+
+        }
+        else if(type == item_type.temporary)
+        {
+
         }
     }
 
@@ -248,6 +265,7 @@ public class Inventory_System : MonoBehaviour {
                         if(i.sprite == Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"))
                         {
                             i.sprite = Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen");
+                            i.rectTransform.GetChild(0).localPosition += new Vector3(0, 5.878058f, 0);
                         }
                     }
                 }
