@@ -137,12 +137,6 @@ public class NPC_Attributes : MonoBehaviour {
                                 NPC_dialogue_choosing(new string[] { "Get a Pokeball!", "Nein" },
                                                       new int[] { 9, 4 }, new int[] { 18, 16 });
                                 break;
-                            case 4:
-                                if (Input.GetKeyDown(KeyCode.E))
-                                {
-                                    Inventory_System.add_item(Resources.Load<Sprite>("Inventory_System_Graphics/Test_Item"), 0, 1, Inventory_System.item_type.temporary);
-                                }
-                                break;
                             case 8:
                                 NPC_dialogue_choosing(new string[] { "Ja, ich werde.", "Auf keinen Fall!" },
                                                       new int[] { 12, 9 }, new int[] { 16, 12 });

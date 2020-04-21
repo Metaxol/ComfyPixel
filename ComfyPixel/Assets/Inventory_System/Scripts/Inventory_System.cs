@@ -17,6 +17,7 @@ public class Inventory_System : MonoBehaviour {
     public List<Image> items_places_sprites = new List<Image>(12);
     private Sprite[] remember_sprites = new Sprite[12];
     private bool inventory_bool;
+    private bool once = true;
     public bool stats_bool;
     public enum item_type{permament, temporary};
     [SerializeField] private string current_item_text;
@@ -108,23 +109,10 @@ public class Inventory_System : MonoBehaviour {
         foreach (Image i in items_places_sprites)
         {
             i.rectTransform.SetParent(items_places[items_places_sprites.IndexOf(i)].rectTransform);
-            print(items_places_sprites.IndexOf(i));
         }
     }
 
-    public void add_item(Sprite item_sprite, int stat_amount, int increase_stat, item_type type, int amount_rounds=0)
-    {
-        playerController.added_player_stats[stat_amount] += increase_stat;
-        current_item_text = "This is a test item. It will increase your Attack Points by +1.";
-        foreach(Sprite i in remember_sprites)
-        {
-            if(i == null)
-            {
-                remember_sprites[A]
-            }
-            break;
-        }
-    }
+
 
     public void close_inv_menu()
     {
@@ -137,6 +125,7 @@ public class Inventory_System : MonoBehaviour {
         {
 
         }
+        once = true;
         inventory_bool = false;
         inv_Holder = null;
         playerController.canMove = true;
@@ -155,6 +144,7 @@ public class Inventory_System : MonoBehaviour {
             }
             else if (Input.GetKeyDown(KeyCode.F) && inv_Holder != null && !inventory_bool && !stats_bool)
             {
+                
                 close_inv_menu();
             }
         }
@@ -170,6 +160,7 @@ public class Inventory_System : MonoBehaviour {
                 utility.choose_buttons(inv_options_holder.ToArray(), new Sprite[] { Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen") },
                        new Sprite[] { Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen") },
                        2, "ver");
+                print("shit");
             }
 
             //moving specific elements in windows when chosen/not chosen
@@ -177,14 +168,6 @@ public class Inventory_System : MonoBehaviour {
             {
                 GameObject.Find("att_stat").GetComponent<Image>().rectTransform.localPosition = new Vector3(-40.20007f, 22.49997f);
                 GameObject.Find("def_stat").GetComponent<Image>().rectTransform.localPosition = new Vector3(-40.20007f, -60.6f);
-                if (items_places[items_places.Count - 1].rectTransform.position != new Vector3(515.0f, 415.0f, 0f))
-                {
-                    foreach (Image i in items_places)
-                    {
-
-                        i.rectTransform.localPosition -= new Vector3(0, -22f, 0);
-                    }
-                }
 
                 Image text_inv_holder = null;
                 Text stats_text = null;
@@ -221,24 +204,27 @@ public class Inventory_System : MonoBehaviour {
             }
             else if(inv_options_holder[1].sprite == Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"))
             {
-                GameObject.Find("att_stat").GetComponent<Image>().rectTransform.localPosition = new Vector3(-40.20007f, 35.89996f);
-                GameObject.Find("def_stat").GetComponent<Image>().rectTransform.localPosition = new Vector3(-40.20007f, -47.20001f);
-                if (items_places[items_places.Count - 1].rectTransform.position != new Vector3(515.0f, 415.0f, 0f))
+                if (!once)
                 {
                     foreach (Image i in items_places)
                     {
-                        i.rectTransform.localPosition -= new Vector3(0, -22f, 0);
+                        i.rectTransform.localPosition += new Vector3(0, 22f, 0);
                     }
+                    once = true;
                 }
+
+                GameObject.Find("att_stat").GetComponent<Image>().rectTransform.localPosition = new Vector3(-40.20007f, 35.89996f);
+                GameObject.Find("def_stat").GetComponent<Image>().rectTransform.localPosition = new Vector3(-40.20007f, -47.20001f);
             }
             else if(inv_options_holder[2].sprite == Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"))
             {
-                if (items_places[items_places.Count - 1].rectTransform.position == new Vector3(515.0f, 415.0f, 0f))
+                if (once)
                 {
                     foreach (Image i in items_places)
                     {
                         i.rectTransform.localPosition += new Vector3(0, -22f, 0);
                     }
+                    once = false;
                 }
 
                 if (Input.GetKeyDown(KeyCode.D) && !inventory_bool)
@@ -261,9 +247,9 @@ public class Inventory_System : MonoBehaviour {
                 {
                     utility.to_change = 2;
                     inventory_bool = false;
-                    foreach(Image i in items_places)
+                    foreach (Image i in items_places)
                     {
-                        if(i.sprite == Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"))
+                        if (i.sprite == Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"))
                         {
                             i.sprite = Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen");
                             i.rectTransform.GetChild(0).localPosition += new Vector3(0, 5.878058f, 0);
