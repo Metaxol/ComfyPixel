@@ -24,6 +24,8 @@ public class NPC_Attributes : MonoBehaviour {
     private List<Image> buttons = new List<Image>();
     private List<Text> buttons_texts = new List<Text>();
 
+    public Sprite test;
+
     private void NPC_dialogue_choosing(string[] button_texts, int[] new_dialogue_attr_1, int[] new_dialogue_attr_2)
     {
         if (oneTime && FindObjectOfType<NPC_Dialogue_System>().NPC_Dialogue_System_bool)
@@ -136,6 +138,16 @@ public class NPC_Attributes : MonoBehaviour {
                             case 3:
                                 NPC_dialogue_choosing(new string[] { "Get a Pokeball!", "Nein" },
                                                       new int[] { 9, 4 }, new int[] { 18, 16 });
+                                break;
+                            case 4:
+                                if (oneTime)
+                                {
+                                    Inventory_System.add_normal_item(Resources.Load<Sprite>("Inventory_System_Graphics/Test_Item"));
+                                    oneTime = false;
+                                }
+                                break;
+                            case 5:
+                                oneTime = true;
                                 break;
                             case 8:
                                 NPC_dialogue_choosing(new string[] { "Ja, ich werde.", "Auf keinen Fall!" },

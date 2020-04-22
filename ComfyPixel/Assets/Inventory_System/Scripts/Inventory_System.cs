@@ -99,8 +99,7 @@ public class Inventory_System : MonoBehaviour {
             i.sprite = Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen");
             i.rectTransform.SetParent(inv_options_holder[2].rectTransform);
         }
-        remember_sprites[0] = Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen");
-        //y=106.07806, x=103.9969
+
         items_places_sprites = (List<Image>)utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 12, new string[] { "items_place_sprite", "items_place_sprite", "items_place_sprite", "items_place_sprite", "items_place_sprite", "items_place_sprite", "items_place_sprite", "items_place_sprite", "items_place_sprite", "items_place_sprite", "items_place_sprite", "items_place_sprite" },
                                                                      new Vector2[] { new Vector2(82.12f, 82.142f), new Vector2(82.12f, 82.142f), new Vector2(82.12f, 82.142f), new Vector2(82.12f, 82.142f), new Vector2(82.12f, 82.142f), new Vector2(82.12f, 82.142f), new Vector2(82.12f, 82.142f), new Vector2(82.12f, 82.142f), new Vector2(82.12f, 82.142f), new Vector2(82.12f, 82.142f), new Vector2(82.12f, 82.142f), new Vector2(82.12f, 82.142f) },
                                                                      new Vector3[] { new Vector3(-757.9969f, 83.97806f), new Vector3(-757.9969f+ 103.9969f, 83.97806f), new Vector3(-757.9969f+103.9969f*2, 83.97806f), new Vector3(-757.9969f+103.9969f*3, 83.97806f), new Vector3(-757.9969f, 83.97806f-106.07806f), new Vector3(-757.9969f + 103.9969f, 83.97806f - 106.07806f), new Vector3(-757.9969f + 103.9969f * 2, 83.97806f - 106.07806f), new Vector3(-757.9969f + 103.9969f * 3, 83.97806f - 106.07806f), new Vector3(-757.9969f, 83.97806f - 106.07806f*2), new Vector3(-757.9969f + 103.9969f, 83.97806f - 106.07806f*2), new Vector3(-757.9969f + 103.9969f * 2, 83.97806f - 106.07806f*2), new Vector3(-757.9969f + 103.9969f * 3, 83.97806f - 106.07806f*2), },
@@ -109,10 +108,23 @@ public class Inventory_System : MonoBehaviour {
         foreach (Image i in items_places_sprites)
         {
             i.rectTransform.SetParent(items_places[items_places_sprites.IndexOf(i)].rectTransform);
+            i.sprite = remember_sprites[items_places_sprites.IndexOf(i)];
         }
+
+        inv_Holder.rectTransform.position += new Vector3(100f, 0f, 0f);
     }
 
-
+    public void add_normal_item(Sprite item_sprite)
+    {
+        for(int x=0; x < remember_sprites.Length - 1; x++)
+        {
+            if(remember_sprites[x] == null)
+            {
+                remember_sprites[x] = item_sprite;
+                break;
+            }
+        }
+    }
 
     public void close_inv_menu()
     {
@@ -160,7 +172,6 @@ public class Inventory_System : MonoBehaviour {
                 utility.choose_buttons(inv_options_holder.ToArray(), new Sprite[] { Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen") },
                        new Sprite[] { Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen") },
                        2, "ver");
-                print("shit");
             }
 
             //moving specific elements in windows when chosen/not chosen

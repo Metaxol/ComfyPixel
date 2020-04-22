@@ -421,6 +421,7 @@ MonoBehaviour:
   dialogue_text_font: {fileID: 12800000, guid: 182b5e396a4da7741974033b1804414a, type: 3}
   stop_scroll_line: 5
   oneTime: 1
+  test: {fileID: 21300000, guid: f2eddf2eca4fe4645ac99b9f956db07a, type: 3}
 --- !u!1 &896561817
 GameObject:
   m_ObjectHideFlags: 0
@@ -645,6 +646,7 @@ MonoBehaviour:
   dialogue_text_font: {fileID: 12800000, guid: 182b5e396a4da7741974033b1804414a, type: 3}
   stop_scroll_line: 4
   oneTime: 1
+  test: {fileID: 0}
 --- !u!1 &1665526152
 GameObject:
   m_ObjectHideFlags: 0
@@ -866,7 +868,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6454865853b7224093dd52292682361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  items_places_sprites: []
+  remember_sprites:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   stats_bool: 0
+  current_item_text: 
   Inventory_System_bool: 1
 --- !u!114 &1761469164
 MonoBehaviour:
@@ -1093,6 +1110,7 @@ MonoBehaviour:
   canMove: 1
   NPC: {fileID: 0}
   player_stats: 000000000000000000000000
+  added_player_stats: 000000000000000000000000
   player_items:
   - {fileID: 0}
   - {fileID: 0}
