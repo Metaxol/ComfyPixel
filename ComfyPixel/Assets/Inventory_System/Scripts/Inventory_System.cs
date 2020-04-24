@@ -15,13 +15,15 @@ public class Inventory_System : MonoBehaviour {
     //individual stuff for general interfaces
     private List<Image> items_places = new List<Image>(12);
     public List<Image> items_places_sprites = new List<Image>(12);
+    private List<Text> stats_sprites_texts = new List<Text>();
+    private List<Image> eqp_slots = new List<Image>();
     private Sprite[] remember_sprites = new Sprite[12];
     private bool inventory_bool;
     private bool once = true;
     public bool stats_bool;
     public enum item_type{permament, temporary};
     [SerializeField] private string current_item_text;
-
+    
     public bool Inventory_System_bool = true;
 
     private void spawn_inv_menu()
@@ -60,8 +62,18 @@ public class Inventory_System : MonoBehaviour {
             i.rectTransform.SetParent(inv_options_holder[0].rectTransform);
         }
 
+        eqp_slots = (List<Image>)utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 4, new string[] { "player_hat", "player__weapon", "player_barmor", "player_shoes" },
+                                                                          new Vector2[] { new Vector2(300f, 300f), new Vector2(300f, 300f), new Vector2(300f, 300f), new Vector2(300f, 300f) },
+                                                                          new Vector3[] { new Vector3(-781f, 324.3f), new Vector3(-657f, 211.7f), new Vector3(-534f, 324.3f), new Vector3(-407f, 211.7f) },
+                                                                          new Vector3[] { Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero });
+        foreach(Image i in eqp_slots)
+        {
+            i.sprite = Resources.Load<Sprite>("Inventory_System_Graphics/eqp_not_chosen");
+            i.rectTransform.SetParent(inv_Holder.rectTransform);
+        }
+
         //texts for sprites
-        List<Text> stats_sprites_texts = (List<Text>)utility.create_ui_object(new GameObject().AddComponent<Text>(), new System.Type[] { typeof(Text) }, 2, new string[] { "att_stat_text", "def_stat_text" },
+        stats_sprites_texts = (List<Text>)utility.create_ui_object(new GameObject().AddComponent<Text>(), new System.Type[] { typeof(Text) }, 2, new string[] { "att_stat_text", "def_stat_text" },
                                                                               new Vector2[] { new Vector2(70f, 70f), new Vector2(70f, 70f) },
                                                                               new Vector3[] { new Vector3(-719.5f, -296.9f), new Vector3(-719.5f, -377.2f) },
                                                                               new Vector3[] { Vector3.zero, Vector3.zero });
@@ -163,6 +175,17 @@ public class Inventory_System : MonoBehaviour {
 
         if (inv_Holder != null)
         {
+            foreach(Text i in stats_sprites_texts)
+            {
+                if (stats_sprites_texts.IndexOf(i) == 0)
+                {
+                    i.text = (playerController.player_stats[0] + playerController.added_player_stats[0]).ToString();
+                }
+                else if (stats_sprites_texts.IndexOf(i) == 1)
+                {
+                    i.text = (playerController.player_stats[1] + playerController.added_player_stats[1]).ToString();
+                }
+            }
 
             FindObjectOfType<NPC_Dialogue_System>().NPC_Dialogue_System_bool = false;
 
@@ -405,6 +428,21 @@ public class Inventory_System : MonoBehaviour {
                                                 if (o.sprite == Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"))
                                                 {
                                                     o.GetComponent<Image>().rectTransform.GetChild(0).GetComponent<Image>().sprite = null;
+                                                    remember_sprites[items_places.IndexOf(o)] = null;
+                                                }
+                                            }
+                                            Destroy(GameObject.Find("item_options"));
+                                            utility.to_change = utility.multiple_to_change[0];
+                                            utility.multiple_to_change.Remove(utility.multiple_to_change[0]);
+                                        }
+                                        else if(Input.GetKeyDown(KeyCode.D) && GameObject.Find("options2").GetComponent<Image>().sprite == Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen"))
+                                        {
+                                            foreach (Image o in items_places)
+                                            {
+                                                if (o.sprite == Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"))
+                                                {
+                                                    o.GetComponent<Image>().rectTransform.GetChild(0).GetComponent<Image>().sprite = null;
+                                                    remember_sprites[items_places.IndexOf(o)] = null;
                                                 }
                                             }
                                             Destroy(GameObject.Find("item_options"));
@@ -439,7 +477,6 @@ public class Inventory_System : MonoBehaviour {
 
     private void Update()
     {
-        print(utility.to_change);
         use_inv_men();
     }
 }
