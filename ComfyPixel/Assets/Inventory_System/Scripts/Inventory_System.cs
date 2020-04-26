@@ -532,7 +532,7 @@ public class Inventory_System : MonoBehaviour {
                         {
                             if (options_buttons_texts.IndexOf(o) == 0)
                             {
-                                o.text = "STATS";
+                                o.text = "UNEQUIP";
                                 o.rectTransform.SetParent(GameObject.Find("options1").GetComponent<Image>().rectTransform);
                             }
                             else if (options_buttons_texts.IndexOf(o) == 1)
