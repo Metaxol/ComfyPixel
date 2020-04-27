@@ -17,7 +17,9 @@ public class Inventory_System : MonoBehaviour {
     public List<Image> items_places_sprites = new List<Image>(12);
     private List<Text> stats_sprites_texts = new List<Text>();
     private List<Image> eqp_slots = new List<Image>();
+    private List<Image> eqp_slots_sprites = new List<Image>();
     private Sprite[] remember_sprites = new Sprite[12];
+    private Sprite[] remember_eqp_sprites = new Sprite[4];
     private bool inventory_bool;
     private bool once = true;
     public bool stats_bool;
@@ -66,7 +68,33 @@ public class Inventory_System : MonoBehaviour {
                                                                           new Vector2[] { new Vector2(300f, 300f), new Vector2(300f, 300f), new Vector2(300f, 300f), new Vector2(300f, 300f) },
                                                                           new Vector3[] { new Vector3(-781f, 324.3f), new Vector3(-657f, 211.7f), new Vector3(-534f, 324.3f), new Vector3(-407f, 211.7f) },
                                                                           new Vector3[] { Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero });
-        foreach(Image i in eqp_slots)
+
+        eqp_slots_sprites = (List<Image>)utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 4, new string[] { "player_hat_sprite", "player__weapon_sprite", "player_barmor_sprite", "player_shoes_sprite" },
+                                                                          new Vector2[] { new Vector2(84.243f, 84.67f), new Vector2(84.243f, 84.67f), new Vector2(84.243f, 84.67f), new Vector2(84.243f, 84.67f) },
+                                                                          new Vector3[] { new Vector3(-781f, 324.3f), new Vector3(-657f, 211.7f), new Vector3(-534f, 324.3f), new Vector3(-407f, 211.7f) },
+                                                                          new Vector3[] { Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero });
+        foreach(Image i in eqp_slots_sprites)
+        {
+            i.sprite = remember_eqp_sprites[eqp_slots_sprites.IndexOf(i)];
+            i.rectTransform.SetParent(eqp_slots[eqp_slots_sprites.IndexOf(i)].rectTransform);
+            switch (eqp_slots_sprites.IndexOf(i))
+            {
+                case 0:
+                    i.rectTransform.localPosition = new Vector3(-9.1f, 9.3f);
+                    break;
+                case 1:
+                    i.rectTransform.localPosition = new Vector3(-9.1f, 9.2f);
+                    break;
+                case 2:
+                    i.rectTransform.localPosition = new Vector3(-8.9f, 8.9f);
+                    break;
+                case 3:
+                    i.rectTransform.localPosition = new Vector3(-9f, 9.1f);
+                    break;
+            }
+        }
+
+        foreach (Image i in eqp_slots)
         {
             i.sprite = Resources.Load<Sprite>("Inventory_System_Graphics/eqp_not_chosen");
             i.rectTransform.SetParent(inv_Holder.rectTransform);
@@ -420,7 +448,7 @@ public class Inventory_System : MonoBehaviour {
                                 switch (i.sprite.name)
                                 {
                                     case "Test_Item":
-                                        GameObject.Find("options_text").GetComponent<Text>().text = "This is a test item. It gives you +1 Attack.";
+                                        GameObject.Find("options_text").GetComponent<Text>().text = "This is a test item. It gives you +1 Attack when equipped.";
                                         if (Input.GetKeyDown(KeyCode.D) && GameObject.Find("options1").GetComponent<Image>().sprite == Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen"))
                                         {
                                             playerController.added_player_stats[0] += 1;
@@ -437,6 +465,39 @@ public class Inventory_System : MonoBehaviour {
                                             utility.multiple_to_change.Remove(utility.multiple_to_change[0]);
                                         }
                                         else if(Input.GetKeyDown(KeyCode.D) && GameObject.Find("options2").GetComponent<Image>().sprite == Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen"))
+                                        {
+                                            foreach (Image o in items_places)
+                                            {
+                                                if (o.sprite == Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"))
+                                                {
+                                                    o.GetComponent<Image>().rectTransform.GetChild(0).GetComponent<Image>().sprite = null;
+                                                    remember_sprites[items_places.IndexOf(o)] = null;
+                                                }
+                                            }
+                                            Destroy(GameObject.Find("item_options"));
+                                            utility.to_change = utility.multiple_to_change[0];
+                                            utility.multiple_to_change.Remove(utility.multiple_to_change[0]);
+                                        }
+                                        break;
+                                    case "Test_Item_head":
+                                        //fill eqp_slot
+                                        //GameObject.Find("options_text").GetComponent<Text>().text = "This is a test item. It gives you +1 Attack when equipped.";
+                                        if (Input.GetKeyDown(KeyCode.D) && GameObject.Find("options1").GetComponent<Image>().sprite == Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen"))
+                                        {
+                                            playerController.added_player_stats[0] += 1;
+                                            foreach (Image o in items_places)
+                                            {
+                                                if (o.sprite == Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"))
+                                                {
+                                                    o.GetComponent<Image>().rectTransform.GetChild(0).GetComponent<Image>().sprite = null;
+                                                    remember_sprites[items_places.IndexOf(o)] = null;
+                                                }
+                                            }
+                                            Destroy(GameObject.Find("item_options"));
+                                            utility.to_change = utility.multiple_to_change[0];
+                                            utility.multiple_to_change.Remove(utility.multiple_to_change[0]);
+                                        }
+                                        else if (Input.GetKeyDown(KeyCode.D) && GameObject.Find("options2").GetComponent<Image>().sprite == Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen"))
                                         {
                                             foreach (Image o in items_places)
                                             {
