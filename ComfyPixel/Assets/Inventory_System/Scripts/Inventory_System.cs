@@ -22,6 +22,7 @@ public class Inventory_System : MonoBehaviour {
     private Sprite[] remember_eqp_sprites = new Sprite[4];
     private bool inventory_bool;
     private bool once = true;
+    private Image test;
     public bool stats_bool;
     public enum item_type{permament, temporary};
     [SerializeField] private string current_item_text;
@@ -224,6 +225,23 @@ public class Inventory_System : MonoBehaviour {
                 utility.choose_buttons(inv_options_holder.ToArray(), new Sprite[] { Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"), Resources.Load<Sprite>("Inventory_System_Graphics/eqp_chosen"), Resources.Load<Sprite>("Inventory_System_Graphics/eqp_chosen"), Resources.Load<Sprite>("Inventory_System_Graphics/eqp_chosen"), Resources.Load<Sprite>("Inventory_System_Graphics/eqp_chosen"), },
                        new Sprite[] { Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen"), Resources.Load<Sprite>("Inventory_System_Graphics/eqp_not_chosen"), Resources.Load<Sprite>("Inventory_System_Graphics/eqp_not_chosen"), Resources.Load<Sprite>("Inventory_System_Graphics/eqp_not_chosen"), Resources.Load<Sprite>("Inventory_System_Graphics/eqp_not_chosen"), },
                        6, "ver");
+
+                if(Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow))
+                {
+                    if(test != null)
+                    {
+                        GameObject.Find(test.name).GetComponent<Image>().rectTransform.GetChild(0).GetComponent<Image>().rectTransform.localPosition += new Vector3(0f, 6f);
+                    }
+
+                    foreach (Image i in inv_options_holder)
+                    {
+                        if (i.sprite == Resources.Load<Sprite>("Inventory_System_Graphics/eqp_chosen"))
+                        {
+                            test = i;
+                            i.rectTransform.GetChild(0).GetComponent<Image>().rectTransform.localPosition -= new Vector3(0f, 6);
+                        }
+                    }
+                }
             }
 
             //moving specific elements in windows when chosen/not chosen
@@ -484,6 +502,8 @@ public class Inventory_System : MonoBehaviour {
                                         //GameObject.Find("options_text").GetComponent<Text>().text = "This is a test item. It gives you +1 Attack when equipped.";
                                         if (Input.GetKeyDown(KeyCode.D) && GameObject.Find("options1").GetComponent<Image>().sprite == Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen"))
                                         {
+                                            remember_eqp_sprites[0] = i.sprite;
+                                            eqp_slots_sprites[0].sprite = i.sprite;
                                             playerController.added_player_stats[0] += 1;
                                             foreach (Image o in items_places)
                                             {
@@ -565,6 +585,7 @@ public class Inventory_System : MonoBehaviour {
                 }
                 if (i.sprite == Resources.Load<Sprite>("Inventory_System_Graphics/eqp_chosen") && Input.GetKeyDown(KeyCode.D))
                 {
+
                     if (GameObject.Find("item_options") == null)
                     {
                         utility.multiple_to_change.Add(utility.to_change);

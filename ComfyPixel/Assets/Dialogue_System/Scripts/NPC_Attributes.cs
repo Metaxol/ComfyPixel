@@ -142,7 +142,7 @@ public class NPC_Attributes : MonoBehaviour {
                             case 4:
                                 if (oneTime)
                                 {
-                                    Inventory_System.add_normal_item(Resources.Load<Sprite>("Inventory_System_Graphics/Test_Item"));
+                                    Inventory_System.add_normal_item(Resources.Load<Sprite>("Inventory_System_Graphics/Test_Item_head"));
                                     oneTime = false;
                                 }
                                 break;
