@@ -18,7 +18,7 @@ public class Inventory_System : MonoBehaviour {
     private List<Text> stats_sprites_texts = new List<Text>();
     private List<Image> eqp_slots = new List<Image>();
     private List<Image> eqp_slots_sprites = new List<Image>();
-    private Sprite[] remember_sprites = new Sprite[12];
+    public Sprite[] remember_sprites = new Sprite[12];
     private Sprite[] remember_eqp_sprites = new Sprite[4];
     private bool inventory_bool;
     private bool once = true;
@@ -154,17 +154,30 @@ public class Inventory_System : MonoBehaviour {
 
         inv_Holder.rectTransform.position += new Vector3(100f, 0f, 0f);
         inv_options_holder.AddRange(eqp_slots);
+
+        for (int x = 0; x < items_places_sprites.Count; x++)
+        {
+            remember_sprites[x] = Resources.Load<Sprite>("Inventory_System_Graphics/Test_Item_head");
+        }
     }
 
     public void add_normal_item(Sprite item_sprite)
     {
-        for(int x=0; x < remember_sprites.Length - 1; x++)
+        for(int x=0; x < remember_sprites.Length+1; x++)
         {
-            if(remember_sprites[x] == null)
+            if (remember_sprites[x] == null)
             {
                 remember_sprites[x] = item_sprite;
+                try
+                {
+                    items_places_sprites[x].sprite = item_sprite;
+                }
+                catch
+                {
+
+                }
                 break;
-            }
+            }            
         }
     }
 
@@ -472,7 +485,6 @@ public class Inventory_System : MonoBehaviour {
                                 switch (i.sprite.name)
                                 {
                                     case "Test_Item":
-                                        GameObject.Find("options_text").GetComponent<Text>().text = "This is a test item. It gives you +1 Attack when equipped.";
                                         if (Input.GetKeyDown(KeyCode.D) && GameObject.Find("options1").GetComponent<Image>().sprite == Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen"))
                                         {
                                             playerController.added_player_stats[0] += 1;
@@ -504,8 +516,7 @@ public class Inventory_System : MonoBehaviour {
                                         }
                                         break;
                                     case "Test_Item_head":
-                                        //fill eqp_slot
-                                        GameObject.Find("options_text").GetComponent<Text>().text = "This is a test item. It gives you +1 Attack when equipped.";
+                                        GameObject.Find("options1_text").GetComponent<Text>().text = "EQUIP";
                                         if (Input.GetKeyDown(KeyCode.D) && GameObject.Find("options1").GetComponent<Image>().sprite == Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen"))
                                         {
                                             remember_eqp_sprites[0] = i.sprite;
@@ -558,25 +569,6 @@ public class Inventory_System : MonoBehaviour {
             {
                 utility.choose_buttons(new Image[] { GameObject.Find("options1").GetComponent<Image>(), GameObject.Find("options2").GetComponent<Image>() }, new Sprite[] { Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen"), Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen") },
                                           new Sprite[] { Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Not_Chosen"), Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Not_Chosen") }, 1, "ver");
-                foreach(Image i in eqp_slots)
-                {
-                    if(i.sprite == Resources.Load<Sprite>("Inventory_System_Graphics/eqp_chosen"))
-                    {
-                        try
-                        {
-                            switch (i.rectTransform.GetChild(0).GetComponent<Image>().sprite.name)
-                            {
-                                case "Test_Item_head":
-                                    GameObject.Find("options_text").GetComponent<Text>().text = "This is a test item. It gives you +1 Attack when equipped.";
-                                    break;
-                            }
-                        }
-                        catch
-                        {
-
-                        }
-                    }
-                }
 
                 if (GameObject.Find("options1").GetComponent<Image>().sprite == Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen"))
                 {
@@ -584,7 +576,31 @@ public class Inventory_System : MonoBehaviour {
                     GameObject.Find("options2_text").GetComponent<Text>().rectTransform.localPosition = new Vector3(-35.00003f, -25.17029f, 0);
                     if (Input.GetKeyDown(KeyCode.D))
                     {
-                        print("shit");
+                        foreach (Image i in eqp_slots)
+                        {
+                            if (i.sprite == Resources.Load<Sprite>("Inventory_System_Graphics/eqp_chosen"))
+                            {
+                                try
+                                {
+                                    add_normal_item(Resources.Load<Sprite>("Inventory_System_Graphics/Test_Item_head"));
+                                    switch (i.rectTransform.GetChild(0).GetComponent<Image>().sprite.name)
+                                    {
+                                        case "Test_Item_head":
+                                            playerController.added_player_stats[0] -= 1;
+                                            break;
+                                    }
+                                    i.rectTransform.GetChild(0).GetComponent<Image>().sprite = null;
+                                    remember_eqp_sprites[eqp_slots.IndexOf(i)] = null;
+                                    Destroy(GameObject.Find("item_options"));
+                                    utility.to_change = utility.multiple_to_change[0];
+                                    utility.multiple_to_change.Remove(utility.to_change);
+                                }
+                                catch
+                                {
+                                    GameObject.Find("options_text").GetComponent<Text>().text = "Your inventory is full.";
+                                }
+                            }
+                        }
                     }
                 }
                 else if (GameObject.Find("options2").GetComponent<Image>().sprite == Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen"))
@@ -593,7 +609,23 @@ public class Inventory_System : MonoBehaviour {
                     GameObject.Find("options1_text").GetComponent<Text>().rectTransform.localPosition = new Vector3(-34.99997f, -25.17029f, 0);
                     if (Input.GetKeyDown(KeyCode.D))
                     {
-                        print("cum");
+                        foreach (Image i in eqp_slots)
+                        {
+                            if (i.sprite == Resources.Load<Sprite>("Inventory_System_Graphics/eqp_chosen"))
+                            {
+                                switch (i.rectTransform.GetChild(0).GetComponent<Image>().sprite.name)
+                                {
+                                    case "Test_Item_head":
+                                        playerController.added_player_stats[0] -= 1;
+                                        break;
+                                }
+                                i.rectTransform.GetChild(0).GetComponent<Image>().sprite = null;
+                                remember_eqp_sprites[eqp_slots.IndexOf(i)] = null;
+                                Destroy(GameObject.Find("item_options"));
+                                utility.to_change = utility.multiple_to_change[0];
+                                utility.multiple_to_change.Remove(utility.to_change);
+                            }
+                        }
                     }
                 }
 
@@ -617,56 +649,59 @@ public class Inventory_System : MonoBehaviour {
                         once = true;
                     }
                 }
-                foreach(Image o in eqp_slots_sprites)
+                foreach(Image o in eqp_slots)
                 {
-                    if(o.sprite != null)
+                    if(o.sprite == Resources.Load<Sprite>("Inventory_System_Graphics/eqp_chosen") && o.rectTransform.GetChild(0).GetComponent<Image>().sprite != null && Input.GetKeyDown(KeyCode.D))
                     {
-                        if (i.sprite == Resources.Load<Sprite>("Inventory_System_Graphics/eqp_chosen") && Input.GetKeyDown(KeyCode.D))
+                        if (GameObject.Find("item_options") == null)
                         {
+                            utility.multiple_to_change.Add(utility.to_change);
+                            utility.to_change = -1;
+                            Image eqp_options = (Image)utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 1, new string[] { "item_options" }, new Vector2[] { new Vector2(830f, 650f) },
+                                            new Vector3[] { new Vector3(41f, -351.7f) }, new Vector3[] { Vector3.zero });
+                            eqp_options.sprite = Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen");
+                            eqp_options.rectTransform.SetParent(GameObject.Find("inventory_holder").transform);
+                            Text options_text = (Text)utility.create_ui_object(new GameObject().AddComponent<Text>(), new System.Type[] { typeof(Text) }, 1, new string[] { "options_text" }, new Vector2[] { new Vector2(325f, 147.64f) },
+                                                        new Vector3[] { new Vector3(35f, -318f) }, new Vector3[] { Vector3.zero });
+                            options_text.rectTransform.SetParent(eqp_options.rectTransform);
+                            options_text.fontSize = 35;
+                            options_text.font = Resources.Load<Font>("Dialogue_System_Graphics/dpcomic");
+                            options_text.color = Color.black;
 
-                            if (GameObject.Find("item_options") == null)
+                            switch (o.rectTransform.GetChild(0).GetComponent<Image>().sprite.name)
                             {
-                                utility.multiple_to_change.Add(utility.to_change);
-                                utility.to_change = -1;
-                                Image eqp_options = (Image)utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 1, new string[] { "item_options" }, new Vector2[] { new Vector2(830f, 650f) },
-                                               new Vector3[] { new Vector3(41f, -351.7f) }, new Vector3[] { Vector3.zero });
-                                eqp_options.sprite = Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Not_Chosen");
-                                eqp_options.rectTransform.SetParent(GameObject.Find("inventory_holder").transform);
-                                Text options_text = (Text)utility.create_ui_object(new GameObject().AddComponent<Text>(), new System.Type[] { typeof(Text) }, 1, new string[] { "options_text" }, new Vector2[] { new Vector2(325f, 147.64f) },
-                                                           new Vector3[] { new Vector3(35f, -318f) }, new Vector3[] { Vector3.zero });
-                                options_text.rectTransform.SetParent(eqp_options.rectTransform);
-                                options_text.fontSize = 35;
-                                options_text.font = Resources.Load<Font>("Dialogue_System_Graphics/dpcomic");
-                                options_text.color = Color.black;
+                                case "Test_Item_head":
 
-                                List<Image> options_buttons = (List<Image>)utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 2, new string[] { "options1", "options2" }, new Vector2[] { new Vector2(1000f, 1000f), new Vector2(1000, 1000) },
-                                                                                        new Vector3[] { new Vector3(-11f, -400f), new Vector3(156f, -400f) }, new Vector3[] { Vector3.zero, Vector3.zero });
-                                foreach (Image k in options_buttons)
-                                {
-                                    k.sprite = Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Not_Chosen");
-                                    k.rectTransform.SetParent(eqp_options.rectTransform);
-                                }
-                                List<Text> options_buttons_texts = (List<Text>)utility.create_ui_object(new GameObject().AddComponent<Text>(), new System.Type[] { typeof(Text) }, 2, new string[] { "options1_text", "options2_text" }, new Vector2[] { new Vector2(89.83f, 50.1f), new Vector2(89.83f, 50.1f) },
-                                                                    new Vector3[] { new Vector3(-46f, -425.1703f), new Vector3(121f, -425.1703f) }, new Vector3[] { Vector3.zero, Vector3.zero });
-                                foreach (Text u in options_buttons_texts)
-                                {
-                                    if (options_buttons_texts.IndexOf(u) == 0)
-                                    {
-                                        u.text = "UNEQUIP";
-                                        u.rectTransform.SetParent(GameObject.Find("options1").GetComponent<Image>().rectTransform);
-                                    }
-                                    else if (options_buttons_texts.IndexOf(u) == 1)
-                                    {
-                                        u.text = "TRASH";
-                                        u.rectTransform.SetParent(GameObject.Find("options2").GetComponent<Image>().rectTransform);
-                                    }
-                                    u.alignment = TextAnchor.MiddleCenter;
-                                    u.fontSize = 25;
-                                    u.font = Resources.Load<Font>("Dialogue_System_Graphics/dpcomic");
-                                    u.color = Color.black;
-                                }
+                                    break;
                             }
-                        }
+
+                            List<Image> options_buttons = (List<Image>)utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 2, new string[] { "options1", "options2" }, new Vector2[] { new Vector2(1000f, 1000f), new Vector2(1000, 1000) },
+                                                                                    new Vector3[] { new Vector3(-11f, -400f), new Vector3(156f, -400f) }, new Vector3[] { Vector3.zero, Vector3.zero });
+                            foreach (Image k in options_buttons)
+                            {
+                                k.sprite = Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Not_Chosen");
+                                k.rectTransform.SetParent(eqp_options.rectTransform);
+                            }
+                            List<Text> options_buttons_texts = (List<Text>)utility.create_ui_object(new GameObject().AddComponent<Text>(), new System.Type[] { typeof(Text) }, 2, new string[] { "options1_text", "options2_text" }, new Vector2[] { new Vector2(89.83f, 50.1f), new Vector2(89.83f, 50.1f) },
+                                                                new Vector3[] { new Vector3(-46f, -425.1703f), new Vector3(121f, -425.1703f) }, new Vector3[] { Vector3.zero, Vector3.zero });
+                            foreach (Text u in options_buttons_texts)
+                            {
+                                if (options_buttons_texts.IndexOf(u) == 0)
+                                {
+                                    u.text = "UNEQUIP";
+                                    u.rectTransform.SetParent(GameObject.Find("options1").GetComponent<Image>().rectTransform);
+                                }
+                                else if (options_buttons_texts.IndexOf(u) == 1)
+                                {
+                                    u.text = "TRASH";
+                                    u.rectTransform.SetParent(GameObject.Find("options2").GetComponent<Image>().rectTransform);
+                                }
+                                u.alignment = TextAnchor.MiddleCenter;
+                                u.fontSize = 25;
+                                u.font = Resources.Load<Font>("Dialogue_System_Graphics/dpcomic");
+                                u.color = Color.black;
+                            }
+                        }                   
                     }
                 }
             }

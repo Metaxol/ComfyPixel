@@ -24,8 +24,6 @@ public class NPC_Attributes : MonoBehaviour {
     private List<Image> buttons = new List<Image>();
     private List<Text> buttons_texts = new List<Text>();
 
-    public Sprite test;
-
     private void NPC_dialogue_choosing(string[] button_texts, int[] new_dialogue_attr_1, int[] new_dialogue_attr_2)
     {
         if (oneTime && FindObjectOfType<NPC_Dialogue_System>().NPC_Dialogue_System_bool)
@@ -142,7 +140,16 @@ public class NPC_Attributes : MonoBehaviour {
                             case 4:
                                 if (oneTime)
                                 {
-                                    Inventory_System.add_normal_item(Resources.Load<Sprite>("Inventory_System_Graphics/Test_Item_head"));
+                                    try
+                                    {
+                                        Inventory_System.add_normal_item(Resources.Load<Sprite>("Inventory_System_Graphics/Test_Item_head"));
+                                    }
+                                    catch
+                                    {
+                                        utility.current_line = 19;
+                                        stop_scroll_line = 20;
+
+                                    }
                                     oneTime = false;
                                 }
                                 break;

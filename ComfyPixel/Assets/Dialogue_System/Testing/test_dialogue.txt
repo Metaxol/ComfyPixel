@@ -16,3 +16,5 @@ Oder?
 Jetzt wird er wirklich beendet.
 Du hast die zweite Option gewaehlt.
 Test.
+
+Dein Inventar ist voll, tut mir leid.
