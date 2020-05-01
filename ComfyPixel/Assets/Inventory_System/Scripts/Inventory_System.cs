@@ -154,11 +154,6 @@ public class Inventory_System : MonoBehaviour {
 
         inv_Holder.rectTransform.position += new Vector3(100f, 0f, 0f);
         inv_options_holder.AddRange(eqp_slots);
-
-        for (int x = 0; x < items_places_sprites.Count; x++)
-        {
-            remember_sprites[x] = Resources.Load<Sprite>("Inventory_System_Graphics/Test_Item_head");
-        }
     }
 
     public void add_normal_item(Sprite item_sprite)
@@ -434,6 +429,21 @@ public class Inventory_System : MonoBehaviour {
 
                         options_buttons = (List<Image>)utility.create_ui_object(new GameObject().AddComponent<Image>(), new System.Type[] { typeof(Image) }, 2, new string[] { "options1", "options2" }, new Vector2[] { new Vector2(1000f, 1000f), new Vector2(1000, 1000) },
                                                                                 new Vector3[] { new Vector3(-11f, -400f), new Vector3(156f, -400f) }, new Vector3[] { Vector3.zero, Vector3.zero });
+                        foreach(Image i in items_places)
+                        {
+                            if(i.sprite == Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"))
+                            {
+                                switch (i.rectTransform.GetChild(0).GetComponent<Image>().sprite.name)
+                                {
+                                    case "Test_Item":
+                                        options_text.text = "This Item gives +1 Attack when used.";
+                                        break;
+                                    case "Test_Item_head":
+                                        options_text.text = "This item gives +1 Attack when equipped";
+                                        break;
+                                }
+                            }
+                        }
 
                         if(GameObject.Find("options2_text") == null)
                         {
@@ -671,7 +681,7 @@ public class Inventory_System : MonoBehaviour {
                             switch (o.rectTransform.GetChild(0).GetComponent<Image>().sprite.name)
                             {
                                 case "Test_Item_head":
-
+                                    GameObject.Find("options_text").GetComponent<Text>().text = "This item gives +1 Attack when equipped";
                                     break;
                             }
 
