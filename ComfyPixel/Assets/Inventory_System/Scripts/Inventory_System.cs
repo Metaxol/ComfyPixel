@@ -441,6 +441,9 @@ public class Inventory_System : MonoBehaviour {
                                     case "Test_Item_head":
                                         options_text.text = "This item gives +1 Attack when equipped";
                                         break;
+                                    case "eqp_chosen":
+                                        options_text.text = "This item will do nothing, but it can be equipped.";
+                                        break;
                                 }
                             }
                         }
@@ -526,6 +529,40 @@ public class Inventory_System : MonoBehaviour {
                                         }
                                         break;
                                     case "Test_Item_head":
+                                        GameObject.Find("options1_text").GetComponent<Text>().text = "EQUIP";
+                                        if (Input.GetKeyDown(KeyCode.D) && GameObject.Find("options1").GetComponent<Image>().sprite == Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen"))
+                                        {
+                                            remember_eqp_sprites[0] = i.sprite;
+                                            eqp_slots_sprites[0].sprite = i.sprite;
+                                            playerController.added_player_stats[0] += 1;
+                                            foreach (Image o in items_places)
+                                            {
+                                                if (o.sprite == Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"))
+                                                {
+                                                    o.GetComponent<Image>().rectTransform.GetChild(0).GetComponent<Image>().sprite = null;
+                                                    remember_sprites[items_places.IndexOf(o)] = null;
+                                                }
+                                            }
+                                            Destroy(GameObject.Find("item_options"));
+                                            utility.to_change = utility.multiple_to_change[0];
+                                            utility.multiple_to_change.Remove(utility.multiple_to_change[0]);
+                                        }
+                                        else if (Input.GetKeyDown(KeyCode.D) && GameObject.Find("options2").GetComponent<Image>().sprite == Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen"))
+                                        {
+                                            foreach (Image o in items_places)
+                                            {
+                                                if (o.sprite == Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"))
+                                                {
+                                                    o.GetComponent<Image>().rectTransform.GetChild(0).GetComponent<Image>().sprite = null;
+                                                    remember_sprites[items_places.IndexOf(o)] = null;
+                                                }
+                                            }
+                                            Destroy(GameObject.Find("item_options"));
+                                            utility.to_change = utility.multiple_to_change[0];
+                                            utility.multiple_to_change.Remove(utility.multiple_to_change[0]);
+                                        }
+                                        break;
+                                    case "eqp_chosen":
                                         GameObject.Find("options1_text").GetComponent<Text>().text = "EQUIP";
                                         if (Input.GetKeyDown(KeyCode.D) && GameObject.Find("options1").GetComponent<Image>().sprite == Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen"))
                                         {
@@ -682,6 +719,9 @@ public class Inventory_System : MonoBehaviour {
                             {
                                 case "Test_Item_head":
                                     GameObject.Find("options_text").GetComponent<Text>().text = "This item gives +1 Attack when equipped";
+                                    break;
+                                case "eqp_chosen":
+                                    GameObject.Find("options_text").GetComponent<Text>().text = "This item gives does not do anything, but it can be equipped.";
                                     break;
                             }
 

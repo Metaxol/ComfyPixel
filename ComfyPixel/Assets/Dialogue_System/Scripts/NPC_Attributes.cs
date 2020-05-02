@@ -113,7 +113,8 @@ public class NPC_Attributes : MonoBehaviour {
     {
         //keep adding changing sprites/other special events in this switch statement for the npc's that need it
         if(playerController.NPC != null)
-        {          
+        {
+            print(playerController.NPC.name);
             if (playerController.NPC.name == name)
             {
                 if (Sprites.Length != 0)
@@ -159,6 +160,21 @@ public class NPC_Attributes : MonoBehaviour {
                             case 8:
                                 NPC_dialogue_choosing(new string[] { "Ja, ich werde.", "Auf keinen Fall!" },
                                                       new int[] { 12, 9 }, new int[] { 16, 12 });
+                                break;
+                        }
+                        break;
+                    case "NPC_1":
+                        switch (utility.current_line)
+                        {
+                            case 0:
+                                if (oneTime)
+                                {
+                                    Inventory_System.add_normal_item(Resources.Load<Sprite>("Inventory_System_Graphics/eqp_chosen"));
+                                    oneTime = false;
+                                }
+                                break;
+                            case 1:
+                                oneTime = true;
                                 break;
                         }
                         break;
