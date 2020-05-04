@@ -211,7 +211,7 @@ public class Inventory_System : MonoBehaviour {
             }
         }
 
-        if (inv_Holder != null)
+        if (inv_Holder != null && GameObject.Find("cover_game") == null)
         {
             foreach(Text i in stats_sprites_texts)
             {
@@ -491,11 +491,11 @@ public class Inventory_System : MonoBehaviour {
                             GameObject.Find("options1_text").GetComponent<Text>().rectTransform.localPosition = new Vector3(-34.99997f, -25.17029f, 0);
                         }
 
-                        foreach(Image i in items_places_sprites)
+                        foreach(Image i in items_places)
                         {
-                            if(i.sprite != null)
+                            if(i.sprite == Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"))
                             {
-                                switch (i.sprite.name)
+                                switch (i.rectTransform.GetChild(0).GetComponent<Image>().sprite.name)
                                 {
                                     case "Test_Item":
                                         if (Input.GetKeyDown(KeyCode.D) && GameObject.Find("options1").GetComponent<Image>().sprite == Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen"))
@@ -532,8 +532,13 @@ public class Inventory_System : MonoBehaviour {
                                         GameObject.Find("options1_text").GetComponent<Text>().text = "EQUIP";
                                         if (Input.GetKeyDown(KeyCode.D) && GameObject.Find("options1").GetComponent<Image>().sprite == Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen"))
                                         {
-                                            remember_eqp_sprites[0] = i.sprite;
-                                            eqp_slots_sprites[0].sprite = i.sprite;
+                                            Sprite prev_sprite = null;
+                                            if(eqp_slots_sprites[0] != null)
+                                            {
+                                                prev_sprite = eqp_slots_sprites[0].sprite;
+                                            }
+                                            remember_eqp_sprites[0] = i.rectTransform.GetChild(0).GetComponent<Image>().sprite;
+                                            eqp_slots_sprites[0].sprite = i.rectTransform.GetChild(0).GetComponent<Image>().sprite;
                                             playerController.added_player_stats[0] += 1;
                                             foreach (Image o in items_places)
                                             {
@@ -541,6 +546,17 @@ public class Inventory_System : MonoBehaviour {
                                                 {
                                                     o.GetComponent<Image>().rectTransform.GetChild(0).GetComponent<Image>().sprite = null;
                                                     remember_sprites[items_places.IndexOf(o)] = null;
+                                                    o.GetComponent<Image>().rectTransform.GetChild(0).GetComponent<Image>().sprite = prev_sprite;
+                                                    remember_sprites[items_places.IndexOf(o)] = prev_sprite;
+                                                    if(prev_sprite != null)
+                                                    {
+                                                        switch (prev_sprite.name)
+                                                        {
+                                                            case "Test_Item_head":
+                                                                playerController.added_player_stats[0] -= 1;
+                                                                break;
+                                                        }
+                                                    }
                                                 }
                                             }
                                             Destroy(GameObject.Find("item_options"));
@@ -563,18 +579,33 @@ public class Inventory_System : MonoBehaviour {
                                         }
                                         break;
                                     case "eqp_chosen":
-                                        GameObject.Find("options1_text").GetComponent<Text>().text = "EQUIP";
+                                        GameObject.Find("options1_text").GetComponent<Text>().text = "EQUIP"; 
                                         if (Input.GetKeyDown(KeyCode.D) && GameObject.Find("options1").GetComponent<Image>().sprite == Resources.Load<Sprite>("Dialogue_System_Graphics/Dialogue_Option_Chosen"))
                                         {
-                                            remember_eqp_sprites[0] = i.sprite;
-                                            eqp_slots_sprites[0].sprite = i.sprite;
-                                            playerController.added_player_stats[0] += 1;
+                                            Sprite prev_sprite = null;
+                                            if (eqp_slots_sprites[0] != null)
+                                            {
+                                                prev_sprite = eqp_slots_sprites[0].sprite;
+                                            }
+                                            remember_eqp_sprites[0] = i.rectTransform.GetChild(0).GetComponent<Image>().sprite;
+                                            eqp_slots_sprites[0].sprite = i.rectTransform.GetChild(0).GetComponent<Image>().sprite;
                                             foreach (Image o in items_places)
                                             {
                                                 if (o.sprite == Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"))
                                                 {
                                                     o.GetComponent<Image>().rectTransform.GetChild(0).GetComponent<Image>().sprite = null;
                                                     remember_sprites[items_places.IndexOf(o)] = null;
+                                                    o.GetComponent<Image>().rectTransform.GetChild(0).GetComponent<Image>().sprite = prev_sprite;
+                                                    remember_sprites[items_places.IndexOf(o)] = prev_sprite;
+                                                    if(prev_sprite != null)
+                                                    {
+                                                        switch (prev_sprite.name)
+                                                        {
+                                                            case "Test_Item_head":
+                                                                playerController.added_player_stats[0] -= 1;
+                                                                break;
+                                                        }
+                                                    }
                                                 }
                                             }
                                             Destroy(GameObject.Find("item_options"));
@@ -629,7 +660,7 @@ public class Inventory_System : MonoBehaviour {
                             {
                                 try
                                 {
-                                    add_normal_item(Resources.Load<Sprite>("Inventory_System_Graphics/Test_Item_head"));
+                                    add_normal_item(Resources.Load<Sprite>("Inventory_System_Graphics/" + i.rectTransform.GetChild(0).GetComponent<Image>().sprite.name));
                                     switch (i.rectTransform.GetChild(0).GetComponent<Image>().sprite.name)
                                     {
                                         case "Test_Item_head":
