@@ -378,6 +378,14 @@ public class Inventory_System : MonoBehaviour {
 
                     foreach(Image i in items_places_sprites)
                     {
+                        if (i.rectTransform.parent.GetComponent<Image>().sprite == Resources.Load<Sprite>("Settings_System_Graphics/GSettings_Chosen"))
+                        {
+                            if (Input.GetMouseButton(0))
+                            {
+                                //calculate distance of every ui-object to mouse-position, only able to move item_place_sprites&&certain near distance, if mouse-click released return to certain near distance item_sprites<->if not in distance, return to og item_sprite 
+                                i.rectTransform.position = Input.mousePosition;
+                            }
+                        }
                         if(i.tag == "prev_inv_item_chosen")
                         {
                             foreach(Image o in items_places)
